@@ -12,8 +12,21 @@ import Product from "./similarProductComponent";
 function SimilarProduct() {
   return (
     <>
-      <Stack>
-        <Typography>Similar product</Typography>
+      <Stack
+        sx={{
+          pt: "20px",
+        }}
+      >
+        <Typography
+          sx={{
+            color: "dark",
+            fontWeight: "bold",
+            fontSize: "28px",
+            mb: "20px",
+          }}
+        >
+          Similar product
+        </Typography>
         <Box display="inline-flex">
           <Product />
           <Product />

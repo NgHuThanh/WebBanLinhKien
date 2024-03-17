@@ -1,20 +1,89 @@
-import { Box, Button, Card, CardContent, Link, Stack, Typography } from "@mui/material";
-
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Link,
+  Stack,
+  Typography,
+} from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
+import ShoppingCartSharpIcon from "@mui/icons-material/ShoppingCartSharp";
 function InfomationDetail() {
   return (
     <>
       <Stack>
-        <Typography>
-          This is just a few infomation about product that seem not finishThis
-          is just a few infomation about
+        <Typography
+          sx={{
+            color: "dark",
+
+            fontSize: "18px",
+          }}
+        >
+          This is just a few infomation about product that seem not finishThis a
+          few...
         </Typography>
-        <Box display="inline-flex">
-          <Box>0.0 *</Box>
-          <Typography>?? rating</Typography>
+        <Box
+          sx={{
+            textAlign: "center",
+            display: "inline-flex",
+            alignItems: "center",
+            marginTop: "15px",
+          }}
+        >
+          <Button
+            sx={{
+              backgroundColor: "black",
+              color: "white",
+              textAlign: "center",
+              display: "inline-flex",
+              alignItems: "center",
+              fontSize: "15px",
+            }}
+          >
+            <Typography
+              sx={{
+                color: "white",
+              }}
+            >
+              5.0
+            </Typography>
+            <StarIcon />
+          </Button>
+
+          <Typography
+            sx={{
+              color: "#999",
+            }}
+          >
+            {" "}
+            ?? rating
+          </Typography>
         </Box>
-        <Box display="inline-flex">
-          <Typography>999999$</Typography>
-          <Button>Add to cart now</Button>
+        <Box display="inline-flex" alignItems="center">
+          <Typography
+            sx={{
+              color: "dark",
+              fontWeight: "bold",
+              fontSize: "30px",
+            }}
+          >
+            999999$
+          </Typography>
+          <Button
+            sx={{
+              backgroundColor: "black",
+              color: "white",
+              textAlign: "center",
+              display: "inline-flex",
+              alignItems: "center",
+              fontSize: "15px",
+              marginLeft: "auto",
+            }}
+          >
+            <ShoppingCartSharpIcon></ShoppingCartSharpIcon>
+            Add to cart now
+          </Button>
         </Box>
       </Stack>
     </>

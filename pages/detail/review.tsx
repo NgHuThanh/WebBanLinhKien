@@ -5,16 +5,24 @@ import ReviewComponent from "./reviewComponent";
 function RatingReview() {
   return (
     <>
-      <Stack>
-        <Typography>Ratings & reviews</Typography>
-        <Box
-          component="img"
+      <Stack
+        sx={{
+          borderTop: 1,
+          borderColor: "grey.500",
+          marginTop: "20px",
+          marginBottom: "0px",
+          pt: "20px",
+        }}
+      >
+        <Typography
           sx={{
-            height: "240px",
-            width: "100%",
+            color: "dark",
+            fontWeight: "bold",
+            fontSize: "18px",
           }}
-          src={`/noneDevice.jpg`}
-        />
+        >
+          Ratings & reviews
+        </Typography>
       </Stack>
       <ReviewComponent />
       <ReviewComponent />
