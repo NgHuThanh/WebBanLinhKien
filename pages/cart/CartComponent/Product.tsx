@@ -25,14 +25,14 @@ const Product = (props: ProductProps) => {
     const increase = () => {
         dispatch(productActions.updateValue({
             id: id,
-            qty: +1
+            qty: qty +1
         }))
     }
 
     const decrease = () => {
         dispatch(productActions.updateValue({
             id: id,
-            qty: -1
+            qty: qty -1
         }))
     }
     return (

@@ -10,7 +10,7 @@ const Address: React.FC<Props> = (props) => {
         <Typography variant="body1">Deliver to </Typography>
         <Typography variant="body1">Address</Typography>
       </Box>
-      <Button variant="contained" color="primary" style={{ borderRadius: '5px' }}>Thay đổi</Button>
+      <Button variant="contained" color="primary" style={{ borderRadius: '5px' }}>Change</Button>
     </Box>
   );
 };
