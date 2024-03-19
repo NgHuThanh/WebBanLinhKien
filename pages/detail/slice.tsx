@@ -1,6 +1,6 @@
 import { Box, Card, CardContent, Link, Typography } from "@mui/material";
 
-function SliceHome() {
+function SliceDetail() {
   return (
     <>
       <Box>
@@ -17,4 +17,4 @@ function SliceHome() {
   );
 }
 
-export default SliceHome;
+export default SliceDetail;
