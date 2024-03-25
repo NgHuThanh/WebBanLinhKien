@@ -9,7 +9,11 @@ import {
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import ShoppingCartSharpIcon from "@mui/icons-material/ShoppingCartSharp";
-function InfomationDetail() {
+function InfomationDetail(props: {
+  name: String;
+  description: String;
+  price: number;
+}) {
   return (
     <>
       <Stack>
@@ -20,8 +24,7 @@ function InfomationDetail() {
             fontSize: "18px",
           }}
         >
-          This is just a few infomation about product that seem not finishThis a
-          few...
+          {props.name}
         </Typography>
         <Box
           sx={{
@@ -68,7 +71,7 @@ function InfomationDetail() {
               fontSize: "30px",
             }}
           >
-            999999$
+            {props.price}$
           </Typography>
           <Button
             sx={{

@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, Link, Stack, Typography } from "@mui/material";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer"; // Import icon
 
-function OfferDetail() {
+function OfferDetail(props: { offer: String }) {
   return (
     <>
       <Box
@@ -28,26 +28,7 @@ function OfferDetail() {
           }}
         >
           <LocalOfferIcon fontSize="small" /> {/* Add icon */}
-          <Typography> Được hoàn tiền 100% luôn đó bạn êiiiiiii</Typography>
-        </Box>
-
-        <Box
-          display="inline-flex"
-          sx={{
-            marginTop: "10px",
-          }}
-        >
-          <LocalOfferIcon fontSize="small" /> {/* Add icon */}
-          <Typography> Được hoàn tiền 100% luôn đó bạn êiiiiiii</Typography>
-        </Box>
-        <Box
-          display="inline-flex"
-          sx={{
-            marginTop: "10px",
-          }}
-        >
-          <LocalOfferIcon fontSize="small" /> {/* Add icon */}
-          <Typography> Được hoàn tiền 100% luôn đó bạn êiiiiiii</Typography>
+          <Typography> {props.offer}</Typography>
         </Box>
       </Box>
     </>
