@@ -10,9 +10,9 @@ import {
 import StarIcon from "@mui/icons-material/Star";
 import ShoppingCartSharpIcon from "@mui/icons-material/ShoppingCartSharp";
 function InfomationDetail(props: {
-  name: String;
-  description: String;
-  price: number;
+  name?: String;
+  description?: String;
+  price?: number;
 }) {
   return (
     <>
