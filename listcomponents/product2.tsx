@@ -5,6 +5,7 @@ import {
   CardContent,
   CardMedia,
   Grid,
+  Link,
   Typography,
 } from "@mui/material";
 import {
@@ -17,6 +18,7 @@ import {
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 class Product {
+  id: string;
   name: string;
   description: string;
   price: number;
@@ -25,6 +27,7 @@ class Product {
   image: string;
   // classId: string
   constructor(
+    id: string,
     name: string,
     description: string,
     price: number,
@@ -32,6 +35,7 @@ class Product {
     technical: string,
     image: string
   ) {
+    this.id = id;
     this.name = name;
     this.description = description;
     this.price = price;
@@ -58,6 +62,7 @@ const productConverter = {
   ) => {
     const data = snapshot.data(options);
     return new Product(
+      snapshot.id,
       data.name,
       data.description,
       data.price,
@@ -102,22 +107,24 @@ const Product2 = () => {
       <Grid container spacing={2}>
         {products.map((product, index) => (
           <Grid item xs={6} sm={3} key={index}>
-            <Card sx={{ maxWidth: 300 }}>
-              <CardMedia
-                component="img"
-                height="140"
-                image={product.image}
-                alt={product.image}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {product.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {product.description}
-                </Typography>
-              </CardContent>
-            </Card>
+            <Link href={`/detail/${product.id}`} underline="none">
+              <Card sx={{ maxWidth: 300 }}>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={product.image}
+                  alt={product.image}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {product.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {product.description}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Link>
           </Grid>
         ))}
       </Grid>
