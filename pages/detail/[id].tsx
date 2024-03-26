@@ -73,7 +73,9 @@ const productConverter = {
   },
 };
 const Detail: NextPageWithLayout = () => {
-  const idProduct = "uNxZberamLNUQBLkjYBu";
+  const router = useRouter();
+  const { id } = router.query;
+  const idProduct = `${id}`;
 
   const firebaseConfig = {
     apiKey: "AIzaSyDxPdKcUdO25lL4YivzClfgIijIbNipTjs",
