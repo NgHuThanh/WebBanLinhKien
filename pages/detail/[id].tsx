@@ -23,6 +23,7 @@ import {
   getFirestore,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
+
 class Order {
   id: string;
   user_id: number;
@@ -202,6 +203,7 @@ const Detail: NextPageWithLayout = () => {
 
   return (
     <>
+      <Button onClick={() => router.back()}>Back</Button>
       <Stack sx={{ padding: "10px" }}>
         <SliceDetail />
         <InfomationDetail
@@ -209,10 +211,6 @@ const Detail: NextPageWithLayout = () => {
           description={product?.description}
           price={product?.price}
         />
-
-        <OfferDetail offer={product?.offer} />
-        <HightLight />
-        <RatingReview />
         <Button
           sx={{
             backgroundColor: "black",
@@ -229,6 +227,10 @@ const Detail: NextPageWithLayout = () => {
           <ShoppingCartSharpIcon />
           Add to cart
         </Button>
+        <OfferDetail offer={product?.offer} />
+        <HightLight />
+        <RatingReview />
+
         <SimilarProduct />
       </Stack>
     </>
