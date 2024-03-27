@@ -115,18 +115,40 @@ const Product2 = () => {
         {products.map((product, index) => (
           <Grid item xs={6} sm={3} key={index}>
             <Link href={`/detail/${product.id}`} underline="none">
-              <Card sx={{ maxWidth: 300 }}>
+              <Card
+                sx={{
+                  maxWidth: 300,
+                  backgroundColor: "#ffffff",
+                  color: "#000000",
+                }}
+              >
+                {" "}
+                {/* Cấu hình màu nền và màu chữ */}
                 <CardMedia
                   component="img"
                   height="140"
                   image={product.image}
                   alt={product.image}
+                  style={{
+                    width: "100%",
+                    height: "140px",
+                    objectFit: "cover",
+                  }}
                 />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                <CardContent style={{ maxHeight: "100px", overflow: "hidden" }}>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="div"
+                    style={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     {product.name}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" color="black">
                     {product.description}
                   </Typography>
                 </CardContent>
