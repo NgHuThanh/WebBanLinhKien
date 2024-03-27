@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, Link, Stack, Typography } from "@mui/material";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer"; // Import icon
 
-function OfferDetail(props: { offer: String }) {
+function OfferDetail(props: { offer?: String }) {
   return (
     <>
       <Box
