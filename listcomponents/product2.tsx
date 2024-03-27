@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Card,
@@ -75,29 +75,36 @@ const productConverter = {
 const Product2 = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDxPdKcUdO25lL4YivzClfgIijIbNipTjs",
-    authDomain: "fir-demo-de07f.firebaseapp.com",
-    projectId: "fir-demo-de07f",
-    storageBucket: "fir-demo-de07f.appspot.com",
-    messagingSenderId: "998152591354",
-    appId: "1:998152591354:web:f8dcd52c0037f09c333643",
-  };
-
   // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
 
   // Initialize Cloud Firestore and get a reference to the service
-  const db = getFirestore(app);
-  const getData = async () => {
-    let productListRef = collection(db, "products").withConverter(
-      productConverter
-    );
-    let productList = await getDocs(productListRef);
-    let productListData = productList.docs.map((doc) => doc.data());
-    setProducts(productListData);
-  };
-  getData();
+
+  useEffect(() => {
+    const firebaseConfig = {
+      apiKey: "AIzaSyDxPdKcUdO25lL4YivzClfgIijIbNipTjs",
+      authDomain: "fir-demo-de07f.firebaseapp.com",
+      projectId: "fir-demo-de07f",
+      storageBucket: "fir-demo-de07f.appspot.com",
+      messagingSenderId: "998152591354",
+      appId: "1:998152591354:web:f8dcd52c0037f09c333643",
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const getData = async () => {
+      let productListRef = collection(db, "products").withConverter(
+        productConverter
+      );
+      let productList = await getDocs(productListRef);
+      let productListData = productList.docs.map((doc) => doc.data());
+      setProducts(productListData);
+    };
+    getData();
+
+    // Cleanup function (optional) to unsubscribe or perform other clean-up tasks
+    // Since this effect runs only once, cleanup is not critical here
+    // But you might need it in other useEffect scenarios
+    // return () => {};
+  }, []);
 
   return (
     <Box>
