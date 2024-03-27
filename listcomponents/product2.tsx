@@ -75,28 +75,18 @@ const productConverter = {
 const Product2 = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyATnmpP4jkLiXKx1PvknQvW992tBDGD6IU",
-    authDomain: "caijdodb.firebaseapp.com",
-    projectId: "caijdodb",
-    storageBucket: "caijdodb.appspot.com",
-    messagingSenderId: "556827412764",
-    appId: "1:556827412764:web:c0b1c4de752f91f9a592d9",
-    measurementId: "G-3YRPCJR6LV",
-  };
-
   // Initialize Firebase
 
   // Initialize Cloud Firestore and get a reference to the service
 
   useEffect(() => {
     const firebaseConfig = {
-      apiKey: "AIzaSyDxPdKcUdO25lL4YivzClfgIijIbNipTjs",
-      authDomain: "fir-demo-de07f.firebaseapp.com",
-      projectId: "fir-demo-de07f",
-      storageBucket: "fir-demo-de07f.appspot.com",
-      messagingSenderId: "998152591354",
-      appId: "1:998152591354:web:f8dcd52c0037f09c333643",
+      apiKey: "AIzaSyATnmpP4jkLiXKx1PvknQvW992tBDGD6IU",
+      authDomain: "caijdodb.firebaseapp.com",
+      projectId: "caijdodb",
+      storageBucket: "caijdodb.appspot.com",
+      messagingSenderId: "556827412764",
+      appId: "1:556827412764:web:c0b1c4de752f91f9a592d9",
     };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
