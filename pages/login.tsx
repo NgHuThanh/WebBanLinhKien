@@ -96,7 +96,7 @@ const LoginPage = () => {
                     aria-label="toggle password visibility"
                     onClick={togglePasswordVisibility}
                   >
-                    {showPassword ? <VisibilityOffOutlined style={{color:'black'}}/> : <Visibility style={{color:'black'}}/>}
+                    {showPassword ? <VisibilityOffOutlined style={{ color: 'black' }} /> : <Visibility style={{ color: 'black' }} />}
                   </IconButton>
                 </InputAdornment>
               )
@@ -114,7 +114,7 @@ const LoginPage = () => {
             variant="text"
             onClick={onCreateAccount}
             style={{ backgroundColor: 'gray', color: 'black' }}
-            
+
           >
             Create an account
           </Button>

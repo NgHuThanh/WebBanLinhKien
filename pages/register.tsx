@@ -1,10 +1,13 @@
 import { Box, Button, FormGroup, IconButton, InputAdornment, Stack, TextField } from "@mui/material";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
-import { Visibility, VisibilityOffOutlined } from "@mui/icons-material";
+import bcrypt from "bcryptjs";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Visibility, VisibilityOffOutlined } from "@mui/icons-material";
+import { initializeApp } from "firebase/app";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
 
 interface User {
     username?: string;
@@ -64,38 +67,47 @@ const RegisterPage = () => {
         });
     };
 
-    const onRegister = () => {
-        axios
-            .post("https://dummyjson.com/auth/register", {
-                username: form.username,
-                password: form.password,
-                email: form.email
-            })
-            .then((res) => {
-                setCookie("sessionId", true);
-                router.push("/login");
+    const hashPassword = async (password: string) => {
+        try {
+            const salt = await bcrypt.genSalt(10); // Generate salt with a length of 10
+            const hashedPassword = await bcrypt.hash(password, salt); // Hash the password
+            return hashedPassword;
+        } catch (error) {
+            console.error('Error hashing password:', error);
+            throw error;
+        }
+    };
+    const firebaseConfig = {
+        apiKey: "AIzaSyCxx2h_NqJOi3oFyQdK_kVHn9xVDp7bXRs",
+        authDomain: "movieproject-2853c.firebaseapp.com",
+        projectId: "movieproject-2853c",
+        storageBucket: "movieproject-2853c.appspot.com",
+        messagingSenderId: "475837657128",
+        appId: "1:475837657128:web:da20b3d085c0c06dcf451d",
+        measurementId: "G-WB3X8LMCBJ"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const onRegister = async () => {
+        console.log('asd')
+        try {
+            const hashedPassword = await hashPassword(form.password || ''); // Hash the password
+            await addDoc(collection(db, "users"), {
+                username: "duy",
+                address: "123/ads",
+                email: "hidsgiifjk",
+                password:"12352354656"
             });
+            console.log("Registration successful")
+            setCookie("sessionId", true);
+            router.push("/login");
+        } catch (error) {
+            console.error("Error registering:", error);
+        }
     };
 
-    function helperTextPassword() {
-        if (!form.password)
-            return ""
-
-        if (form.password.length < 8)
-            return "Password is invalid"
-
-        return ""
-    }
-
-    function helperTextConfirmPassword() {
-        if (!form.confirmPassword)
-            return ""
-
-        if (form.password !== form.confirmPassword)
-            return "Passwords do not match"
-
-        return ""
-    }
+   
 
     return (
         <Box m={4}>
@@ -127,7 +139,6 @@ const RegisterPage = () => {
                         type={showPassword ? 'text' : 'password'}
                         value={form.password}
                         error={form.password ? form.password.length < 8 : false}
-                        helperText={helperTextPassword()}
                         onChange={onChangePassword}
                         InputProps={{
                             style: { color: 'black', background: 'rgba(0,0,0,0.1)' },
@@ -150,7 +161,6 @@ const RegisterPage = () => {
                         type="password"
                         value={form.confirmPassword}
                         error={form.confirmPassword !== form.password}
-                        helperText={helperTextConfirmPassword()}
                         onChange={onChangeConfirmPassword}
                         InputProps={{
                             style: { color: 'black', background: 'rgba(0,0,0,0.1)' },
