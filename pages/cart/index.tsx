@@ -1,46 +1,52 @@
-import React from 'react'
-
-import { useAppSelector, useAppDispatch } from '@/lib/hooks'
-
-import { decrement, increment } from '@/lib/features/counter/counterSlice'
-import { Box, Button, Link, Stack, Typography } from '@mui/material'
-import { productSelectors, productActions } from '@/lib/features/product/productSlice'
-import Product from './Product'
-
+import React from "react";
+import { Box, Button, Stack, Typography } from "@mui/material";
+import Address from "./CartComponent/Address";
+import {
+  productActions,
+  productSelectors,
+} from "@/lib/features/product/productSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import Product from "./CartComponent/Product";
+import Billinfo from "./CartComponent/Billinfo"; // Import Billinfo component
 
 const Cart = () => {
-  // The `state` arg is correctly typed as `RootState` already
+  const cartNumber = 2;
 
+  const handleBack = () => {
+    window.history.back();
+  };
   const productsIds = useAppSelector((state) =>
-    productSelectors.selectIds(state),
-  )
-  const appDispatch = useAppDispatch()
+    productSelectors.selectIds(state)
+  );
+  const appDispatch = useAppDispatch();
   const add = () => {
-    appDispatch(productActions.addProduct({ initialValue: 1 }))
-  }
-  
+    appDispatch(productActions.addProduct({ initialValue: 1 }));
+  };
 
   return (
     <main>
+      <Box display="flex" alignItems="center">
+        <Button onClick={handleBack}>&lt;</Button>
+        <Typography variant="body1" ml={1}>
+          Cart ({cartNumber})
+        </Typography>
+      </Box>
+      <Address />
       <Box py={8}>
-        <Button variant='contained' onClick={add}>
-          Add
-        </Button>
         <Stack justifyContent="center" alignItems="center" spacing={2}>
           {productsIds.map((id) => (
             <Product key={id} id={id} />
           ))}
         </Stack>
-        
-        <Button variant='contained'>
-        <Link href={`/counter/ree`} underline="none" color="#FFF">XEM THANH TOÁN</Link>
-        </Button>
-        
-        
-        
       </Box>
+      <Billinfo
+        deliveryDate={""}
+        totalAmount={0}
+        discount={0}
+        shippingFee={0}
+      />
     </main>
-  )
-}
+  );
+};
 
-export default Cart
+export default Cart;

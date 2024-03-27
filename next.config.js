@@ -2,7 +2,11 @@
 
 const { i18n } = require("./next-i18next.config");
 const nextConfig = {
-  reactStrictMode: true,
+<<<<<<< HEAD
+  reactStrictMode: true,//Dòng này nếu chạy useEffecting thì đừng có dùng nó, nó sẽ x2 lần chạy....
+=======
+  //reactStrictMode: true,
+>>>>>>> develope
   i18n,
 };
 
