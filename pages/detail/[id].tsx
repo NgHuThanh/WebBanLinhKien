@@ -38,7 +38,6 @@ const Detail: NextPageWithLayout = () => {
   const idProduct = `${id}`;
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
-  let isGetPrepareCalled = false;
 
   useEffect(() => {
     async function fetchData() {
@@ -126,7 +125,9 @@ const Detail: NextPageWithLayout = () => {
   //     console.error("Error adding order item: ", error);
   //   }
   // };
-
+  if (loading) {
+    return <Box>Loading...</Box>; // Hiển thị thông báo tải dữ liệu
+  }
   return (
     <>
       <Button onClick={() => router.back()}>Back</Button>

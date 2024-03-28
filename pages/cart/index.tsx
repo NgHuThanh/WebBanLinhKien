@@ -63,7 +63,7 @@ const CartUser = () => {
             // eslint-disable-next-line react/jsx-key
             <Box sx={{ border: "1px solid black", padding: "10px" }}>
               <ProductCart cart={cart}></ProductCart>
-              <Typography>Quantitíe: {cart.quantity}</Typography>
+              <Typography>Quantities: {cart.quantity}</Typography>
             </Box>
           ))}
         </Stack>
