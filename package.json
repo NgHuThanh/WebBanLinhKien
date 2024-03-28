@@ -14,6 +14,12 @@
     "@mui/icons-material": "^5.15.13",
     "@mui/material": "^5.15.13",
     "@reduxjs/toolkit": "^2.2.1",
+<<<<<<< HEAD
+=======
+    "axios": "^1.6.8",
+    "bcryptjs": "^2.4.3",
+    "cookies-next": "^4.1.1",
+>>>>>>> origin/feature/cart
     "firebase": "10.8.1",
     "i18next": "^23.10.0",
     "next": "14.1.0",
@@ -26,6 +32,7 @@
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
