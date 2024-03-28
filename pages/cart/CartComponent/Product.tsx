@@ -14,15 +14,23 @@ import { get1ProductData } from "@/pages/firebase/config";
 
 function ProductCart(props: { cart: Cart }) {
   const [product, setProduct] = useState<Product | null>(null);
-  const [test, setTest] = useState<String | null>(null);
+
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
+    console.log("Lập ở dòng 19 product cart");
     const getData = async () => {
       let productRef = props.cart.product_id.withConverter(productConverter);
       let productData = await getDoc(productRef);
       setProduct(productData.data() as Product);
+      setLoading(false);
+      console.log("Lập ở dòng 26 product cart");
     };
     getData();
-  }, [product?.name, props.cart.product_id]);
+  }, [props.cart.product_id]);
+  if (loading) {
+    return <Box>Loading...</Box>; // Hiển thị thông báo tải dữ liệu
+  }
+  console.log("Lập ở dòng 27 product cart");
   return (
     <Box>
       <Box>
@@ -32,7 +40,7 @@ function ProductCart(props: { cart: Cart }) {
           <img
             src={product.image}
             alt={product.name}
-            style={{ width: "10%" }} 
+            style={{ width: "10%" }}
           />
         )}
       </Box>

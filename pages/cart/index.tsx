@@ -22,15 +22,15 @@ const CartUser = () => {
         const cartListData = await getCartData();
         let total = 0;
         setCarts(cartListData);
-        carts.forEach((cart) => (total += cart.price * cart.quantity));
-        setTotal(total);
+        //carts.forEach((cart) => (total += cart.price * cart.quantity));
+        //setTotal(total);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching product data: ", error);
       }
     }
     fetchData();
-  }, [carts]);
+  }, []);
   if (loading) {
     return <Box>Loading...</Box>; // Hiển thị thông báo tải dữ liệu
   }
