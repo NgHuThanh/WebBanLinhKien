@@ -30,7 +30,7 @@ const CartUser = () => {
       }
     }
     fetchData();
-  }, []);
+  }, [carts]);
   if (loading) {
     return <Box>Loading...</Box>; // Hiển thị thông báo tải dữ liệu
   }
