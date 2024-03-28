@@ -23,7 +23,12 @@ import {
   getFirestore,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
-import { db, getDetailProduct, writeExample } from "../firebase/config";
+import {
+  addToCart,
+  db,
+  getDetailProduct,
+  writeExample,
+} from "../firebase/config";
 import { Product, productConverter } from "@/model/product";
 import { Order, orderConverter } from "@/model/order";
 
@@ -33,7 +38,6 @@ const Detail: NextPageWithLayout = () => {
   const idProduct = `${id}`;
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
-  let isGetPrepareCalled = false;
 
   useEffect(() => {
     async function fetchData() {
@@ -121,7 +125,9 @@ const Detail: NextPageWithLayout = () => {
   //     console.error("Error adding order item: ", error);
   //   }
   // };
-
+  if (loading) {
+    return <Box>Loading...</Box>; // Hiển thị thông báo tải dữ liệu
+  }
   return (
     <>
       <Button onClick={() => router.back()}>Back</Button>
@@ -143,10 +149,16 @@ const Detail: NextPageWithLayout = () => {
             marginLeft: "auto",
             width: "100%",
           }}
-          onClick={writeExample}
+          onClick={() => {
+            if (product) {
+              addToCart({ product: product }); // Chuyển đối số product vào hàm addToCart
+            } else {
+              console.error("Product is null");
+            }
+          }}
         >
           <ShoppingCartSharpIcon />
-          Add to cart test
+          Add to cart
         </Button>
         <OfferDetail offer={product?.offer} />
         <HightLight />

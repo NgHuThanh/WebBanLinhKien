@@ -2,6 +2,7 @@ import { cartConverter } from "@/model/cart";
 import { ListProduct, Product, productConverter } from "@/model/product";
 import { initializeApp } from "firebase/app";
 import {
+  DocumentReference,
   addDoc,
   collection,
   doc,
@@ -24,7 +25,6 @@ export const db = getFirestore(app);
 
 export const writeExample = async () => {
   console.log("Đọc được tới đây");
-
   try {
     await addDoc(collection(db, "order_items"), {
       order_id: "/orders/thisisexample",
@@ -63,6 +63,7 @@ export const getProductData = async () => {
   let productListData = productList.docs.map((doc) => doc.data());
   return productListData;
 };
+
 export const getCartData = async () => {
   let cartListRef = collection(
     db,
@@ -100,5 +101,21 @@ export const getDetailProduct = async (id: string): Promise<Product> => {
     );
   } else {
     throw new Error("Product not found"); // Xử lý trường hợp không tìm thấy sản phẩm
+  }
+};
+export const addToCart = async (props: { product: Product }) => {
+  console.log("Đọc được tới đây");
+  try {
+    const priceAsNumber = parseInt(props.product.price.toString());
+    const productRef = doc(db, "products", props.product.id); // Tạo reference đến document của product
+    await addDoc(collection(db, "users/cwLswy3CVB3YQ5z9tFiy/cart"), {
+      product_id: productRef, // Sử dụng reference thay vì string
+      quantity: 1,
+      price: priceAsNumber,
+    });
+    console.log("item added into cart successfully.");
+    // Chuyển hướng đến trang giỏ hàng sau khi thêm thành công
+  } catch (error) {
+    console.error("Error adding order item: ", error);
   }
 };

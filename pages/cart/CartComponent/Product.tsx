@@ -28,7 +28,13 @@ function ProductCart(props: { cart: Cart }) {
       <Box>
         <Typography>Name:{product?.name}</Typography>
         <Typography>Price:{product?.price}</Typography>
-        <Typography>Image:{product?.image}</Typography>
+        {product?.image && (
+          <img
+            src={product.image}
+            alt={product.name}
+            style={{ width: "10%" }} 
+          />
+        )}
       </Box>
     </Box>
   );
