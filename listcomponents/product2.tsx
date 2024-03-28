@@ -17,95 +17,41 @@ import {
   getFirestore,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
-class Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  offer: string;
-  technical: string;
-  image: string;
-  // classId: string
-  constructor(
-    id: string,
-    name: string,
-    description: string,
-    price: number,
-    offer: string,
-    technical: string,
-    image: string
-  ) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.price = price;
-    this.offer = offer;
-    this.technical = technical;
-    this.image = image;
-  }
-}
-const productConverter = {
-  toFirestore: (product: Product) => {
-    return {
-      name: product.name,
-      description: product.description,
-      price: product.price,
-      offer: product.offer,
-      technical: product.technical,
-      image: product.image,
-    };
-  },
+import { db, getProductData } from "@/pages/firebase/config";
+import { Product } from "@/model/product";
 
-  fromFirestore: (
-    snapshot: QueryDocumentSnapshot<DocumentData, DocumentData>,
-    options: SnapshotOptions
-  ) => {
-    const data = snapshot.data(options);
-    return new Product(
-      snapshot.id,
-      data.name,
-      data.description,
-      data.price,
-      data.offer,
-      data.technical,
-      data.image
-    );
-  },
-};
 const Product2 = () => {
   const [products, setProducts] = useState<Product[]>([]);
-
-  // Initialize Firebase
-
-  // Initialize Cloud Firestore and get a reference to the service
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const firebaseConfig = {
-      apiKey: "AIzaSyATnmpP4jkLiXKx1PvknQvW992tBDGD6IU",
-      authDomain: "caijdodb.firebaseapp.com",
-      projectId: "caijdodb",
-      storageBucket: "caijdodb.appspot.com",
-      messagingSenderId: "556827412764",
-      appId: "1:556827412764:web:c0b1c4de752f91f9a592d9",
-    };
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const getData = async () => {
-      let productListRef = collection(db, "products").withConverter(
-        productConverter
-      );
-      let productList = await getDocs(productListRef);
-      let productListData = productList.docs.map((doc) => doc.data());
-      setProducts(productListData);
-    };
-    getData();
-
+    async function fetchData() {
+      try {
+        const productListData = await getProductData();
+        setProducts(productListData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching product data: ", error);
+      }
+    }
+    fetchData();
+    // const getData = async () => {
+    //   let productListRef = collection(db, "products").withConverter(
+    //     productConverter
+    //   );
+    //   let productList = await getDocs(productListRef);
+    //   let productListData = productList.docs.map((doc) => doc.data());
+    //   setProducts(productListData);
+    // };
+    // getData();
     // Cleanup function (optional) to unsubscribe or perform other clean-up tasks
     // Since this effect runs only once, cleanup is not critical here
     // But you might need it in other useEffect scenarios
     // return () => {};
   }, []);
-
+  if (loading) {
+    return <Box>Loading...</Box>; // Hiển thị thông báo tải dữ liệu
+  }
   return (
     <Box>
       <Box>
