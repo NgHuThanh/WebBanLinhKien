@@ -11,13 +11,13 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyATnmpP4jkLiXKx1PvknQvW992tBDGD6IU",
-  authDomain: "caijdodb.firebaseapp.com",
-  projectId: "caijdodb",
-  storageBucket: "caijdodb.appspot.com",
-  messagingSenderId: "556827412764",
-  appId: "1:556827412764:web:c0b1c4de752f91f9a592d9",
-  measurementId: "G-3YRPCJR6LV",
+  apiKey: "AIzaSyBZ5SZ2bS0qelHkeJBYXMQi7jUcKRbvoyw",
+  authDomain: "weblinhkien-b9612.firebaseapp.com",
+  projectId: "weblinhkien-b9612",
+  storageBucket: "weblinhkien-b9612.appspot.com",
+  messagingSenderId: "514113053206",
+  appId: "1:514113053206:web:dd7546c647ddcb65facb37",
+  measurementId: "G-L6ZHHGL5HV",
 };
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
@@ -96,7 +96,9 @@ export const getDetailProduct = async (id: string): Promise<Product> => {
       data.price,
       data.offer,
       data.technical,
-      data.image
+      data.image,
+      data.rating,
+      data.saleinfor
     );
   } else {
     throw new Error("Product not found"); // Xử lý trường hợp không tìm thấy sản phẩm
