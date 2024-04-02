@@ -21,8 +21,7 @@ const Manage: NextPageWithLayout = () => {
 
   return (
     <>
-      <Button onClick={() => router.back()}>Back</Button>
-      <Stack sx={{ padding: "10px" }}></Stack>
+      
     </>
   );
 };
