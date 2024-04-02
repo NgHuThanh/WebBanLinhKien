@@ -36,6 +36,7 @@ function ProductCart(props: { cart: Cart }) {
       <Box>
         <Typography>Name:{product?.name}</Typography>
         <Typography>Price:{product?.price}</Typography>
+        <Typography>Discount:{product?.saleinfor}%</Typography>
         {product?.image && (
           <img
             src={product.image}

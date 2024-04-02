@@ -8,45 +8,65 @@ import {
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import Product from "./CartComponent/Product";
 import Billinfo from "./CartComponent/Billinfo"; // Import Billinfo component
-import { getCartData } from "../firebase/config";
+import {
+  getCartData,
+  handleDeleteCart,
+  handleUpdateCart,
+} from "../firebase/config";
 import { Cart } from "@/model/cart";
 import ProductCart from "./CartComponent/Product";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import DeleteIcon from "@mui/icons-material/Delete";
 const CartUser = () => {
   const [carts, setCarts] = useState<Cart[]>([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState<number>(0);
+  const [totalDiscount, setTotalDiscount] = useState<number>(0);
+  const updateCartQuantity = (index: number, newQuantity: number) => {
+    const updatedCarts = [...carts];
+    updatedCarts[index].quantity = newQuantity;
+    setCarts(updatedCarts);
+  };
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const cartListData = await getCartData();
-        let total = 0;
-        setCarts(cartListData);
-        //carts.forEach((cart) => (total += cart.price * cart.quantity));
-        //setTotal(total);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching product data: ", error);
-      }
+  const handleIncrementQuantity = (index: number) => {
+    const updatedCarts = [...carts];
+    updatedCarts[index].quantity += 1;
+    setCarts(updatedCarts);
+  };
+
+  const handleDecrementQuantity = (index: number) => {
+    const updatedCarts = [...carts];
+    if (updatedCarts[index].quantity > 1) {
+      updatedCarts[index].quantity -= 1;
+      setCarts(updatedCarts);
     }
+  };
+  async function fetchData() {
+    try {
+      const cartListData = await getCartData();
+      setCarts(cartListData);
+      let totalPrice = 0;
+      let totalDiscount = 0;
+      cartListData.forEach(
+        (cart) => (
+          (totalPrice += (cart.discount + cart.price) * cart.quantity),
+          (totalDiscount += cart.discount)
+        )
+      );
+      setTotalDiscount(totalDiscount);
+      setTotal(totalPrice);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching product data: ", error);
+    }
+  }
+  useEffect(() => {
     fetchData();
   }, []);
   if (loading) {
     return <Box>Loading...</Box>; // Hiển thị thông báo tải dữ liệu
   }
-
-  // const cartNumber = 2;
-
-  // const handleBack = () => {
-  //   window.history.back();
-  // };
-  // const productsIds = useAppSelector((state) =>
-  //   productSelectors.selectIds(state)
-  // );
-  // const appDispatch = useAppDispatch();
-  // const add = () => {
-  //   appDispatch(productActions.addProduct({ initialValue: 1 }));
-  // };
 
   return (
     <main>
@@ -59,11 +79,36 @@ const CartUser = () => {
       <Address />
       <Box py={8}>
         <Stack>
-          {carts.map((cart: Cart) => (
+          {carts.map((cart: Cart, index: number) => (
             // eslint-disable-next-line react/jsx-key
             <Box sx={{ border: "1px solid black", padding: "10px" }}>
               <ProductCart cart={cart}></ProductCart>
+              <Typography>------------Product------------</Typography>
               <Typography>Quantities: {cart.quantity}</Typography>
+              <Typography>Price: {cart.price}</Typography>
+              <Button
+                onClick={() => {
+                  handleUpdateCart({ cart: cart, quantity: cart.quantity + 1 }),
+                    handleIncrementQuantity(index);
+                }}
+              >
+                <AddIcon />
+              </Button>
+              <Button
+                onClick={() => {
+                  handleUpdateCart({ cart: cart, quantity: cart.quantity - 1 }),
+                    handleDecrementQuantity(index);
+                }}
+              >
+                <RemoveIcon />
+              </Button>
+              <Button
+                onClick={() => {
+                  handleDeleteCart({ cart: cart }), fetchData();
+                }}
+              >
+                <DeleteIcon />
+              </Button>
             </Box>
           ))}
         </Stack>
@@ -71,7 +116,7 @@ const CartUser = () => {
       <Billinfo
         deliveryDate={"Not set up yet"}
         totalAmount={total}
-        discount={0}
+        discount={totalDiscount}
         shippingFee={0}
       />
     </main>

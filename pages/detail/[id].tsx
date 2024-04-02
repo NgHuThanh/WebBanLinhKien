@@ -41,8 +41,10 @@ const Detail: NextPageWithLayout = () => {
 
   useEffect(() => {
     async function fetchData() {
+      console.error("Đọc fetchDataDetail.44 ");
       try {
         const productData = await getDetailProduct(idProduct);
+        console.error("Đọc fetchDataDetail setProduct ");
         setProduct(productData);
         setLoading(false);
       } catch (error) {
@@ -50,65 +52,6 @@ const Detail: NextPageWithLayout = () => {
       }
     }
     fetchData();
-    // const getData = async () => {
-    //   let productRef = doc(db, "products", idProduct).withConverter(
-    //     productConverter
-    //   );
-    //   let productData = await getDoc(productRef);
-    //   console.log(productData.data()?.name);
-    //   if (productData.exists()) {
-    //     const data = productData.data();
-    //     const newProduct = new Product(
-    //       data.id,
-    //       data.name,
-    //       data.description,
-    //       data.price,
-    //       data.offer,
-    //       data.technical,
-    //       data.image
-    //     );
-    //     setProduct(newProduct);
-    //   } else {
-    //     console.log("Product not found!");
-    //   }
-    // };
-    // getData();
-    // const getPrepare = async () => {
-    //   let orderListRef = collection(db, "orders").withConverter(orderConverter);
-    //   let orderList = await getDocs(orderListRef);
-    //   let orderListData = await orderList.docs.map((doc) => doc.data());
-    //   let isGetPrepareCalled = false;
-
-    //   const prepareOrder = orderListData.find(
-    //     (order) => order.state === "prepare"
-    //   );
-    //   if (isGetPrepareCalled) {
-    //     return;
-    //   }
-    //   if (prepareOrder) {
-    //     setOrderPrepare(prepareOrder);
-    //   } else {
-    //     let isAddOrderExecuted = false;
-
-    //     try {
-    //       if (!isAddOrderExecuted) {
-    //         await addDoc(collection(db, "orders"), {
-    //           user_id: "/users/cwLswy3CVB3YQ5z9tFiy",
-    //           state: "prepare",
-    //         });
-    //         console.log("Order added successfully.");
-    //         isGetPrepareCalled = true;
-    //         // Chuyển hướng đến trang giỏ hàng sau khi thêm thành công
-    //         isAddOrderExecuted = true; // Đánh dấu rằng đoạn mã đã được thực thi thành công
-    //       } else {
-    //         console.log("Order has already been added.");
-    //       }
-    //     } catch (error) {
-    //       console.error("Error adding order item: ", error);
-    //     }
-    //   }
-    // };
-    // getPrepare();
   }, [idProduct]);
   // const handleAddToCart = async () => {
   //   console.log("Đọc được tới đây");
