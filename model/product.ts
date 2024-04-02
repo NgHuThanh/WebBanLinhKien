@@ -17,6 +17,8 @@ export class Product {
   offer: string;
   technical: string;
   image: string;
+  rating: number;
+  saleinfor: string;
   // classId: string
   constructor(
     id: string,
@@ -25,7 +27,9 @@ export class Product {
     price: number,
     offer: string,
     technical: string,
-    image: string
+    image: string,
+    rating: number,
+    saleinfor: string
   ) {
     this.id = id;
     this.name = name;
@@ -34,6 +38,8 @@ export class Product {
     this.offer = offer;
     this.technical = technical;
     this.image = image;
+    this.rating = rating;
+    this.saleinfor = saleinfor;
   }
 }
 
@@ -46,6 +52,8 @@ export const productConverter = {
       offer: product.offer,
       technical: product.technical,
       image: product.image,
+      rating: product.rating,
+      saleinfor: product.saleinfor,
     };
   },
 
@@ -61,7 +69,9 @@ export const productConverter = {
       data.price,
       data.offer,
       data.technical,
-      data.image
+      data.image,
+      data.rating,
+      data.saleinfor
     );
   },
 };
