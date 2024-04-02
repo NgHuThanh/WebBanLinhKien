@@ -29,17 +29,29 @@ const CartUser = () => {
     setCarts(updatedCarts);
   };
 
-  const handleIncrementQuantity = (index: number) => {
+  const handleIncrementQuantity = (
+    index: number,
+    priceUp: number,
+    discountUp: number
+  ) => {
     const updatedCarts = [...carts];
     updatedCarts[index].quantity += 1;
     setCarts(updatedCarts);
+    setTotal((total) => total + priceUp);
+    setTotalDiscount((discount) => (discount += discountUp));
   };
 
-  const handleDecrementQuantity = (index: number) => {
+  const handleDecrementQuantity = (
+    index: number,
+    priceUp: number,
+    discountUp: number
+  ) => {
     const updatedCarts = [...carts];
     if (updatedCarts[index].quantity > 1) {
       updatedCarts[index].quantity -= 1;
       setCarts(updatedCarts);
+      setTotal((total) => total - priceUp);
+      setTotalDiscount((discount) => (discount -= discountUp));
     }
   };
   async function fetchData() {
@@ -85,11 +97,15 @@ const CartUser = () => {
               <ProductCart cart={cart}></ProductCart>
               <Typography>------------Product------------</Typography>
               <Typography>Quantities: {cart.quantity}</Typography>
-              <Typography>Price: {cart.price}</Typography>
+              <Typography>Price per product: {cart.price}</Typography>
               <Button
                 onClick={() => {
                   handleUpdateCart({ cart: cart, quantity: cart.quantity + 1 }),
-                    handleIncrementQuantity(index);
+                    handleIncrementQuantity(
+                      index,
+                      cart.price + cart.discount,
+                      cart.discount
+                    );
                 }}
               >
                 <AddIcon />
@@ -97,7 +113,11 @@ const CartUser = () => {
               <Button
                 onClick={() => {
                   handleUpdateCart({ cart: cart, quantity: cart.quantity - 1 }),
-                    handleDecrementQuantity(index);
+                    handleDecrementQuantity(
+                      index,
+                      cart.price + cart.discount,
+                      cart.discount
+                    );
                 }}
               >
                 <RemoveIcon />
