@@ -119,6 +119,7 @@ export const addToCart = async (props: { product: Product }) => {
       quantity: 1,
       price: priceAsNumber,
       discount: discountAsNumber,
+      mark: false,
     });
     console.log("item added into cart successfully.");
     // Chuyển hướng đến trang giỏ hàng sau khi thêm thành công
@@ -159,6 +160,18 @@ export const handleUpdateCart = async (props: {
   try {
     await updateDoc(doc(db, "users/cwLswy3CVB3YQ5z9tFiy/cart", props.cart.id), {
       quantity: props.quantity,
+    });
+    console.log("Order item update successfully.");
+    // Chuyển hướng đến trang giỏ hàng sau khi thêm thành công
+  } catch (error) {
+    console.error("Error adding order item: ", error);
+  }
+};
+export const handleMarkCart = async (props: { cart: Cart; mark: Boolean }) => {
+  console.log("Đọc được tới đây");
+  try {
+    await updateDoc(doc(db, "users/cwLswy3CVB3YQ5z9tFiy/cart", props.cart.id), {
+      mark: props.mark,
     });
     console.log("Order item update successfully.");
     // Chuyển hướng đến trang giỏ hàng sau khi thêm thành công
