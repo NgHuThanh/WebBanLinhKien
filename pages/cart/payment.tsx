@@ -20,7 +20,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
-import { useLocation } from "react-router-dom";
+
 const Payment = () => {
   const [carts, setCarts] = useState<Cart[]>([]);
   const [selectedCarts, setSelectedCarts] = useState<Cart[]>([]);
