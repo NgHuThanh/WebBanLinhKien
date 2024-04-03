@@ -189,3 +189,31 @@ export const handleDeleteCart = async (props: { cart: Cart }) => {
     console.error("Error adding order item: ", error);
   }
 };
+export const handleDeleteCartsToAddOrderItem = async (props: {
+  carts: Cart[];
+}) => {
+  console.log("Đọc được tới đây");
+  props.carts.forEach(async (cart) => {
+    try {
+      await deleteDoc(doc(db, "users/cwLswy3CVB3YQ5z9tFiy/cart", cart.id));
+      console.log("Cart item deleted successfully.");
+      // Chuyển hướng đến trang giỏ hàng sau khi xóa thành công
+    } catch (error) {
+      console.error("Error deleting cart item: ", error);
+    }
+    try {
+      const productRef = doc(db, "products", cart.id);
+      const currentNumber = currentProductNumber++;
+      await addDoc(collection(db, "users/cwLswy3CVB3YQ5z9tFiy/orders"), {
+        product_id: productRef,
+        quantity: cart.quantity,
+        state: false,
+        price: cart.price * cart.quantity,
+      });
+      console.log("Order item added successfully.");
+      // Chuyển hướng đến trang giỏ hàng sau khi thêm thành công
+    } catch (error) {
+      console.error("Error adding order item: ", error);
+    }
+  });
+};

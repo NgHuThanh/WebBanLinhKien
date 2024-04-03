@@ -11,6 +11,7 @@ import Billinfo from "./CartComponent/Billinfo"; // Import Billinfo component
 import {
   getCartData,
   handleDeleteCart,
+  handleDeleteCartsToAddOrderItem,
   handleUpdateCart,
 } from "../firebase/config";
 import { Cart } from "@/model/cart";
@@ -84,7 +85,9 @@ const Payment = () => {
   if (loading) {
     return <Box>Loading...</Box>; // Hiển thị thông báo tải dữ liệu
   }
-
+  const handleConfirmBuy = () => {
+    handleDeleteCartsToAddOrderItem({ carts });
+  };
   return (
     <main>
       <Box display="flex" alignItems="center">
@@ -155,7 +158,7 @@ const Payment = () => {
           marginLeft: "auto",
           width: "100%",
         }}
-        onClick={() => {}}
+        onClick={handleConfirmBuy}
       >
         Confirm buy
       </Button>
