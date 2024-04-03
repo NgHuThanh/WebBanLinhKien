@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import StarIcon from "@mui/icons-material/Star"; // Import icon
 import {
   Box,
+  Button,
   Card,
   CardContent,
   CardMedia,
   Grid,
   Link,
+  Rating,
   Typography,
 } from "@mui/material";
 import {
@@ -17,62 +21,9 @@ import {
   getFirestore,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
-<<<<<<< HEAD
-class Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  offer: string;
-  technical: string;
-  image: string;
-  // classId: string
-  constructor(
-    id: string,
-    name: string,
-    description: string,
-    price: number,
-    offer: string,
-    technical: string,
-    image: string
-  ) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.price = price;
-    this.offer = offer;
-    this.technical = technical;
-    this.image = image;
-  }
-}
-const productConverter = {
-  toFirestore: (product: Product) => {
-    return {
-      name: product.name,
-      description: product.description,
-      price: product.price,
-      offer: product.offer,
-      technical: product.technical,
-      image: product.image,
-    };
-  },
+import { db, getProductData } from "@/pages/firebase/config";
+import { Product } from "@/model/product";
 
-  fromFirestore: (
-    snapshot: QueryDocumentSnapshot<DocumentData, DocumentData>,
-    options: SnapshotOptions
-  ) => {
-    const data = snapshot.data(options);
-    return new Product(
-      snapshot.id,
-      data.name,
-      data.description,
-      data.price,
-      data.offer,
-      data.technical,
-      data.image
-    );
-  },
-};
 const Product2 = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
@@ -81,67 +32,12 @@ const Product2 = () => {
   // Initialize Cloud Firestore and get a reference to the service
 
   useEffect(() => {
-    const firebaseConfig = {
-      apiKey: "AIzaSyATnmpP4jkLiXKx1PvknQvW992tBDGD6IU",
-      authDomain: "caijdodb.firebaseapp.com",
-      projectId: "caijdodb",
-      storageBucket: "caijdodb.appspot.com",
-      messagingSenderId: "556827412764",
-      appId: "1:556827412764:web:c0b1c4de752f91f9a592d9",
-    };
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
     const getData = async () => {
-      let productListRef = collection(db, "products").withConverter(
-        productConverter
-      );
-      let productList = await getDocs(productListRef);
-      let productListData = productList.docs.map((doc) => doc.data());
-      setProducts(productListData);
+      setProducts(await getProductData());
     };
     getData();
-
-=======
-import { db, getProductData } from "@/pages/firebase/config";
-import { Product } from "@/model/product";
-
-const Product2 = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const productListData = await getProductData();
-        setProducts(productListData);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching product data: ", error);
-      }
-    }
-    fetchData();
-    // const getData = async () => {
-    //   let productListRef = collection(db, "products").withConverter(
-    //     productConverter
-    //   );
-    //   let productList = await getDocs(productListRef);
-    //   let productListData = productList.docs.map((doc) => doc.data());
-    //   setProducts(productListData);
-    // };
-    // getData();
->>>>>>> feature/detail
-    // Cleanup function (optional) to unsubscribe or perform other clean-up tasks
-    // Since this effect runs only once, cleanup is not critical here
-    // But you might need it in other useEffect scenarios
-    // return () => {};
   }, []);
-<<<<<<< HEAD
 
-=======
-  if (loading) {
-    return <Box>Loading...</Box>; // Hiển thị thông báo tải dữ liệu
-  }
->>>>>>> feature/detail
   return (
     <Box>
       <Box>
@@ -151,9 +47,6 @@ const Product2 = () => {
         {products.map((product, index) => (
           <Grid item xs={6} sm={3} key={index}>
             <Link href={`/detail/${product.id}`} underline="none">
-<<<<<<< HEAD
-              <Card sx={{ maxWidth: 300 }}>
-=======
               <Card
                 sx={{
                   maxWidth: 300,
@@ -162,43 +55,97 @@ const Product2 = () => {
                 }}
               >
                 {" "}
-                {/* Cấu hình màu nền và màu chữ */}
->>>>>>> feature/detail
+                <Button
+                  sx={{
+                    position: "absolute",
+                    backgroundColor: "black",
+                    color: "white",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    width: "50px",
+                    height: "30px",
+                  }}
+                  startIcon={<StarIcon sx={{ color: "white" }} />}
+                >
+                  <Typography sx={{ color: "white" }}>
+                    {product.rating}
+                  </Typography>
+                </Button>
                 <CardMedia
                   component="img"
-                  height="140"
+                  height="160"
                   image={product.image}
                   alt={product.image}
-<<<<<<< HEAD
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {product.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-=======
                   style={{
                     width: "100%",
                     height: "140px",
                     objectFit: "cover",
                   }}
                 />
-                <CardContent style={{ maxHeight: "100px", overflow: "hidden" }}>
+                <CardContent style={{ maxHeight: "120px", overflow: "hidden" }}>
                   <Typography
                     gutterBottom
-                    variant="h5"
+                    variant="body1"
                     component="div"
                     style={{
                       overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 2, // Số dòng muốn hiển thị
+                      fontSize: "16px", // Điều chỉnh kích thước chữ
+                      fontWeight: "bold", // In đậm chữ
                     }}
                   >
                     {product.name}
                   </Typography>
-                  <Typography variant="body2" color="black">
->>>>>>> feature/detail
-                    {product.description}
+                  <Typography
+                    variant="body2"
+                    color="black"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: "18px", // Điều chỉnh kích thước chữ
+                      fontWeight: "bold", // In đậm chữ
+                    }}
+                  >
+                    {(product.price * 0.8).toFixed(0)}$
+                    <Typography
+                      style={{
+                        marginLeft: "5px",
+                        color: "grey",
+                        display: "flex",
+                        fontSize: "14px",
+                        textDecoration: "line-through", // Điều chỉnh kích thước chữ
+                      }}
+                    >
+                      {product.price}$
+                    </Typography>
+                    <Typography
+                      color="green"
+                      style={{
+                        marginLeft: "5px", // Khoảng cách giữa hai phần tử
+                        fontSize: "15px", // Điều chỉnh kích thước chữ
+                        fontWeight: "bold", // In đậm chữ
+                      }}
+                    >
+                      {product.saleinfor}% off
+                    </Typography>
+                  </Typography>
+
+                  <Typography
+                    variant="body2"
+                    color="black"
+                    style={{
+                      overflow: "hidden",
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 2, // Số dòng muốn hiển thị
+                      fontSize: "12px", // Điều chỉnh kích thước chữ
+                      fontWeight: "bold", // In đậm chữ
+                      paddingTop: "10px",
+                    }}
+                  >
+                    <LocalOfferIcon fontSize="inherit" /> {product.offer}
                   </Typography>
                 </CardContent>
               </Card>
