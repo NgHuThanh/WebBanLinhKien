@@ -63,7 +63,7 @@ const CartUser = () => {
       cartListData.forEach(
         (cart) => (
           (totalPrice += (cart.discount + cart.price) * cart.quantity),
-          (totalDiscount += cart.discount)
+          (totalDiscount += cart.discount * cart.quantity)
         )
       );
       setTotalDiscount(totalDiscount);

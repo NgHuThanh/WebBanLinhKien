@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import router, { useRouter } from "next/router";
 import { NextPageWithLayout } from "../_app";
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import SliceDetail from "./slice";
 import InfomationDetail from "./infomation";
 import OfferDetail from "./offer";
@@ -53,33 +53,30 @@ const Detail: NextPageWithLayout = () => {
     }
     fetchData();
   }, [idProduct]);
-  // const handleAddToCart = async () => {
-  //   console.log("Đọc được tới đây");
-  //   try {
-  //     await addDoc(collection(db, "order_items"), {
-  //       order_id: "/orders/" + orderPrepare?.id,
-  //       product_id: "/products/" + product?.id,
-  //       quantity: "1",
-  //       price: product?.price,
-  //     });
-  //     console.log("Order item added successfully.");
-  //     // Chuyển hướng đến trang giỏ hàng sau khi thêm thành công
-  //   } catch (error) {
-  //     console.error("Error adding order item: ", error);
-  //   }
-  // };
+
   if (loading) {
     return <Box>Loading...</Box>; // Hiển thị thông báo tải dữ liệu
   }
   return (
     <>
-      <Button onClick={() => router.back()}>Back</Button>
+      <Box display="flex" justifyContent="space-between">
+        <Button onClick={() => router.back()}>
+          <Typography sx={{ color: "black" }}>Back</Typography>
+        </Button>
+        <Button onClick={() => router.push("/cart")}>
+          <Typography sx={{ color: "black" }}>
+            <ShoppingCartSharpIcon></ShoppingCartSharpIcon>
+          </Typography>
+        </Button>
+      </Box>
+
       <Stack sx={{ padding: "10px" }}>
         <SliceDetail />
         <InfomationDetail
           name={product?.name}
           description={product?.description}
           price={product?.price}
+          discount={product?.saleinfor}
         />
         <Button
           sx={{
@@ -104,7 +101,7 @@ const Detail: NextPageWithLayout = () => {
           Add to cart
         </Button>
         <OfferDetail offer={product?.offer} />
-        <HightLight />
+        <HightLight hightLight={product?.description} />
         <RatingReview />
 
         <SimilarProduct />

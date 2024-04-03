@@ -28,26 +28,7 @@ function OfferDetail(props: { offer?: String }) {
           }}
         >
           <LocalOfferIcon fontSize="small" /> {/* Add icon */}
-          <Typography> Được hoàn tiền 100% luôn đó bạn êiiiiiii</Typography>
-        </Box>
-
-        <Box
-          display="inline-flex"
-          sx={{
-            marginTop: "10px",
-          }}
-        >
-          <LocalOfferIcon fontSize="small" /> {/* Add icon */}
-          <Typography> Được hoàn tiền 100% luôn đó bạn êiiiiiii</Typography>
-        </Box>
-        <Box
-          display="inline-flex"
-          sx={{
-            marginTop: "10px",
-          }}
-        >
-          <LocalOfferIcon fontSize="small" /> {/* Add icon */}
-          <Typography> Được hoàn tiền 100% luôn đó bạn êiiiiiii</Typography>
+          <Typography> {props.offer}</Typography>
         </Box>
       </Box>
     </>

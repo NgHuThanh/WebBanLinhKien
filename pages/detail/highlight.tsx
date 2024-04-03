@@ -1,6 +1,6 @@
 import { Box, Card, CardContent, Link, Stack, Typography } from "@mui/material";
 import LabelImportantSharpIcon from "@mui/icons-material/LabelImportantSharp";
-function HightLight() {
+function HightLight(props: { hightLight?: String }) {
   return (
     <>
       <Stack
@@ -22,14 +22,7 @@ function HightLight() {
         </Typography>
         <Box sx={{ display: "inline-flex" }}>
           <LabelImportantSharpIcon />
-          <Typography>Light laptop with out optional</Typography>
-        </Box>
-        <Box sx={{ display: "inline-flex" }}>
-          <LabelImportantSharpIcon />
-          <Typography>
-            16 inch Quad HD Led Backlist IPS Retina Display 500nits Brightness,
-            wide color P3, True tone Technology
-          </Typography>
+          <Typography>{props?.hightLight}</Typography>
         </Box>
       </Stack>
     </>

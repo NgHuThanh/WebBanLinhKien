@@ -13,7 +13,11 @@ function InfomationDetail(props: {
   name?: String;
   description?: String;
   price?: number;
+  discount?: number;
 }) {
+  const priceNow = props.price
+    ? props.price - (props.price * (props.discount || 0)) / 100
+    : 0;
   return (
     <>
       <Stack>
@@ -57,21 +61,50 @@ function InfomationDetail(props: {
           <Typography
             sx={{
               color: "#999",
+              ml: "10px",
             }}
           >
             {" "}
-            ?? rating
+            99 rating
           </Typography>
         </Box>
-        <Box display="inline-flex" alignItems="center">
+        <Box display="inline-flex">
           <Typography
             sx={{
               color: "dark",
               fontWeight: "bold",
               fontSize: "30px",
+              ml: "10px",
+              display: "block",
+            }}
+          >
+            {priceNow}$
+          </Typography>
+          <Typography
+            sx={{
+              color: "#888",
+              fontWeight: "bold",
+              fontSize: "20px",
+              textDecoration: "line-through",
+              ml: "10px",
+              pt: "10px",
+              display: "inline",
             }}
           >
             {props.price}$
+          </Typography>
+          <Typography
+            sx={{
+              color: "green",
+              fontWeight: "bold",
+              fontSize: "20px",
+              ml: "10px",
+              display: "inline",
+              pb: "0px",
+              pt: "10px",
+            }}
+          >
+            {props.discount}%off
           </Typography>
         </Box>
       </Stack>
