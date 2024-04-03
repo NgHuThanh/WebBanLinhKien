@@ -1,28 +1,86 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import router from "next/router";
 import { NextPageWithLayout } from "../_app";
-import { Button, Stack } from "@mui/material";
+import {
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Stack,
+  Typography,
+} from "@mui/material";
 
-import { getFirestore } from "firebase/firestore";
-import { initializeApp } from "firebase/app";
+import ShoppingCartSharpIcon from "@mui/icons-material/ShoppingCartSharp";
+
+import {
+  addToCart,
+  getProductData,
+  handleAddRandomProduct,
+  writeExample,
+} from "../firebase/config";
+import { Product } from "@/model/product";
 
 const Manage: NextPageWithLayout = () => {
-  const firebaseConfig = {
-    apiKey: "AIzaSyATnmpP4jkLiXKx1PvknQvW992tBDGD6IU",
-    authDomain: "caijdodb.firebaseapp.com",
-    projectId: "caijdodb",
-    storageBucket: "caijdodb.appspot.com",
-    messagingSenderId: "556827412764",
-    appId: "1:556827412764:web:c0b1c4de752f91f9a592d9",
-    measurementId: "G-3YRPCJR6LV",
-  };
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
+  const [products, setProducts] = useState<Product[]>([]);
+  useEffect(() => {
+    const getData = async () => {
+      setProducts(await getProductData());
+    };
+    getData();
+  }, []);
   return (
     <>
-      <Button onClick={() => router.back()}>Back</Button>
-      <Stack sx={{ padding: "10px" }}></Stack>
+      <Stack>
+        <Typography>Đây là giao diện quản lý</Typography>
+        <Button
+          sx={{
+            backgroundColor: "black",
+            color: "white",
+            textAlign: "center",
+            display: "inline-flex",
+            alignItems: "center",
+            fontSize: "15px",
+            marginLeft: "auto",
+            width: "100%",
+          }}
+          onClick={() => {
+            handleAddRandomProduct(); // Chuyển đối số product vào hàm addToCart
+          }}
+        >
+          <ShoppingCartSharpIcon />
+          Create Product
+        </Button>
+        <List>
+          {products.map((product) => (
+            <ListItem key={product.id}>
+              <ListItemText
+                primary={product.name}
+                secondary={
+                  <>
+                    <Typography
+                      sx={{ display: "inline", marginRight: 1 }}
+                      component="span"
+                      variant="body2"
+                      color="#888"
+                    >
+                      Price: ${product.price}
+                    </Typography>
+                    <Typography
+                      sx={{ display: "inline" }}
+                      component="span"
+                      variant="body2"
+                      color="#299"
+                    >
+                      Offer: {product.offer}
+                    </Typography>
+                  </>
+                }
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Stack>
     </>
   );
 };

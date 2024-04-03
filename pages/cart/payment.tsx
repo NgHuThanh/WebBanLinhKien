@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Link, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import Address from "./CartComponent/Address";
 import {
   productActions,
@@ -11,7 +11,6 @@ import Billinfo from "./CartComponent/Billinfo"; // Import Billinfo component
 import {
   getCartData,
   handleDeleteCart,
-  handleMarkCart,
   handleUpdateCart,
 } from "../firebase/config";
 import { Cart } from "@/model/cart";
@@ -20,8 +19,8 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
-import Payment from "./payment";
-const CartUser = () => {
+import { useLocation } from "react-router-dom";
+const Payment = () => {
   const [carts, setCarts] = useState<Cart[]>([]);
   const [selectedCarts, setSelectedCarts] = useState<Cart[]>([]);
   const [loading, setLoading] = useState(true);
@@ -33,18 +32,7 @@ const CartUser = () => {
     updatedCarts[index].quantity = newQuantity;
     setCarts(updatedCarts);
   };
-  const handleToggleMarkCart = (cart: Cart) => {
-    const updatedSelectedCarts = [...selectedCarts];
-    const index = updatedSelectedCarts.findIndex(
-      (selectedCart) => selectedCart.id === cart.id
-    );
-    if (index === -1) {
-      updatedSelectedCarts.push(cart);
-    } else {
-      updatedSelectedCarts.splice(index, 1);
-    }
-    setSelectedCarts(updatedSelectedCarts);
-  };
+
   const handleIncrementQuantity = (
     index: number,
     priceUp: number,
@@ -73,7 +61,8 @@ const CartUser = () => {
   async function fetchData() {
     try {
       const cartListData = await getCartData();
-      setCarts(cartListData);
+      const markedCarts = cartListData.filter((cart) => cart.mark === true);
+      setCarts(markedCarts);
       let totalPrice = 0;
       let totalDiscount = 0;
       cartListData.forEach(
@@ -110,23 +99,6 @@ const CartUser = () => {
           {carts.map((cart: Cart, index: number) => (
             // eslint-disable-next-line react/jsx-key
             <Box sx={{ border: "1px solid black", padding: "10px" }}>
-              <Button
-                onClick={() => {
-                  handleToggleMarkCart(cart); // Đánh dấu hoặc hủy đánh dấu cart
-                  handleMarkCart({
-                    cart: cart,
-                    mark: cart.mark == false ? true : false,
-                  });
-                }}
-              >
-                {selectedCarts.some(
-                  (selectedCart) => selectedCart.id === cart.id
-                ) ? (
-                  <DoneIcon></DoneIcon>
-                ) : (
-                  "Add to payment"
-                )}
-              </Button>
               <ProductCart cart={cart}></ProductCart>
               <Typography>------------Product------------</Typography>
               <Typography>Quantities: {cart.quantity}</Typography>
@@ -172,25 +144,23 @@ const CartUser = () => {
         discount={totalDiscount}
         shippingFee={0}
       />
-      <Link href={`/cart/payment`} underline="none">
-        <Box
-          sx={{
-            backgroundColor: "black",
-            color: "white",
-            textAlign: "center",
-            display: "inline-flex",
-            alignItems: "center",
-            fontSize: "15px",
-            marginLeft: "auto",
-            width: "100%",
-          }}
-          onClick={() => {}}
-        >
-          Buy now
-        </Box>
-      </Link>
+      <Button
+        sx={{
+          backgroundColor: "black",
+          color: "white",
+          textAlign: "center",
+          display: "inline-flex",
+          alignItems: "center",
+          fontSize: "15px",
+          marginLeft: "auto",
+          width: "100%",
+        }}
+        onClick={() => {}}
+      >
+        Confirm buy
+      </Button>
     </main>
   );
 };
 
-export default CartUser;
+export default Payment;
