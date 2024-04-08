@@ -100,7 +100,8 @@ export const getDetailProduct = async (id: string): Promise<Product> => {
       data.offer,
       data.technical,
       data.image,
-      data.saleinfor
+      data.saleinfor,
+      data.idcategories
     );
   } else {
     throw new Error("Product not found"); // Xử lý trường hợp không tìm thấy sản phẩm
