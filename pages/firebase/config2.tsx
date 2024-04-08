@@ -1,4 +1,5 @@
 import { cartConverter } from "@/model/cart";
+import { categoriesConverter } from "@/model/categories";
 import { ListProduct, Product, productConverter } from "@/model/product";
 import { initializeApp } from "firebase/app";
 import {
@@ -55,13 +56,13 @@ export const handleAddToCart = async (product: Product) => {
   }
 };
 
-export const getProductData = async () => {
-  let productListRef = collection(db, "products").withConverter(
-    productConverter
+export const getCategoriesData = async () => {
+  let categoriesListRef = collection(db, "categories").withConverter(
+    categoriesConverter
   );
-  let productList = await getDocs(productListRef);
-  let productListData = productList.docs.map((doc) => doc.data());
-  return productListData;
+  let categoriesList = await getDocs(categoriesListRef);
+  let categoriesListData = categoriesList.docs.map((doc) => doc.data());
+  return categoriesListData;
 };
 export const getCartData = async () => {
   let cartListRef = collection(
@@ -71,37 +72,4 @@ export const getCartData = async () => {
   let cartList = await getDocs(cartListRef);
   let cartListData = cartList.docs.map((doc) => doc.data());
   return cartListData;
-};
-export const get1ProductData = async () => {
-  let cartListRef = collection(
-    db,
-    "users/cwLswy3CVB3YQ5z9tFiy/cart"
-  ).withConverter(cartConverter);
-  let cartList = await getDocs(cartListRef);
-  let cartListData = cartList.docs.map((doc) => doc.data());
-  return cartListData;
-};
-
-export const getDetailProduct = async (id: string): Promise<Product> => {
-  let productRef = doc(db, "products", id).withConverter(productConverter);
-  let productData = await getDoc(productRef);
-
-  // Trích xuất dữ liệu từ document và chuyển đổi sang kiểu Product
-  if (productData.exists()) {
-    const data = productData.data();
-    return new Product(
-      data.id,
-      data.name,
-      data.description,
-      data.price,
-      data.offer,
-      data.technical,
-      data.image,
-      data.rating,
-      data.saleinfor,
-      data.idcategories
-    );
-  } else {
-    throw new Error("Product not found"); // Xử lý trường hợp không tìm thấy sản phẩm
-  }
 };
