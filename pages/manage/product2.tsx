@@ -94,7 +94,7 @@ const Product2 = () => {
       <Grid container spacing={2}>
         {products.map((product, index) => (
           <Grid item xs={6} sm={3} key={index}>
-            <Link href={`/detail/${product.id}`} underline="none">
+            <Link href={`/manage/testt/${product.id}`} underline="none">
               <Card sx={{ maxWidth: 300 }}>
                 <CardMedia
                   component="img"
