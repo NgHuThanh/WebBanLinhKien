@@ -80,15 +80,14 @@ const Detail: NextPageWithLayout = () => {
           discount={product?.saleinfor}
         />
         <Button
+          variant="contained"
+          color="primary"
           sx={{
-            backgroundColor: "black",
+            bgcolor: "black",
             color: "white",
-            textAlign: "center",
-            display: "inline-flex",
-            alignItems: "center",
-            fontSize: "15px",
-            marginLeft: "auto",
+            borderRadius: 0,
             width: "100%",
+            mt: "10px",
           }}
           onClick={() => {
             if (product) {

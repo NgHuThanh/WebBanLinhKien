@@ -34,7 +34,12 @@ function InfomationDetail(props: {
     <>
       <Stack>
         <Typography
-          sx={{ color: "dark", fontSize: "18px", whiteSpace: "pre-line" }}
+          sx={{
+            color: "dark",
+            fontSize: "18px",
+            mt: "20px",
+            whiteSpace: "pre-line",
+          }}
         >
           {truncatedText}
         </Typography>
@@ -57,22 +62,23 @@ function InfomationDetail(props: {
           }}
         >
           <Button
+            variant="contained"
+            color="primary"
             sx={{
-              backgroundColor: "black",
+              bgcolor: "black",
               color: "white",
-              textAlign: "center",
-              display: "inline-flex",
-              alignItems: "center",
-              fontSize: "15px",
+              borderRadius: 0,
+              width: "10%",
+              mt: "10px",
             }}
           >
-            <Typography
+            <Box
               sx={{
                 color: "white",
               }}
             >
               5.0
-            </Typography>
+            </Box>
             <StarIcon />
           </Button>
 
