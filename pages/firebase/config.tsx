@@ -69,7 +69,7 @@ export const getProductData = async () => {
 export const getCartData = async () => {
   let cartListRef = collection(
     db,
-    "users/cwLswy3CVB3YQ5z9tFiy/cart"
+    "carts/ZSNrIXRxuZCZS6kR4DtM/cart"
   ).withConverter(cartConverter);
   let cartList = await getDocs(cartListRef);
   let cartListData = cartList.docs.map((doc) => doc.data());
@@ -115,12 +115,9 @@ export const addToCart = async (props: { product: Product }) => {
     const discountAsNumber =
       (props.product.price * props.product.saleinfor) / 100;
     const productRef = doc(db, "products", props.product.id); // Tạo reference đến document của product
-    await addDoc(collection(db, "users/cwLswy3CVB3YQ5z9tFiy/cart"), {
+    await addDoc(collection(db, "carts/ZSNrIXRxuZCZS6kR4DtM/cart"), {
       product_id: productRef, // Sử dụng reference thay vì string
       quantity: 1,
-      price: priceAsNumber,
-      discount: discountAsNumber,
-      mark: false,
     });
     console.log("item added into cart successfully.");
     // Chuyển hướng đến trang giỏ hàng sau khi thêm thành công
@@ -159,7 +156,7 @@ export const handleUpdateCart = async (props: {
 }) => {
   console.log("Đọc được tới đây");
   try {
-    await updateDoc(doc(db, "users/cwLswy3CVB3YQ5z9tFiy/cart", props.cart.id), {
+    await updateDoc(doc(db, "carts/ZSNrIXRxuZCZS6kR4DtM/cart", props.cart.id), {
       quantity: props.quantity,
     });
     console.log("Order item update successfully.");
@@ -171,7 +168,7 @@ export const handleUpdateCart = async (props: {
 export const handleMarkCart = async (props: { cart: Cart; mark: Boolean }) => {
   console.log("Đọc được tới đây");
   try {
-    await updateDoc(doc(db, "users/cwLswy3CVB3YQ5z9tFiy/cart", props.cart.id), {
+    await updateDoc(doc(db, "carts/ZSNrIXRxuZCZS6kR4DtM/cart", props.cart.id), {
       mark: props.mark,
     });
     console.log("Order item update successfully.");
@@ -183,38 +180,58 @@ export const handleMarkCart = async (props: { cart: Cart; mark: Boolean }) => {
 export const handleDeleteCart = async (props: { cart: Cart }) => {
   console.log("Đọc được tới đây");
   try {
-    await deleteDoc(doc(db, "users/cwLswy3CVB3YQ5z9tFiy/cart", props.cart.id));
+    await deleteDoc(doc(db, "carts/ZSNrIXRxuZCZS6kR4DtM/cart", props.cart.id));
     console.log("Cart item delete successfully.");
     // Chuyển hướng đến trang giỏ hàng sau khi thêm thành công
   } catch (error) {
     console.error("Error adding order item: ", error);
   }
 };
+
 export const handleDeleteCartsToAddOrderItem = async (props: {
   carts: Cart[];
 }) => {
   console.log("Đọc được tới đây");
-  props.carts.forEach(async (cart) => {
-    try {
-      await deleteDoc(doc(db, "users/cwLswy3CVB3YQ5z9tFiy/cart", cart.id));
-      console.log("Cart item deleted successfully.");
-      // Chuyển hướng đến trang giỏ hàng sau khi xóa thành công
-    } catch (error) {
-      console.error("Error deleting cart item: ", error);
-    }
-    try {
-      const productRef = doc(db, "products", cart.id);
-      const currentNumber = currentProductNumber++;
-      await addDoc(collection(db, "users/cwLswy3CVB3YQ5z9tFiy/orders"), {
-        product_id: productRef,
-        quantity: cart.quantity,
-        state: false,
-        price: cart.price * cart.quantity,
-      });
-      console.log("Order item added successfully.");
-      // Chuyển hướng đến trang giỏ hàng sau khi thêm thành công
-    } catch (error) {
-      console.error("Error adding order item: ", error);
-    }
-  });
+
+  try {
+    const userRef = doc(db, "users", "cwLswy3CVB3YQ5z9tFiy");
+    // Tạo một order mới
+    const orderRef = await addDoc(collection(db, "orders"), {
+      state: false,
+      user_id: userRef,
+    });
+
+    console.log("Order created with ID");
+    props.carts.forEach(async (cart) => {
+      try {
+        await deleteDoc(doc(db, "carts/ZSNrIXRxuZCZS6kR4DtM/cart", cart.id));
+        console.log("Cart item deleted successfully.");
+        // Chuyển hướng đến trang giỏ hàng sau khi xóa thành công
+      } catch (error) {
+        console.error("Error deleting cart item: ", error);
+      }
+      try {
+        const productRef = doc(db, "products", cart.id);
+        const currentNumber = currentProductNumber++;
+        let productRefer = cart.product_id.withConverter(productConverter);
+        let productData = await getDoc(productRefer);
+        await addDoc(collection(orderRef, "order_details"), {
+          product_id: productRef,
+          quantity: cart.quantity,
+          price:
+            (((productData.data()?.price as number) -
+              (productData.data()?.saleinfor as number)) /
+              100) *
+            (productData.data()?.price as number) *
+            cart.quantity,
+        });
+        console.log("Order item added successfully.");
+        // Chuyển hướng đến trang giỏ hàng sau khi thêm thành công
+      } catch (error) {
+        console.error("Error adding order item: ", error);
+      }
+    });
+  } catch (error) {
+    console.error("Error creating order: ", error);
+  }
 };
