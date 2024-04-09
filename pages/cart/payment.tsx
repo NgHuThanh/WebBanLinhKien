@@ -90,16 +90,11 @@ const Payment = () => {
   };
   return (
     <main>
-      <Box display="flex" alignItems="center">
-        {/* <Button onClick={handleBack}>&lt;</Button> */}
-        <Typography variant="body1" ml={1}>
-          Cart {carts.length} items
-        </Typography>
-      </Box>
-      <Address />
+      
       <Box py={8}>
+      <Typography sx={{textAlign:"center",fontSize:"30px"}}>Payment validation</Typography>
         <Stack>
-          {carts.map((cart: Cart, index: number) => (
+          {carts.map((cart: Cart, index: number) => ( 
             // eslint-disable-next-line react/jsx-key
             <Box sx={{ border: "1px solid black", padding: "10px" }}>
               <ProductCart cart={cart}></ProductCart>
@@ -157,6 +152,7 @@ const Payment = () => {
           fontSize: "15px",
           marginLeft: "auto",
           width: "100%",
+          mt:"10px"
         }}
         onClick={handleConfirmBuy}
       >

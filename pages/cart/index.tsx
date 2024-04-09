@@ -99,7 +99,9 @@ const CartUser = () => {
       <Billinfo deliveryDate="Not set up yet" totalAmount={total} discount={totalDiscount} shippingFee={0} />
       <Box sx={{justifyContent: "center" }}>
         <Link href="/cart/payment" underline="none">
-          <Button variant="contained" color="primary" sx={{ bgcolor: "black", color: "white", borderRadius: 0, width: "100%" }}>Buy now</Button>
+          <Button variant="contained" color="primary" sx={{ bgcolor: "black", color: "white", borderRadius: 0, width: "100%",mt:"10px" }}>
+            Proceed to pay (${total})
+          </Button>
         </Link>
       </Box>
     </main>

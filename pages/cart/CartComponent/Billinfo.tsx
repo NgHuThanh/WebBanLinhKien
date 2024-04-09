@@ -17,31 +17,31 @@ const Billinfo: React.FC<Props> = ({ deliveryDate, totalAmount, discount, shippi
         <Typography variant="body1">Delivery date:</Typography>
       </Grid>
       <Grid item xs={6}>
-        <Typography variant="body1">{deliveryDate}</Typography>
+        <Typography variant="body1"><b>{deliveryDate}</b></Typography>
       </Grid>
       <Grid item xs={6}>
         <Typography variant="body1">Total amount:</Typography>
       </Grid>
       <Grid item xs={6}>
-        <Typography variant="body1">${totalAmount}</Typography>
+        <Typography variant="body1"><b>${totalAmount}</b></Typography>
       </Grid>
       <Grid item xs={6}>
         <Typography variant="body1">Discount:</Typography>
       </Grid>
       <Grid item xs={6}>
-        <Typography variant="body1">${discount}</Typography>
+        <Typography variant="body1"><b>${discount}</b></Typography>
       </Grid>
       <Grid item xs={6}>
         <Typography variant="body1">Shipping fee:</Typography>
       </Grid>
       <Grid item xs={6}>
-        <Typography variant="body1">${shippingFee}</Typography>
+        <Typography variant="body1"><b>${shippingFee}</b></Typography>
       </Grid>
       <Grid item xs={6}>
         <Typography variant="body1">Total price:</Typography>
       </Grid>
       <Grid item xs={6}>
-        <Typography variant="body1">${totalPrice}</Typography>
+        <Typography variant="body1"><b>${totalPrice}</b></Typography>
       </Grid>
    </Grid>
   );
