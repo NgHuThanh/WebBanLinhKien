@@ -9,12 +9,24 @@ import {
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import ShoppingCartSharpIcon from "@mui/icons-material/ShoppingCartSharp";
+import React from "react";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+const MAX_LENGTH = 150;
 function InfomationDetail(props: {
   name?: String;
   description?: String;
   price?: number;
   discount?: number;
 }) {
+  const text = props.name as string;
+  const [expanded, setExpanded] = React.useState(false);
+
+  // Kiểm tra xem nội dung có dài hơn độ dài tối đa hay không
+  const isTruncated = text.length > MAX_LENGTH;
+
+  // Lấy phần nội dung được cắt hoặc toàn bộ nội dung nếu đã mở rộng
+  const truncatedText = expanded ? text : text.slice(0, MAX_LENGTH);
+
   const priceNow = props.price
     ? props.price - (props.price * (props.discount || 0)) / 100
     : 0;
@@ -22,14 +34,20 @@ function InfomationDetail(props: {
     <>
       <Stack>
         <Typography
-          sx={{
-            color: "dark",
-
-            fontSize: "18px",
-          }}
+          sx={{ color: "dark", fontSize: "18px", whiteSpace: "pre-line" }}
         >
-          {props.name}
+          {truncatedText}
         </Typography>
+        {/* Nếu nội dung quá dài và chưa mở rộng, hiển thị nút 'Hiển thị thêm' */}
+        {isTruncated && !expanded && (
+          <Button
+            onClick={() => setExpanded(true)}
+            endIcon={<ExpandMoreIcon />}
+            sx={{ color: "primary.main" }}
+          >
+            Hiển thị thêm
+          </Button>
+        )}
         <Box
           sx={{
             textAlign: "center",

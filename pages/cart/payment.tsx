@@ -62,7 +62,7 @@ const Payment = () => {
   async function fetchData() {
     try {
       const cartListData = await getCartData();
-      const markedCarts = cartListData.filter((cart) => cart.mark === true);
+      const markedCarts = cartListData.filter((cart) => cart.id !== "ttest");
       setCarts(markedCarts);
       let totalPrice = 0;
       let totalDiscount = 0;

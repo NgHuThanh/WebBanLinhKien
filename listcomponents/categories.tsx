@@ -1,56 +1,60 @@
-import React from "react";
-import { Box } from "@mui/material";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import { Box, Card, CardMedia, Grid, Link } from "@mui/material";
+import { Categories } from "@/model/categories";
+import { getCategoriesData } from "@/pages/firebase/config2";
 
-const Categories = () => {
-  // Dữ liệu hình ảnh mẫu
-  const images = [
-    "/laptop.png",
-    "/phone.png",
-    "/camera.png",
-    "/headphone.png",
-    "/accessories.png",
-  ];
+const Categori = () => {
+  const [categories, setCategories] = useState<Categories[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const settings = {
-    speed: 500, // Tốc độ chuyển đổi của slider (ms)
-    infinite: true, // Cho phép trượt vô hạn qua các hình ảnh
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        console.log("Đã đọc tới dòng 13");
+        const categoriesListData = await getCategoriesData();
+        setCategories(categoriesListData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching categories data: ", error);
+      }
+    }
+    fetchData();
+  }, []);
 
-    slidesToShow: 5, // Số lượng hình ảnh được hiển thị cùng một lúc
-    slidesToScroll: 5, // Số lượng hình ảnh được trượt mỗi lần
-  };
+  if (loading) {
+    return <Box>Loading...</Box>;
+  }
 
   return (
-    <Box>
-      <Box>
-        <h2>Catergories</h2>
-      </Box>
-      <Slider {...settings}>
-        {images.map((image, index) => (
-          <div key={index}>
-            <Box
-              sx={{
-                boxShadow: "0px 4px 25px rgba(0, 0, 0, 0.1)",
-                borderRadius: "10px",
-                overflow: "hidden",
-                marginRight: "10px",
-              }}
-            >
-              <Image
-                src={image}
-                alt={`Hình ảnh ${index + 1}`}
-                width={65}
-                height={65}
+    <Grid
+      container
+      spacing={1}
+      justifyContent="center"
+      sx={{ marginTop: "20px" }}
+    >
+      {" "}
+      {categories.map((category, index) => (
+        <Grid
+          item
+          xs={2}
+          key={index}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
+          <Link href={`categories/`} underline="none">
+            <Card sx={{ maxWidth: "100%" }}>
+              <CardMedia
+                component="img"
+                height="100%"
+                width="100%"
+                image={category.cateimage}
+                alt={category.name}
               />
-            </Box>
-          </div>
-        ))}
-      </Slider>
-    </Box>
+            </Card>
+          </Link>
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 
-export default Categories;
+export default Categori;

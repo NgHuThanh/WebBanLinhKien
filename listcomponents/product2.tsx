@@ -26,17 +26,23 @@ import { Product } from "@/model/product";
 
 const Product2 = () => {
   const [products, setProducts] = useState<Product[]>([]);
-
-  // Initialize Firebase
-
-  // Initialize Cloud Firestore and get a reference to the service
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getData = async () => {
-      setProducts(await getProductData());
-    };
-    getData();
+    async function fetchData() {
+      try {
+        const productListData = await getProductData();
+        setProducts(productListData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching product data: ", error);
+      }
+    }
+    fetchData();
   }, []);
+  if (loading) {
+    return <Box>Loading...</Box>; // Hiển thị thông báo tải dữ liệu
+  }
 
   return (
     <Box>
@@ -55,22 +61,6 @@ const Product2 = () => {
                 }}
               >
                 {" "}
-                <Button
-                  sx={{
-                    position: "absolute",
-                    backgroundColor: "black",
-                    color: "white",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    width: "50px",
-                    height: "30px",
-                  }}
-                  startIcon={<StarIcon sx={{ color: "white" }} />}
-                >
-                  <Typography sx={{ color: "white" }}>
-                    {product.rating}
-                  </Typography>
-                </Button>
                 <CardMedia
                   component="img"
                   height="160"

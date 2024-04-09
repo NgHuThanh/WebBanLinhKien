@@ -14,13 +14,13 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBY2lqutit7K6F1jCFKmOP2ut1U8rG719Q",
-  authDomain: "testwriteread-77258.firebaseapp.com",
-  projectId: "testwriteread-77258",
-  storageBucket: "testwriteread-77258.appspot.com",
-  messagingSenderId: "696816126933",
-  appId: "1:696816126933:web:c44c585f6e2b5a198d4b5c",
-  measurementId: "G-CMYW8WZW89",
+  apiKey: "AIzaSyBZ5SZ2bS0qelHkeJBYXMQi7jUcKRbvoyw",
+  authDomain: "weblinhkien-b9612.firebaseapp.com",
+  projectId: "weblinhkien-b9612",
+  storageBucket: "weblinhkien-b9612.appspot.com",
+  messagingSenderId: "514113053206",
+  appId: "1:514113053206:web:dd7546c647ddcb65facb37",
+  measurementId: "G-L6ZHHGL5HV",
 };
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
