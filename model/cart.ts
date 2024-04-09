@@ -15,17 +15,23 @@ export class Cart {
   price: number;
   product_id: DocumentReference;
   quantity: number;
+  discount: number;
+  mark: boolean;
   // classId: string
   constructor(
     id: string,
     price: number,
     product_id: DocumentReference,
-    quantity: number
+    quantity: number,
+    discount: number,
+    mark: boolean
   ) {
     this.id = id;
     this.price = price;
     this.product_id = product_id;
     this.quantity = quantity;
+    this.discount = discount;
+    this.mark = mark;
   }
 }
 
@@ -35,6 +41,8 @@ export const cartConverter = {
       price: cart.price,
       product_id: cart.product_id,
       quantity: cart.quantity,
+      discount: cart.discount,
+      mark: cart.mark,
     };
   },
 
@@ -43,6 +51,13 @@ export const cartConverter = {
     options: SnapshotOptions
   ) => {
     const data = snapshot.data(options);
-    return new Cart(snapshot.id, data.price, data.product_id, data.quantity);
+    return new Cart(
+      snapshot.id,
+      data.price,
+      data.product_id,
+      data.quantity,
+      data.discount,
+      data.mark
+    );
   },
 };

@@ -1,17 +1,24 @@
-import { Box, Card, CardContent, Link, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Link,
+  Typography,
+} from "@mui/material";
 
-function SliceDetail() {
+function SliceDetail(props: { image?: String }) {
   return (
     <>
       <Box>
-        <Box
-          component="img"
-          sx={{
-            height: "240px",
-            width: "100%",
-          }}
-          src={`/noneDevice.jpg`}
-        />
+        <Card sx={{ maxWidth: 700 }}>
+          <CardMedia
+            component="img"
+            height="240"
+            image={props.image ? (props.image as string) : "/noneDevice.jpg"}
+            alt={"Ảnh 6"}
+          />
+        </Card>
       </Box>
     </>
   );
