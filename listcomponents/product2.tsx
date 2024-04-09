@@ -26,7 +26,6 @@ import { Product } from "@/model/product";
 
 const Product2 = () => {
   const [products, setProducts] = useState<Product[]>([]);
-<<<<<<< HEAD
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -44,19 +43,6 @@ const Product2 = () => {
   if (loading) {
     return <Box>Loading...</Box>; // Hiển thị thông báo tải dữ liệu
   }
-=======
-
-  // Initialize Firebase
-
-  // Initialize Cloud Firestore and get a reference to the service
-
-  useEffect(() => {
-    const getData = async () => {
-      setProducts(await getProductData());
-    };
-    getData();
-  }, []);
->>>>>>> origin/feature/login
 
   return (
     <Box>
@@ -75,25 +61,6 @@ const Product2 = () => {
                 }}
               >
                 {" "}
-<<<<<<< HEAD
-=======
-                <Button
-                  sx={{
-                    position: "absolute",
-                    backgroundColor: "black",
-                    color: "white",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    width: "50px",
-                    height: "30px",
-                  }}
-                  startIcon={<StarIcon sx={{ color: "white" }} />}
-                >
-                  <Typography sx={{ color: "white" }}>
-                    {product.rating}
-                  </Typography>
-                </Button>
->>>>>>> origin/feature/login
                 <CardMedia
                   component="img"
                   height="160"

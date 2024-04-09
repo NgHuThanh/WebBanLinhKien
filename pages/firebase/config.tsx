@@ -14,7 +14,6 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-<<<<<<< HEAD
   apiKey: "AIzaSyBZ5SZ2bS0qelHkeJBYXMQi7jUcKRbvoyw",
   authDomain: "weblinhkien-b9612.firebaseapp.com",
   projectId: "weblinhkien-b9612",
@@ -22,15 +21,6 @@ const firebaseConfig = {
   messagingSenderId: "514113053206",
   appId: "1:514113053206:web:dd7546c647ddcb65facb37",
   measurementId: "G-L6ZHHGL5HV",
-=======
-  apiKey: "AIzaSyBY2lqutit7K6F1jCFKmOP2ut1U8rG719Q",
-  authDomain: "testwriteread-77258.firebaseapp.com",
-  projectId: "testwriteread-77258",
-  storageBucket: "testwriteread-77258.appspot.com",
-  messagingSenderId: "696816126933",
-  appId: "1:696816126933:web:c44c585f6e2b5a198d4b5c",
-  measurementId: "G-CMYW8WZW89",
->>>>>>> origin/feature/login
 };
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
@@ -110,13 +100,9 @@ export const getDetailProduct = async (id: string): Promise<Product> => {
       data.offer,
       data.technical,
       data.image,
-<<<<<<< HEAD
       data.rating,
       data.saleinfor,
       data.idcategories
-=======
-      data.saleinfor
->>>>>>> origin/feature/login
     );
   } else {
     throw new Error("Product not found"); // Xử lý trường hợp không tìm thấy sản phẩm
