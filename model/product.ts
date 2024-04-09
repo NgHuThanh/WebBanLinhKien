@@ -18,7 +18,7 @@ export class Product {
   technical: string;
   image: string;
   rating: number;
-  saleinfor: string;
+  saleinfor: number;
   idcategories: string;
   // classId: string
   constructor(
@@ -30,7 +30,7 @@ export class Product {
     technical: string,
     image: string,
     rating: number,
-    saleinfor: string,
+    saleinfor: number,
     idcategories: string
   ) {
     this.id = id;
