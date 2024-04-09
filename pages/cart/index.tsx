@@ -93,15 +93,15 @@ const CartUser = () => {
                 <Button onClick={() => handleDeleteCartItem(cart)}><DeleteIcon /></Button>
               </Box>
             </Box>
-
-
           ))}
         </Stack>
       </Box>
       <Billinfo deliveryDate="Not set up yet" totalAmount={total} discount={totalDiscount} shippingFee={0} />
-      <Link href="/cart/payment" underline="none">
-        <Button variant="contained" color="primary">Buy now</Button>
-      </Link>
+      <Box sx={{justifyContent: "center" }}>
+        <Link href="/cart/payment" underline="none">
+          <Button variant="contained" color="primary" sx={{ bgcolor: "black", color: "white", borderRadius: 0, width: "100%" }}>Buy now</Button>
+        </Link>
+      </Box>
     </main>
   );
 };
