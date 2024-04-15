@@ -10,7 +10,7 @@ import RatingReview from "./review";
 import SimilarProduct from "./similar";
 import ShoppingCartSharpIcon from "@mui/icons-material/ShoppingCartSharp";
 import RenderImage from "./renderimage";
-
+import CircularProgress from "@mui/material/CircularProgress";
 import {
   DocumentData,
   QueryDocumentSnapshot,
@@ -26,11 +26,15 @@ import { initializeApp } from "firebase/app";
 import {
   addToCart,
   db,
+  getCartData,
   getDetailProduct,
+  getProductData,
   writeExample,
 } from "../firebase/config";
 import { Product, productConverter } from "@/model/product";
 import { Order, orderConverter } from "@/model/order";
+import { Cart } from "@/model/cart";
+import Loading from "@/listcomponents/loading";
 
 const Detail: NextPageWithLayout = () => {
   const router = useRouter();
@@ -38,16 +42,24 @@ const Detail: NextPageWithLayout = () => {
   const idProduct = `${id}`;
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const [carts, setCarts] = useState<Cart[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
   useEffect(() => {
     async function fetchData() {
       console.error("Đọc fetchDataDetail.44 ");
       try {
+        const cartListData = await getCartData();
         const productData = await getDetailProduct(idProduct);
+        const productListData = await getProductData();
+        const filteredProductListData = productListData.filter(
+          (product) => product.idcategories === productData.idcategories
+        );
         console.error("Đọc fetchDataDetail setProduct ");
         setProduct(productData);
+        setProducts(productListData);
         setLoading(false);
+        setCarts(cartListData);
       } catch (error) {
         console.error("Error fetching product data: ", error);
       }
@@ -56,7 +68,7 @@ const Detail: NextPageWithLayout = () => {
   }, [idProduct]);
 
   if (loading) {
-    return <Box>Loading...</Box>; // Hiển thị thông báo tải dữ liệu
+    return <Loading></Loading>; // Hiển thị thông báo tải dữ liệu
   }
   return (
     <>
@@ -65,7 +77,7 @@ const Detail: NextPageWithLayout = () => {
           <Typography sx={{ color: "black" }}>Back</Typography>
         </Button>
         <Button onClick={() => router.push("/cart")}>
-          <Badge badgeContent={1} color="error">
+          <Badge badgeContent={carts.length} color="error">
             <ShoppingCartSharpIcon />
           </Badge>
         </Button>
@@ -104,7 +116,7 @@ const Detail: NextPageWithLayout = () => {
         <HightLight hightLight={product?.description} />
         <RatingReview />
 
-        <SimilarProduct />
+        <SimilarProduct products={products} />
       </Stack>
     </>
   );
