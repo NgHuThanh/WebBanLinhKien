@@ -14,9 +14,10 @@ function SliceDetail(props: { image?: String }) {
         <Card sx={{ maxWidth: 700 }}>
           <CardMedia
             component="img"
-            height="240"
+            width="50%"
             image={props.image ? (props.image as string) : "/noneDevice.jpg"}
-            alt={"Ảnh 6"}
+            alt="Ảnh 6"
+            sx={{ borderRadius: 0 }} // Loại bỏ viền
           />
         </Card>
       </Box>

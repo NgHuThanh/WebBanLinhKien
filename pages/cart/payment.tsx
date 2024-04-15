@@ -20,13 +20,15 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
+import { getDoc } from "firebase/firestore";
+import { productConverter } from "@/model/product";
 
 const Payment = () => {
   const [carts, setCarts] = useState<Cart[]>([]);
   const [selectedCarts, setSelectedCarts] = useState<Cart[]>([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState<number>(0);
-
+  const [totalPay, setTotalPay] = useState<number>(0);
   const [totalDiscount, setTotalDiscount] = useState<number>(0);
   const updateCartQuantity = (index: number, newQuantity: number) => {
     const updatedCarts = [...carts];
@@ -62,18 +64,24 @@ const Payment = () => {
   async function fetchData() {
     try {
       const cartListData = await getCartData();
-      const markedCarts = cartListData.filter((cart) => cart.mark === true);
-      setCarts(markedCarts);
       let totalPrice = 0;
       let totalDiscount = 0;
-      cartListData.forEach(
-        (cart) => (
-          (totalPrice += (cart.discount + cart.price) * cart.quantity),
-          (totalDiscount += cart.discount * cart.quantity)
-        )
-      );
-      setTotalDiscount(totalDiscount);
+
+      // Sử dụng vòng lặp for...of để thực hiện các lệnh await một cách tuần tự
+      for (const cart of cartListData) {
+        const productRefer = cart.product_id.withConverter(productConverter);
+        const productData = await getDoc(productRefer);
+        totalPrice += (productData.data()?.price as number) * cart.quantity;
+        totalDiscount +=
+          ((productData.data()?.price as number) *
+            (productData.data()?.saleinfor as number)) /
+          100;
+      }
+
+      setCarts(cartListData);
       setTotal(totalPrice);
+      setTotalDiscount(totalDiscount);
+      setTotalPay(totalPrice - totalDiscount);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching product data: ", error);
@@ -90,17 +98,18 @@ const Payment = () => {
   };
   return (
     <main>
-      
       <Box py={8}>
-      <Typography sx={{textAlign:"center",fontSize:"30px"}}>Payment validation</Typography>
+        <Typography sx={{ textAlign: "center", fontSize: "30px" }}>
+          Payment validation
+        </Typography>
         <Stack>
-          {carts.map((cart: Cart, index: number) => ( 
+          {carts.map((cart: Cart, index: number) => (
             // eslint-disable-next-line react/jsx-key
             <Box sx={{ border: "1px solid black", padding: "10px" }}>
               <ProductCart cart={cart}></ProductCart>
               <Typography>------------Product------------</Typography>
               <Typography>Quantities: {cart.quantity}</Typography>
-              <Typography>Price per product: {cart.price}</Typography>
+
               <Button
                 onClick={() => {
                   handleUpdateCart({ cart: cart, quantity: cart.quantity + 1 }),
@@ -152,7 +161,7 @@ const Payment = () => {
           fontSize: "15px",
           marginLeft: "auto",
           width: "100%",
-          mt:"10px"
+          mt: "10px",
         }}
         onClick={handleConfirmBuy}
       >

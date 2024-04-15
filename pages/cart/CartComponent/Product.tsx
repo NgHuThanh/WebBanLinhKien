@@ -41,7 +41,7 @@ function ProductCart(props: { cart: Cart }) {
           <img
             src={product.image}
             alt={product.name}
-            style={{ width: "10%" }}
+            style={{ width: "30%" }}
           />
         )}
       </Box>

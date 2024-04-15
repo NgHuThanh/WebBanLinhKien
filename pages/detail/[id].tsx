@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import router, { useRouter } from "next/router";
 import { NextPageWithLayout } from "../_app";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography, Badge } from "@mui/material";
 import SliceDetail from "./slice";
 import InfomationDetail from "./infomation";
 import OfferDetail from "./offer";
@@ -39,6 +39,7 @@ const Detail: NextPageWithLayout = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   useEffect(() => {
     async function fetchData() {
       console.error("Đọc fetchDataDetail.44 ");
@@ -64,14 +65,14 @@ const Detail: NextPageWithLayout = () => {
           <Typography sx={{ color: "black" }}>Back</Typography>
         </Button>
         <Button onClick={() => router.push("/cart")}>
-          <Typography sx={{ color: "black" }}>
-            <ShoppingCartSharpIcon></ShoppingCartSharpIcon>
-          </Typography>
+          <Badge badgeContent={1} color="error">
+            <ShoppingCartSharpIcon />
+          </Badge>
         </Button>
       </Box>
 
       <Stack sx={{ padding: "10px" }}>
-        <SliceDetail />
+        <SliceDetail image={product?.image} />
         <InfomationDetail
           name={product?.name}
           description={product?.description}
@@ -79,15 +80,14 @@ const Detail: NextPageWithLayout = () => {
           discount={product?.saleinfor}
         />
         <Button
+          variant="contained"
+          color="primary"
           sx={{
-            backgroundColor: "black",
+            bgcolor: "black",
             color: "white",
-            textAlign: "center",
-            display: "inline-flex",
-            alignItems: "center",
-            fontSize: "15px",
-            marginLeft: "auto",
+            borderRadius: 0,
             width: "100%",
+            mt: "10px",
           }}
           onClick={() => {
             if (product) {
