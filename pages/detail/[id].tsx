@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import router, { useRouter } from "next/router";
 import { NextPageWithLayout } from "../_app";
-import { Box, Button, Stack, Typography, Badge } from "@mui/material";
+import { Box, Button, Stack, Typography, Badge, Snackbar } from "@mui/material";
 import SliceDetail from "./slice";
 import InfomationDetail from "./infomation";
 import OfferDetail from "./offer";
@@ -44,6 +44,7 @@ const Detail: NextPageWithLayout = () => {
   const [loading, setLoading] = useState(true);
   const [carts, setCarts] = useState<Cart[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [showSnackbar, setShowSnackbar] = useState(false); // State để điều khiển hiển thị Snackbar
 
   useEffect(() => {
     async function fetchData() {
@@ -67,9 +68,25 @@ const Detail: NextPageWithLayout = () => {
     fetchData();
   }, [idProduct]);
 
+  // Hàm xử lý khi nhấn nút "Add to cart"
+  const handleAddToCart = () => {
+    if (product) {
+      addToCart({ product: product }); // Chuyển đối số product vào hàm addToCart
+      setShowSnackbar(true); // Hiển thị Snackbar
+    } else {
+      console.error("Product is null");
+    }
+  };
+
+  // Đóng Snackbar
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false);
+  };
+
   if (loading) {
-    return <Loading></Loading>; // Hiển thị thông báo tải dữ liệu
+    return <Loading />; // Hiển thị thông báo tải dữ liệu
   }
+
   return (
     <>
       <Box display="flex" justifyContent="space-between">
@@ -101,13 +118,7 @@ const Detail: NextPageWithLayout = () => {
             width: "100%",
             mt: "10px",
           }}
-          onClick={() => {
-            if (product) {
-              addToCart({ product: product }); // Chuyển đối số product vào hàm addToCart
-            } else {
-              console.error("Product is null");
-            }
-          }}
+          onClick={handleAddToCart} // Sử dụng hàm xử lý khi nhấn nút "Add to cart"
         >
           <ShoppingCartSharpIcon />
           Add to cart
@@ -118,6 +129,24 @@ const Detail: NextPageWithLayout = () => {
 
         <SimilarProduct products={products} />
       </Stack>
+
+      {/* Snackbar hiển thị thông báo */}
+      <Snackbar
+        open={showSnackbar}
+        autoHideDuration={3000} // Thiết lập thời gian tự động ẩn Snackbar sau 3 giây
+        onClose={handleCloseSnackbar} // Sử dụng hàm để đóng Snackbar khi nhấn nút đóng
+        message="Added to cart successfully!" // Nội dung thông báo
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }} // Vị trí hiển thị ở góc dưới bên phải
+        sx={{
+          backgroundColor: "green", // Màu nền
+          color: "white", // Màu chữ
+          borderRadius: "10px", // Bo tròn các góc
+          boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)", // Đổ bóng
+        }}
+      />
     </>
   );
 };
