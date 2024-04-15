@@ -17,6 +17,7 @@ export class Product {
   offer: string;
   technical: string;
   image: string;
+  rating: number;
   saleinfor: number;
   idcategories: string;
   // classId: string
@@ -28,6 +29,7 @@ export class Product {
     offer: string,
     technical: string,
     image: string,
+    rating: number,
     saleinfor: number,
     idcategories: string
   ) {
@@ -38,6 +40,7 @@ export class Product {
     this.offer = offer;
     this.technical = technical;
     this.image = image;
+    this.rating = rating;
     this.saleinfor = saleinfor;
     this.idcategories = idcategories;
   }
@@ -52,6 +55,7 @@ export const productConverter = {
       offer: product.offer,
       technical: product.technical,
       image: product.image,
+      rating: product.rating,
       saleinfor: product.saleinfor,
       idcategories: product.idcategories,
     };
@@ -70,6 +74,7 @@ export const productConverter = {
       data.offer,
       data.technical,
       data.image,
+      data.rating,
       data.saleinfor,
       data.idcategories
     );
