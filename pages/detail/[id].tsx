@@ -114,7 +114,7 @@ const Detail: NextPageWithLayout = () => {
         </Button>
         <OfferDetail offer={product?.offer} />
         <HightLight hightLight={product?.description} />
-        <RatingReview />
+        {/* <RatingReview /> */}
 
         <SimilarProduct products={products} />
       </Stack>
