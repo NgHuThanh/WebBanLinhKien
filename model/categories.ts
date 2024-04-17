@@ -10,7 +10,7 @@ export class ListCategories {
   }
 }
 export class Categories {
-  id: string;
+  id: string | undefined;
   name: string;
   cateimage: string;
   constructor(name: string, cateimage: string) {
