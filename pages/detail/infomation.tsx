@@ -36,7 +36,7 @@ function InfomationDetail(props: {
         <Typography
           sx={{
             color: "dark",
-            fontSize: "18px",
+            fontSize: "24px",
             mt: "20px",
             whiteSpace: "pre-line",
           }}
@@ -53,15 +53,15 @@ function InfomationDetail(props: {
             Hiển thị thêm
           </Button>
         )}
-        <Box
+        {/* <Box
           sx={{
             textAlign: "center",
             display: "inline-flex",
             alignItems: "center",
             marginTop: "15px",
           }}
-        >
-          <Button
+        > */}
+        {/* <Button
             variant="contained"
             color="primary"
             sx={{
@@ -80,9 +80,9 @@ function InfomationDetail(props: {
               5.0
             </Box>
             <StarIcon />
-          </Button>
+          </Button> */}
 
-          <Typography
+        {/* <Typography
             sx={{
               color: "#999",
               ml: "10px",
@@ -91,7 +91,7 @@ function InfomationDetail(props: {
             {" "}
             99 rating
           </Typography>
-        </Box>
+        </Box> */}
         <Box display="inline-flex">
           <Typography
             sx={{

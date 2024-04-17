@@ -11,15 +11,13 @@ function SliceDetail(props: { image?: String }) {
   return (
     <>
       <Box>
-        <Card sx={{ maxWidth: 700 }}>
-          <CardMedia
-            component="img"
-            width="50%"
-            image={props.image ? (props.image as string) : "/noneDevice.jpg"}
-            alt="Ảnh 6"
-            sx={{ borderRadius: 0 }} // Loại bỏ viền
-          />
-        </Card>
+        <Box
+          component="img"
+          width="100%"
+          src={props.image ? (props.image as string) : "/noneDevice.jpg"}
+          alt="Ảnh 6"
+          sx={{ borderRadius: 0 }} // Loại bỏ viền
+        />
       </Box>
     </>
   );

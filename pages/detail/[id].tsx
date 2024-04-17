@@ -35,6 +35,9 @@ import { Product, productConverter } from "@/model/product";
 import { Order, orderConverter } from "@/model/order";
 import { Cart } from "@/model/cart";
 import Loading from "@/listcomponents/loading";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import BackButton from "@/listcomponents/backbutton";
 
 const Detail: NextPageWithLayout = () => {
   const router = useRouter();
@@ -94,13 +97,19 @@ const Detail: NextPageWithLayout = () => {
   return (
     <>
       <Box display="flex" justifyContent="space-between">
-        <Button onClick={() => router.back()}>
-          <Typography sx={{ color: "black" }}>Back</Typography>
-        </Button>
+        <BackButton />
         <Button onClick={() => router.push("/cart")}>
-          <Badge badgeContent={carts.length} color="error">
-            <ShoppingCartSharpIcon />
-          </Badge>
+          <Badge
+            sx={{
+              height: "30px",
+              ml: "10px",
+            }}
+            badgeContent={carts.length}
+            color="error"
+          ></Badge>
+          <Typography sx={{ color: "black" }}>
+            <ShoppingBagOutlinedIcon sx={{ fontSize: "30px" }} />
+          </Typography>
         </Button>
       </Box>
 
