@@ -320,7 +320,12 @@ export const getCartData = async () => {
     query(collection(db, "carts"), where("user_id", "==", userRef))
   );
   if (querySnapshot.empty) {
-    return null;
+    let cartListRef = collection(db, "carts/ahosdisahdoi/cart").withConverter(
+      cartConverter
+    );
+    let cartListFail = await getDocs(cartListRef);
+    let cartListFailData = cartListFail.docs.map((doc) => doc.data());
+    return cartListFailData;
   }
   // "carts/" + querySnapshot.docs[0].id + "/cart";
   let cartListRef = collection(
