@@ -13,7 +13,8 @@ export class Categories {
   id: string | undefined;
   name: string;
   cateimage: string;
-  constructor(name: string, cateimage: string) {
+  constructor(id: string, name: string, cateimage: string) {
+    this.id = id;
     this.name = name;
     this.cateimage = cateimage;
   }
@@ -33,6 +34,6 @@ export const categoriesConverter = {
     options: SnapshotOptions
   ) => {
     const data = snapshot.data(options);
-    return new Categories(data.name, data.cateimage);
+    return new Categories(data.id, data.name, data.cateimage);
   },
 };

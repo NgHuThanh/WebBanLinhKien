@@ -10,41 +10,22 @@ import {
 import LocalOfferIcon from "@mui/icons-material/LocalOffer"; // Import icon
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import StarIcon from "@mui/icons-material/Star";
+import { Product } from "@/model/product";
 
-function Product() {
+function ProductSimilar(props: { product?: Product }) {
   return (
     <>
-      <Stack>
-        <Box display="inline-flex">
-          <Button
-            sx={{
-              backgroundColor: "black",
-              color: "white",
-              textAlign: "center",
-              display: "inline-flex",
-              alignItems: "center",
-              fontSize: "15px",
-            }}
-          >
-            <Typography
-              sx={{
-                color: "white",
-              }}
-            >
-              5.0
-            </Typography>
-            <StarIcon />
-          </Button>
-        </Box>
+      <Stack sx={{ width: "50%" }}>
         <Box
           component="img"
           sx={{
-            height: "140px",
+            height: "200px",
             width: "100%",
+            minHeight: 200,
           }}
-          src={`/noneDevice.jpg`}
+          src={props.product?.image}
         />
-        <Typography>Finally something can fit to my PC setup</Typography>
+        <Typography sx={{ minHeight: 50 }}>{props.product?.name}</Typography>
         <Box display="inline-flex">
           <Typography
             sx={{
@@ -53,25 +34,18 @@ function Product() {
               fontSize: "18px",
             }}
           >
-            999999$
+            {props.product?.price}$
           </Typography>
-          <Typography
-            sx={{
-              color: "#999",
-              textDecoration: "line-through",
-              fontSize: "15px",
-            }}
-          >
-            8888$
-          </Typography>
+
           <Typography
             sx={{
               color: "green",
 
               fontSize: "15px",
+              ml: "20px",
             }}
           >
-            8888$
+            {props.product?.saleinfor} % off
           </Typography>
         </Box>
       </Stack>
@@ -79,4 +53,4 @@ function Product() {
   );
 }
 
-export default Product;
+export default ProductSimilar;

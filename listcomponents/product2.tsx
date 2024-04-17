@@ -56,6 +56,7 @@ const Product2 = () => {
               <Card
                 sx={{
                   maxWidth: 300,
+                  minHeight: 300,
                   backgroundColor: "#ffffff",
                   color: "#000000",
                 }}
@@ -83,7 +84,8 @@ const Product2 = () => {
                       WebkitBoxOrient: "vertical",
                       WebkitLineClamp: 2, // Số dòng muốn hiển thị
                       fontSize: "16px", // Điều chỉnh kích thước chữ
-                      fontWeight: "bold", // In đậm chữ
+                      fontWeight: "bold",
+                      minHeight: "50px", // In đậm chữ
                     }}
                   >
                     {product.name}

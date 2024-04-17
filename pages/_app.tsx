@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "@/lib/store";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { NextPage } from "next";
-
+import { CartProvider } from "./cart/CartContext";
 const theme = createTheme({
   palette: {
     mode: "dark",
@@ -25,9 +25,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   return getLayout(
     <ThemeProvider theme={theme}>
-      <Provider store={store}>
+      <CartProvider>
         <Component {...pageProps} />
-      </Provider>
+      </CartProvider>
     </ThemeProvider>
   );
 }

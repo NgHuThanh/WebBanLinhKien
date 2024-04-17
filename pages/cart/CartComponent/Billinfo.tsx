@@ -1,3 +1,4 @@
+import { Grid, Typography } from "@mui/material";
 import React from "react";
 
 type Props = {
@@ -22,13 +23,50 @@ const Billinfo: React.FC<Props> = ({
   />;
 
   return (
-    <div>
-      <div>Delivery date: {deliveryDate}</div>
-      <div>Total amount: ${totalAmount}</div>
-      <div>Discount: ${discount}</div>
-      <div>Shipping fee: ${shippingFee}</div>
-      <div>Total price: ${totalPrice}</div>
-    </div>
+    <>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <Typography variant="body1">Delivery date:</Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant="body1">
+            <b>{deliveryDate}</b>
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant="body1">Total amount:</Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant="body1">
+            <b>${totalAmount}</b>
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant="body1">Discount:</Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant="body1">
+            <b>${discount}</b>
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant="body1">Shipping fee:</Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant="body1">
+            <b>${shippingFee}</b>
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant="body1">Total price:</Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant="body1">
+            <b>${totalPrice}</b>
+          </Typography>
+        </Grid>
+      </Grid>
+    </>
   );
 };
 

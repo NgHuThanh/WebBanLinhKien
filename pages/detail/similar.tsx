@@ -7,9 +7,11 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import Product from "./similarProductComponent";
 
-function SimilarProduct() {
+import ProductSimilar from "./similarProductComponent";
+import { Product } from "@/model/product";
+
+function SimilarProduct(props: { products?: Product[] }) {
   return (
     <>
       <Stack
@@ -28,8 +30,10 @@ function SimilarProduct() {
           Similar product
         </Typography>
         <Box display="inline-flex">
-          <Product />
-          <Product />
+          {props.products?.slice(0, 2).map((product) => (
+            // eslint-disable-next-line react/jsx-key
+            <ProductSimilar product={product}></ProductSimilar>
+          ))}
         </Box>
       </Stack>
     </>
