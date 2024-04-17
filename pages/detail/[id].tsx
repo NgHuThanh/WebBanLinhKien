@@ -60,7 +60,9 @@ const Detail: NextPageWithLayout = () => {
         setProduct(productData);
         setProducts(productListData);
         setLoading(false);
-        setCarts(cartListData);
+        if (cartListData) {
+          setCarts(cartListData);
+        }
       } catch (error) {
         console.error("Error fetching product data: ", error);
       }

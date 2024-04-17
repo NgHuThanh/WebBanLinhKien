@@ -10,8 +10,11 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  query,
   updateDoc,
+  where,
 } from "firebase/firestore";
+import { deleteObject } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBZ5SZ2bS0qelHkeJBYXMQi7jUcKRbvoyw",
@@ -66,15 +69,6 @@ export const getProductData = async () => {
   return productListData;
 };
 
-export const getCartData = async () => {
-  let cartListRef = collection(
-    db,
-    "carts/ZSNrIXRxuZCZS6kR4DtM/cart"
-  ).withConverter(cartConverter);
-  let cartList = await getDocs(cartListRef);
-  let cartListData = cartList.docs.map((doc) => doc.data());
-  return cartListData;
-};
 export const get1ProductData = async () => {
   let cartListRef = collection(
     db,
@@ -108,24 +102,6 @@ export const getDetailProduct = async (id: string): Promise<Product> => {
     throw new Error("Product not found"); // Xử lý trường hợp không tìm thấy sản phẩm
   }
 };
-export const addToCart = async (props: { product: Product }) => {
-  console.log("Đọc được tới đây");
-  try {
-    const priceAsNumber =
-      (props.product.price * (100 - props.product.saleinfor)) / 100;
-    const discountAsNumber =
-      (props.product.price * props.product.saleinfor) / 100;
-    const productRef = doc(db, "products", props.product.id); // Tạo reference đến document của product
-    await addDoc(collection(db, "carts/ZSNrIXRxuZCZS6kR4DtM/cart"), {
-      product_id: productRef, // Sử dụng reference thay vì string
-      quantity: 1,
-    });
-    console.log("item added into cart successfully.");
-    // Chuyển hướng đến trang giỏ hàng sau khi thêm thành công
-  } catch (error) {
-    console.error("Error adding order item: ", error);
-  }
-};
 
 //Add random product
 let currentProductNumber = 2;
@@ -157,9 +133,22 @@ export const handleUpdateCart = async (props: {
 }) => {
   console.log("Đọc được tới đây");
   try {
-    await updateDoc(doc(db, "carts/ZSNrIXRxuZCZS6kR4DtM/cart", props.cart.id), {
-      quantity: props.quantity,
-    });
+    const userRef = doc(db, "users", "cwLswy3CVB3YQ5z9tFiy");
+
+    // Kiểm tra xem giỏ hàng của người dùng đã tồn tại chưa
+    const querySnapshot = await getDocs(
+      query(collection(db, "carts"), where("user_id", "==", userRef))
+    );
+    if (querySnapshot.empty) {
+      return 0;
+    }
+    // "carts/" + querySnapshot.docs[0].id + "/cart";
+    await updateDoc(
+      doc(db, "carts/" + querySnapshot.docs[0].id + "/cart", props.cart.id),
+      {
+        quantity: props.quantity,
+      }
+    );
     console.log("Order item update successfully.");
     // Chuyển hướng đến trang giỏ hàng sau khi thêm thành công
   } catch (error) {
@@ -181,7 +170,19 @@ export const handleMarkCart = async (props: { cart: Cart; mark: Boolean }) => {
 export const handleDeleteCart = async (props: { cart: Cart }) => {
   console.log("Đọc được tới đây");
   try {
-    await deleteDoc(doc(db, "carts/ZSNrIXRxuZCZS6kR4DtM/cart", props.cart.id));
+    const userRef = doc(db, "users", "cwLswy3CVB3YQ5z9tFiy");
+
+    // Kiểm tra xem giỏ hàng của người dùng đã tồn tại chưa
+    const querySnapshot = await getDocs(
+      query(collection(db, "carts"), where("user_id", "==", userRef))
+    );
+    if (querySnapshot.empty) {
+      return 0;
+    }
+    // "carts/" + querySnapshot.docs[0].id + "/cart";
+    await deleteDoc(
+      doc(db, "carts/" + querySnapshot.docs[0].id + "/cart", props.cart.id)
+    );
     console.log("Cart item delete successfully.");
     // Chuyển hướng đến trang giỏ hàng sau khi thêm thành công
   } catch (error) {
@@ -196,6 +197,33 @@ export const handleDeleteCartsToAddOrderItem = async (props: {
 
   try {
     const userRef = doc(db, "users", "cwLswy3CVB3YQ5z9tFiy");
+
+    const querySnapshot = await getDocs(
+      query(collection(db, "carts"), where("user_id", "==", userRef))
+    );
+    // if (!querySnapshot.empty) {
+    //   // Lặp qua từng tài liệu và xóa chúng
+    //   querySnapshot.forEach(async (doc) => {
+    //     try {
+    //       await deleteDoc(doc.ref);
+    //       console.log("Cart item deleted successfully.");
+    //     } catch (error) {
+    //       console.error("Error deleting cart item: ", error);
+    //     }
+    //   });
+    // } else {
+    //   console.log("No carts found for the user.");
+    // }
+    try {
+      await deleteDoc(doc(db, "carts/" + querySnapshot.docs[0].id));
+      // await deleteDoc(doc(db, "carts", querySnapshot.docs[0].id));
+
+      console.log("Cart item deleted successfully.");
+      // Chuyển hướng đến trang giỏ hàng sau khi xóa thành công
+    } catch (error) {
+      console.error("Error deleting cart item: ", error);
+    }
+
     // Tạo một order mới
     const orderRef = await addDoc(collection(db, "orders"), {
       state: false,
@@ -204,13 +232,13 @@ export const handleDeleteCartsToAddOrderItem = async (props: {
 
     console.log("Order created with ID");
     props.carts.forEach(async (cart) => {
-      try {
-        await deleteDoc(doc(db, "carts/ZSNrIXRxuZCZS6kR4DtM/cart", cart.id));
-        console.log("Cart item deleted successfully.");
-        // Chuyển hướng đến trang giỏ hàng sau khi xóa thành công
-      } catch (error) {
-        console.error("Error deleting cart item: ", error);
-      }
+      // try {
+      //   await deleteDoc(doc(db, "carts/ZSNrIXRxuZCZS6kR4DtM/cart", cart.id));
+      //   console.log("Cart item deleted successfully.");
+      //   // Chuyển hướng đến trang giỏ hàng sau khi xóa thành công
+      // } catch (error) {
+      //   console.error("Error deleting cart item: ", error);
+      // }
       try {
         const productRef = doc(db, "products", cart.id);
         const currentNumber = currentProductNumber++;
@@ -235,4 +263,55 @@ export const handleDeleteCartsToAddOrderItem = async (props: {
   } catch (error) {
     console.error("Error creating order: ", error);
   }
+};
+export const addToCart = async (props: { product: Product }) => {
+  console.log("Đọc được tới đây");
+  try {
+    const userRef = doc(db, "users", "cwLswy3CVB3YQ5z9tFiy");
+
+    // Kiểm tra xem giỏ hàng của người dùng đã tồn tại chưa
+    const querySnapshot = await getDocs(
+      query(collection(db, "carts"), where("user_id", "==", userRef))
+    );
+
+    let cartRef: DocumentReference;
+    if (querySnapshot.empty) {
+      // Nếu giỏ hàng chưa tồn tại, tạo mới
+      cartRef = await addDoc(collection(db, "carts"), {
+        user_id: userRef,
+      });
+    } else {
+      // Nếu giỏ hàng đã tồn tại, sử dụng cartRef đầu tiên được tìm thấy
+      cartRef = querySnapshot.docs[0].ref;
+    }
+
+    const productRef = doc(db, "products", props.product.id);
+    await addDoc(collection(cartRef, "cart"), {
+      product_id: productRef,
+      quantity: 1,
+    });
+    console.log("item added into cart successfully.");
+    // Chuyển hướng đến trang giỏ hàng sau khi thêm thành công
+  } catch (error) {
+    console.error("Error adding order item: ", error);
+  }
+};
+export const getCartData = async () => {
+  const userRef = doc(db, "users", "cwLswy3CVB3YQ5z9tFiy");
+
+  // Kiểm tra xem giỏ hàng của người dùng đã tồn tại chưa
+  const querySnapshot = await getDocs(
+    query(collection(db, "carts"), where("user_id", "==", userRef))
+  );
+  if (querySnapshot.empty) {
+    return null;
+  }
+  // "carts/" + querySnapshot.docs[0].id + "/cart";
+  let cartListRef = collection(
+    db,
+    "carts/" + querySnapshot.docs[0].id + "/cart"
+  ).withConverter(cartConverter);
+  let cartList = await getDocs(cartListRef);
+  let cartListData = cartList.docs.map((doc) => doc.data());
+  return cartListData;
 };
