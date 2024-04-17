@@ -20,6 +20,7 @@ export class Product {
   rating: number;
   saleinfor: number;
   idcategories: string;
+  newProductData: string | undefined;
   // classId: string
   constructor(
     id: string,
