@@ -286,16 +286,32 @@ export const addToCart = async (props: { product: Product }) => {
     }
 
     const productRef = doc(db, "products", props.product.id);
-    await addDoc(collection(cartRef, "cart"), {
-      product_id: productRef,
-      quantity: 1,
-    });
-    console.log("item added into cart successfully.");
+
+    // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
+    const existingProductQuery = query(
+      collection(cartRef, "cart"),
+      where("product_id", "==", productRef)
+    );
+    const existingProductSnapshot = await getDocs(existingProductQuery);
+
+    if (existingProductSnapshot.empty) {
+      // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm sản phẩm vào giỏ hàng
+      await addDoc(collection(cartRef, "cart"), {
+        product_id: productRef,
+        quantity: 1,
+      });
+      console.log("Item added into cart successfully.");
+    } else {
+      console.log("Item already exists in cart.");
+      // Thực hiện hành động khác ở đây nếu cần thiết, ví dụ như thông báo cho người dùng.
+    }
+
     // Chuyển hướng đến trang giỏ hàng sau khi thêm thành công
   } catch (error) {
     console.error("Error adding order item: ", error);
   }
 };
+
 export const getCartData = async () => {
   const userRef = doc(db, "users", "cwLswy3CVB3YQ5z9tFiy");
 

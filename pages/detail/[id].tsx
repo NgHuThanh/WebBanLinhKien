@@ -45,30 +45,29 @@ const Detail: NextPageWithLayout = () => {
   const [carts, setCarts] = useState<Cart[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [showSnackbar, setShowSnackbar] = useState(false); // State để điều khiển hiển thị Snackbar
-
-  useEffect(() => {
-    async function fetchData() {
-      console.error("Đọc fetchDataDetail.44 ");
-      try {
-        const cartListData = await getCartData();
-        const productData = await getDetailProduct(idProduct);
-        const productListData = await getProductData();
-        const filteredProductListData = productListData.filter(
-          (product) => product.idcategories === productData.idcategories
-        );
-        console.error("Đọc fetchDataDetail setProduct ");
-        setProduct(productData);
-        setProducts(productListData);
-        setLoading(false);
-        if (cartListData) {
-          setCarts(cartListData);
-        }
-      } catch (error) {
-        console.error("Error fetching product data: ", error);
+  async function fetchData() {
+    console.error("Đọc fetchDataDetail.44 ");
+    try {
+      const cartListData = await getCartData();
+      const productData = await getDetailProduct(idProduct);
+      const productListData = await getProductData();
+      const filteredProductListData = productListData.filter(
+        (product) => product.idcategories === productData.idcategories
+      );
+      console.error("Đọc fetchDataDetail setProduct ");
+      setProduct(productData);
+      setProducts(productListData);
+      setLoading(false);
+      if (cartListData) {
+        setCarts(cartListData);
       }
+    } catch (error) {
+      console.error("Error fetching product data: ", error);
     }
+  }
+  useEffect(() => {
     fetchData();
-  }, [idProduct]);
+  });
 
   // Hàm xử lý khi nhấn nút "Add to cart"
   const handleAddToCart = () => {
@@ -79,7 +78,10 @@ const Detail: NextPageWithLayout = () => {
       console.error("Product is null");
     }
   };
-
+  const pressButtonAddToCart = () => {
+    handleAddToCart();
+    fetchData();
+  };
   // Đóng Snackbar
   const handleCloseSnackbar = () => {
     setShowSnackbar(false);
@@ -120,7 +122,7 @@ const Detail: NextPageWithLayout = () => {
             width: "100%",
             mt: "10px",
           }}
-          onClick={handleAddToCart} // Sử dụng hàm xử lý khi nhấn nút "Add to cart"
+          onClick={pressButtonAddToCart} // Sử dụng hàm xử lý khi nhấn nút "Add to cart"
         >
           <ShoppingCartSharpIcon />
           Add to cart
