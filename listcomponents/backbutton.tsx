@@ -12,7 +12,6 @@ function BackButton() {
           <ArrowBackIosNewIcon />
         </Typography>
       </Button>
-      ;
     </>
   );
 }

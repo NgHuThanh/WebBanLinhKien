@@ -17,6 +17,7 @@ import Billinfo from "./CartComponent/Billinfo";
 import router from "next/router";
 import { productConverter } from "@/model/product";
 import { getDoc } from "firebase/firestore";
+import BackButton from "@/listcomponents/backbutton";
 
 const CartUser = () => {
   const [carts, setCarts] = useState<Cart[]>([]);
@@ -99,9 +100,7 @@ const CartUser = () => {
 
   return (
     <main>
-      <Button onClick={() => router.back()}>
-        <Typography sx={{ color: "black" }}>Back</Typography>
-      </Button>
+      <BackButton />
       <Typography variant="h5" gutterBottom>
         Cart have {carts.length} items
       </Typography>
