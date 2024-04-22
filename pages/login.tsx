@@ -66,7 +66,7 @@ const LoginPage = () => {
   }
 
   const onCreateAccount = () => {
-    // Redirect to create account page or perform any action needed for account creation
+    router.push("/register");
   };
 
   return (

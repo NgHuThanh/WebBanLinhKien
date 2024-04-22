@@ -185,6 +185,7 @@ const RegisterPage = () => {
                         variant="contained"
                         onClick={onRegister}
                         endIcon={<ArrowForwardIcon />}
+                        style={{ backgroundColor: "black", color: "white" }}
                     >
                         SIGN UP
                     </Button>
