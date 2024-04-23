@@ -1,4 +1,5 @@
 import { Cart, cartConverter } from "@/model/cart";
+import { orderDetailConverter } from "@/model/order";
 import { ListProduct, Product, productConverter } from "@/model/product";
 import { User, userConverter } from "@/model/user";
 import { getCookie } from "cookies-next";
@@ -340,32 +341,7 @@ export const addToCart = async (props: { product: Product }) => {
   }
 };
 
-export const getCartData = async () => {
-  const userRef = doc(db, "users", user_id as string);
 
-  // Kiểm tra xem giỏ hàng của người dùng đã tồn tại chưa
-  const querySnapshot = await getDocs(
-    query(collection(db, "carts"), where("user_id", "==", userRef))
-  );
-  
-  
-  if (querySnapshot.empty) {
-    let cartListRef = collection(db, "carts/ahosdisahdoi/cart").withConverter(
-      cartConverter
-    );
-    let cartListFail = await getDocs(cartListRef);
-    let cartListFailData = cartListFail.docs.map((doc) => doc.data());
-    return cartListFailData;
-  }
-  // "carts/" + querySnapshot.docs[0].id + "/cart";
-  let cartListRef = collection(
-    db,
-    "carts/" + querySnapshot.docs[0].id + "/cart"
-  ).withConverter(cartConverter);
-  let cartList = await getDocs(cartListRef);
-  let cartListData = cartList.docs.map((doc) => doc.data());
-  return cartListData;
-};
 // export const getProductData = async () => {
 //   let productListRef = collection(db, "products").withConverter(
 //     productConverter
@@ -393,4 +369,67 @@ export const getUser = async ()=> {
   } else {
     throw new Error("Product not found"); // Xử lý trường hợp không tìm thấy sản phẩm
   }
+};
+export const getOrderData = async () => {
+  const userRef = doc(db, "users", user_id as string);
+
+  // Kiểm tra xem đơn hàng của người dùng đã tồn tại chưa
+  const querySnapshot = await getDocs(
+    query(collection(db, "orders"), where("user_id", "==", userRef))
+  );
+  
+  if (querySnapshot.empty) {
+    // Trả về dữ liệu mẫu nếu không tìm thấy đơn hàng
+    let orderListRef = collection(db, "order/ahosdisahdoi/orderDetail").withConverter(
+      orderDetailConverter
+    );
+    let orderListFail = await getDocs(orderListRef);
+    let orderListFailData = orderListFail.docs.map((doc) => doc.data());
+    return orderListFailData;
+  }
+
+  // Lặp qua các tài liệu và trích xuất id của chúng
+  const orderIds = querySnapshot.docs.map((doc) => doc.id);
+
+  // Khởi tạo mảng để lưu trữ tất cả các đơn hàng
+  let allOrderListData = [];
+
+  // Lặp qua mỗi id và lấy dữ liệu từng đơn hàng
+  for (const orderId of orderIds) {
+    let orderListRef = collection(db, `orders/${orderId}/order_details`).withConverter(
+      orderDetailConverter
+    );
+    let orderList = await getDocs(orderListRef);
+    let orderListData = orderList.docs.map((doc) => doc.data());
+    allOrderListData.push(...orderListData);
+  }
+
+  // Trả về tất cả dữ liệu đơn hàng
+  return allOrderListData;
+};
+export const getCartData = async () => {
+  const userRef = doc(db, "users", user_id as string);
+
+  // Kiểm tra xem giỏ hàng của người dùng đã tồn tại chưa
+  const querySnapshot = await getDocs(
+    query(collection(db, "carts"), where("user_id", "==", userRef))
+  );
+  
+  
+  if (querySnapshot.empty) {
+    let cartListRef = collection(db, "carts/ahosdisahdoi/cart").withConverter(
+      cartConverter
+    );
+    let cartListFail = await getDocs(cartListRef);
+    let cartListFailData = cartListFail.docs.map((doc) => doc.data());
+    return cartListFailData;
+  }
+  // "carts/" + querySnapshot.docs[0].id + "/cart";
+  let cartListRef = collection(
+    db,
+    "carts/" + querySnapshot.docs[0].id + "/cart"
+  ).withConverter(cartConverter);
+  let cartList = await getDocs(cartListRef);
+  let cartListData = cartList.docs.map((doc) => doc.data());
+  return cartListData;
 };

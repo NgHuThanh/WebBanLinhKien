@@ -32,7 +32,7 @@ import {
   writeExample,
 } from "../firebase/config";
 import { Product, productConverter } from "@/model/product";
-import { Order, orderConverter } from "@/model/order";
+
 import { Cart } from "@/model/cart";
 import Loading from "@/listcomponents/loading";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";

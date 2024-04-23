@@ -1,25 +1,43 @@
 import {
   DocumentData,
+  DocumentReference,
   QueryDocumentSnapshot,
   SnapshotOptions,
 } from "firebase/firestore";
-
-export class Order {
+// export class ListCart {
+//   carts: Cart[];
+//   constructor() {
+//     this.carts = [];
+//   }
+// }
+export class OrderDetail {
   id: string;
-  user_id: number;
-  state: string;
+  price: number;
+  product_id: DocumentReference;
+  quantity: number;
+  
   // classId: string
-  constructor(id: string, user_id: number, state: string) {
+  constructor(
+    id: string,
+    price: number,
+    product_id: DocumentReference,
+    quantity:number,
+  ) {
     this.id = id;
-    this.user_id = user_id;
-    this.state = state;
+    this.price = price;
+    this.product_id = product_id;
+    this.quantity = quantity;
+    
   }
 }
-export const orderConverter = {
-  toFirestore: (order: Order) => {
+
+export const orderDetailConverter = {
+  toFirestore: (orderDetail: OrderDetail) => {
     return {
-      user_id: order.user_id,
-      state: order.state,
+      price: orderDetail.price,
+      product_id: orderDetail.product_id,
+      quantity: orderDetail.quantity,
+      
     };
   },
 
@@ -28,6 +46,11 @@ export const orderConverter = {
     options: SnapshotOptions
   ) => {
     const data = snapshot.data(options);
-    return new Order(snapshot.id, data.user_id, data.state);
+    return new OrderDetail(
+      snapshot.id,
+      data.price,
+      data.product_id,
+      data.quantity,
+    );
   },
 };
