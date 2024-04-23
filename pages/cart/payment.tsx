@@ -13,6 +13,7 @@ import ProductCart from "./CartComponent/Product";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useRouter } from "next/router";
 
 const Payment = () => {
   const [carts, setCarts] = useState<Cart[]>([]);
@@ -69,8 +70,11 @@ const Payment = () => {
   const handleClosePopup = () => {
     setShowSuccessPopup(false);
     document.body.style.overflow = ""; // Mở khóa cuộn trang khi đóng pop-up
+    router.push("/homegroup");
   };
+const router = useRouter();
 
+    
   return (
     <main>
       <Box py={8}>

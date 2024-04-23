@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
-import { setCookie } from "cookies-next";
+import { deleteCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { Visibility, VisibilityOffOutlined } from "@mui/icons-material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -78,6 +78,7 @@ const LoginPage = () => {
       router.push("/homegroup");
     }
   };
+  
 
   function helperTextPassword() {
     if (!form.password) return "";
@@ -145,7 +146,10 @@ const LoginPage = () => {
           </Button>
           <Button
             variant="text"
-            onClick={onCreateAccount}
+            onClick={
+              onCreateAccount
+          
+            }
             style={{ backgroundColor: "gray", color: "black" }}
           >
             Create an account

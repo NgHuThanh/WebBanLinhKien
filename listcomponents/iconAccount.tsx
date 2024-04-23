@@ -3,10 +3,12 @@ import { Box, Button, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { getCookie } from "cookies-next";
-import { User } from "@/model/user";
+
 import { useEffect, useState } from "react";
 import { getUser } from "@/pages/firebase/config";
-
+import { User } from "@/model/user";
+import LogoutButton from "./logoutbutton";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 function AccountIcon(){
     const [user, setUser] = useState<User | null>(null);
     async function fetchData() {
@@ -20,16 +22,26 @@ function AccountIcon(){
     }
     useEffect(() => {
         fetchData();
-      });
-    return <>
+      },[]);
+    return (
+        <>
         <Box>
-        <Typography>Hello {user?.username}</Typography>
+        <Typography><AccountCircleIcon/> {user?.username}</Typography>
         </Box>
-        </>;
-}
-function AddAccountIcon() {
-    const user_id = getCookie("user_id");
-    return <>{user_id ? <AccountIcon /> : null}</>;
+        </>
+        );
 }
 
+function AddAccountIcon() {
+    const user_id = getCookie("user_id");
+    if(user_id ===null ){
+      return (<>
+      <Typography>Login now</Typography>
+      </>);
+    }
+    return(<>
+      <AccountIcon/><LogoutButton/>
+    </> 
+    );
+  }
 export default AddAccountIcon;

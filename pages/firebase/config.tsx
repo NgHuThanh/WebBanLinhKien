@@ -21,39 +21,42 @@ import { deleteObject } from "firebase/storage";
 // firebase.app().delete().then(function() {
 //   console.log("[DEFAULT] App is Gone Now");
 // });
-const config  = {
-  apiKey: "AIzaSyBY2lqutit7K6F1jCFKmOP2ut1U8rG719Q",
-  authDomain: "testwriteread-77258.firebaseapp.com",
-  projectId: "testwriteread-77258",
-  storageBucket: "testwriteread-77258.appspot.com",
-  messagingSenderId: "696816126933",
-  appId: "1:696816126933:web:c44c585f6e2b5a198d4b5c",
-  measurementId: "G-CMYW8WZW89"
-};
-function initializeAppIfNecessary() {
 
-  try {
+// function initializeAppIfNecessary() {
+
+//   try {
   
-  return getApp();
+//   return getApp();
   
-  } catch (any) {
+//   } catch (any) {
   
-    const firebaseConfig = {
-      apiKey: "AIzaSyAA0x_RuXZDBaoQFMH53Fh9cg6FwO7era4",
-      authDomain: "weblinhtinh-bc3e4.firebaseapp.com",
-      projectId: "weblinhtinh-bc3e4",
-      storageBucket: "weblinhtinh-bc3e4.appspot.com",
-      messagingSenderId: "759158714505",
-      appId: "1:759158714505:web:2f05fd1766c48598715658",
-      measurementId: "G-DGEFW28115"
-    };
+//     const firebaseConfig = {
+//       apiKey: "AIzaSyAA0x_RuXZDBaoQFMH53Fh9cg6FwO7era4",
+//       authDomain: "weblinhtinh-bc3e4.firebaseapp.com",
+//       projectId: "weblinhtinh-bc3e4",
+//       storageBucket: "weblinhtinh-bc3e4.appspot.com",
+//       messagingSenderId: "759158714505",
+//       appId: "1:759158714505:web:2f05fd1766c48598715658",
+//       measurementId: "G-DGEFW28115"
+//     };
   
-  return initializeApp(firebaseConfig);
+//   return initializeApp(firebaseConfig);
   
-  }
+//   }
   
-  }
-  const app = initializeAppIfNecessary();
+//   }
+//   const app = initializeAppIfNecessary();
+const firebaseConfig = {
+  apiKey: "AIzaSyBZ5SZ2bS0qelHkeJBYXMQi7jUcKRbvoyw",
+  authDomain: "weblinhkien-b9612.firebaseapp.com",
+  projectId: "weblinhkien-b9612",
+  storageBucket: "weblinhkien-b9612.appspot.com",
+  messagingSenderId: "514113053206",
+  appId: "1:514113053206:web:dd7546c647ddcb65facb37",
+  measurementId: "G-L6ZHHGL5HV",
+};
+const app = initializeApp(firebaseConfig);
+
 export const db = getFirestore(app);
 const user_id = getCookie("user_id");
 export const writeExample = async () => {
@@ -87,7 +90,29 @@ export const handleAddToCart = async (product: Product) => {
     console.error("Error adding order item: ", error);
   }
 };
-
+export const getDetailProduct = async (id: string): Promise<Product> => {
+  let productRef = doc(db, "products", id).withConverter(productConverter);
+  let productData = await getDoc(productRef);
+  console.log("đã đọc được dữ liệu ")
+  // Trích xuất dữ liệu từ document và chuyển đổi sang kiểu Product
+  if (productData.exists()) {
+    const data = productData.data();
+    return new Product(
+      data.id,
+      data.name,
+      data.description,
+      data.price,
+      data.offer,
+      data.technical,
+      data.image,
+      data.rating,
+      data.saleinfor,
+      data.idcategories
+    );
+  } else {
+    throw new Error("Product not found"); // Xử lý trường hợp không tìm thấy sản phẩm
+  }
+};
 export const getProductData = async () => {
   let productListRef = collection(db, "products").withConverter(
     productConverter
@@ -361,30 +386,9 @@ export const getUser = async ()=> {
       data.id,
       data.address,
       data.email,
-      data.username
-    );
-  } else {
-    throw new Error("Product not found"); // Xử lý trường hợp không tìm thấy sản phẩm
-  }
-};
-export const getDetailProduct = async (id: string): Promise<Product> => {
-  let productRef = doc(db, "products", id).withConverter(productConverter);
-  let productData = await getDoc(productRef);
+      data.username,
+      data.password,
 
-  // Trích xuất dữ liệu từ document và chuyển đổi sang kiểu Product
-  if (productData.exists()) {
-    const data = productData.data();
-    return new Product(
-      data.id,
-      data.name,
-      data.description,
-      data.price,
-      data.offer,
-      data.technical,
-      data.image,
-      data.rating,
-      data.saleinfor,
-      data.idcategories
     );
   } else {
     throw new Error("Product not found"); // Xử lý trường hợp không tìm thấy sản phẩm
