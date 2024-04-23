@@ -16,19 +16,22 @@ import {
   Typography,
 } from "@mui/material";
 import {
-  db,
   getProductData,
   addProduct,
   deleteProduct,
   updateProduct,
-} from "@/pages/firebase/config3"; // Import các hàm thao tác với cơ sở dữ liệu
-import { Product } from "@/model/product"; // Import model sản phẩm
+} from "@/pages/firebase/config3";
+import { Product } from "@/model/product";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 
 const Product2 = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
-  const [newProductData, setNewProductData] = useState<Product>({
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [updatedProductData, setUpdatedProductData] = useState<Product>({
     id: "",
     name: "",
     description: "",
@@ -40,6 +43,7 @@ const Product2 = () => {
     saleinfor: 0,
     idcategories: "",
   });
+  const [isAddingProduct, setIsAddingProduct] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -55,23 +59,46 @@ const Product2 = () => {
   }, []);
 
   const handleAddProduct = async () => {
+    setIsAddingProduct(true);
+    setUpdatedProductData({
+      id: "",
+      name: "",
+      description: "",
+      price: 0,
+      offer: "",
+      technical: "",
+      image: "",
+      rating: 0,
+      saleinfor: 0,
+      idcategories: "",
+    });
     setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
+    setIsAddingProduct(false);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setNewProductData((prevData) => ({
+    setUpdatedProductData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
   const handleSaveProduct = async () => {
-    await addProduct(newProductData);
+    if (isAddingProduct) {
+      await addProduct(updatedProductData);
+    } else {
+      if (!selectedProduct) return;
+      const updatedDataWithDefaultTechnical = {
+        ...updatedProductData,
+        technical: updatedProductData.technical || "",
+      };
+      await updateProduct(selectedProduct.id, updatedDataWithDefaultTechnical);
+    }
     const updatedProducts = await getProductData();
     setProducts(updatedProducts);
     setOpenDialog(false);
@@ -87,13 +114,10 @@ const Product2 = () => {
     setProducts(updatedProducts);
   };
 
-  const handleUpdateProduct = async (
-    productId: string,
-    newData: Partial<Product>
-  ) => {
-    await updateProduct(productId, newData);
-    const updatedProducts = await getProductData();
-    setProducts(updatedProducts);
+  const handleUpdateClick = (product: Product) => {
+    setSelectedProduct(product);
+    setUpdatedProductData(product);
+    setOpenDialog(true);
   };
 
   if (loading) {
@@ -102,14 +126,19 @@ const Product2 = () => {
 
   return (
     <Box>
-      <Box>
-        <h2>All Products</h2>
-        <Button variant="contained" onClick={handleAddProduct}>
-          Add Product
-        </Button>
-      </Box>
+      <h2>PRODUCT MANAGEMENT</h2>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleAddProduct}
+        aria-label="Add Product"
+      >
+        <AddIcon />
+      </Button>
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Add New Product</DialogTitle>
+        <DialogTitle>
+          {isAddingProduct ? "Add New Product" : "Update Product"}
+        </DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -117,7 +146,7 @@ const Product2 = () => {
             label="Name"
             fullWidth
             name="name"
-            value={newProductData.name}
+            value={updatedProductData.name}
             onChange={handleInputChange}
           />
           <TextField
@@ -125,7 +154,7 @@ const Product2 = () => {
             label="Description"
             fullWidth
             name="description"
-            value={newProductData.description}
+            value={updatedProductData.description}
             onChange={handleInputChange}
           />
           <TextField
@@ -134,7 +163,7 @@ const Product2 = () => {
             fullWidth
             name="price"
             type="number"
-            value={newProductData.price}
+            value={updatedProductData.price}
             onChange={handleInputChange}
           />
           <TextField
@@ -142,7 +171,7 @@ const Product2 = () => {
             label="Offer"
             fullWidth
             name="offer"
-            value={newProductData.offer}
+            value={updatedProductData.offer}
             onChange={handleInputChange}
           />
 
@@ -151,7 +180,7 @@ const Product2 = () => {
             label="Image URL"
             fullWidth
             name="image"
-            value={newProductData.image}
+            value={updatedProductData.image}
             onChange={handleInputChange}
           />
 
@@ -161,7 +190,7 @@ const Product2 = () => {
             fullWidth
             name="saleinfor"
             type="number"
-            value={newProductData.saleinfor}
+            value={updatedProductData.saleinfor}
             onChange={handleInputChange}
           />
         </DialogContent>
@@ -174,6 +203,29 @@ const Product2 = () => {
       <Grid container spacing={2}>
         {products.map((product, index) => (
           <Grid item xs={6} sm={3} key={index}>
+            <Box
+              style={{
+                paddingTop: "20px",
+              }}
+            >
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleDeleteProduct(product.id, event);
+                }}
+              >
+                <DeleteIcon />
+              </Button>
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={() => handleUpdateClick(product)}
+              >
+                <EditIcon />
+              </Button>
+            </Box>
             <Link href={`/detail/${product.id}`} underline="none">
               <Card
                 sx={{
@@ -195,7 +247,7 @@ const Product2 = () => {
                     objectFit: "cover",
                   }}
                 />
-                <CardContent style={{ maxHeight: "120px", overflow: "hidden" }}>
+                <CardContent style={{ maxHeight: "160px", overflow: "hidden" }}>
                   <Typography
                     gutterBottom
                     variant="body1"
@@ -222,7 +274,8 @@ const Product2 = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    {(product.price * 0.8).toFixed(0)}$
+                    {(product.price * (1 - product.saleinfor / 100)).toFixed(0)}
+                    $
                     <Typography
                       style={{
                         marginLeft: "5px",
@@ -261,21 +314,6 @@ const Product2 = () => {
                   >
                     <LocalOfferIcon fontSize="inherit" /> {product.offer}
                   </Typography>
-
-                  <Button
-                    variant="outlined"
-                    onClick={(event) => handleDeleteProduct(product.id, event)}
-                  >
-                    Delete
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    onClick={() =>
-                      handleUpdateProduct(product.id, { name: "New Name" })
-                    }
-                  >
-                    Update
-                  </Button>
                 </CardContent>
               </Card>
             </Link>
