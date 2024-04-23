@@ -1,6 +1,9 @@
 import { Cart, cartConverter } from "@/model/cart";
 import { ListProduct, Product, productConverter } from "@/model/product";
-import { initializeApp } from "firebase/app";
+import { User, userConverter } from "@/model/user";
+import { getCookie } from "cookies-next";
+import { getApp, initializeApp } from "firebase/app";
+import firebase from "firebase/compat/app";
 import {
   DocumentReference,
   addDoc,
@@ -15,19 +18,44 @@ import {
   where,
 } from "firebase/firestore";
 import { deleteObject } from "firebase/storage";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBZ5SZ2bS0qelHkeJBYXMQi7jUcKRbvoyw",
-  authDomain: "weblinhkien-b9612.firebaseapp.com",
-  projectId: "weblinhkien-b9612",
-  storageBucket: "weblinhkien-b9612.appspot.com",
-  messagingSenderId: "514113053206",
-  appId: "1:514113053206:web:dd7546c647ddcb65facb37",
-  measurementId: "G-L6ZHHGL5HV",
+// firebase.app().delete().then(function() {
+//   console.log("[DEFAULT] App is Gone Now");
+// });
+const config  = {
+  apiKey: "AIzaSyBY2lqutit7K6F1jCFKmOP2ut1U8rG719Q",
+  authDomain: "testwriteread-77258.firebaseapp.com",
+  projectId: "testwriteread-77258",
+  storageBucket: "testwriteread-77258.appspot.com",
+  messagingSenderId: "696816126933",
+  appId: "1:696816126933:web:c44c585f6e2b5a198d4b5c",
+  measurementId: "G-CMYW8WZW89"
 };
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+function initializeAppIfNecessary() {
 
+  try {
+  
+  return getApp();
+  
+  } catch (any) {
+  
+    const firebaseConfig = {
+      apiKey: "AIzaSyAA0x_RuXZDBaoQFMH53Fh9cg6FwO7era4",
+      authDomain: "weblinhtinh-bc3e4.firebaseapp.com",
+      projectId: "weblinhtinh-bc3e4",
+      storageBucket: "weblinhtinh-bc3e4.appspot.com",
+      messagingSenderId: "759158714505",
+      appId: "1:759158714505:web:2f05fd1766c48598715658",
+      measurementId: "G-DGEFW28115"
+    };
+  
+  return initializeApp(firebaseConfig);
+  
+  }
+  
+  }
+  const app = initializeAppIfNecessary();
+export const db = getFirestore(app);
+const user_id = getCookie("user_id");
 export const writeExample = async () => {
   console.log("Đọc được tới đây");
   try {
@@ -72,37 +100,12 @@ export const getProductData = async () => {
 export const get1ProductData = async () => {
   let cartListRef = collection(
     db,
-    "users/cwLswy3CVB3YQ5z9tFiy/cart"
+    "users/"+user_id+"/cart"
   ).withConverter(cartConverter);
   let cartList = await getDocs(cartListRef);
   let cartListData = cartList.docs.map((doc) => doc.data());
   return cartListData;
 };
-
-export const getDetailProduct = async (id: string): Promise<Product> => {
-  let productRef = doc(db, "products", id).withConverter(productConverter);
-  let productData = await getDoc(productRef);
-
-  // Trích xuất dữ liệu từ document và chuyển đổi sang kiểu Product
-  if (productData.exists()) {
-    const data = productData.data();
-    return new Product(
-      data.id,
-      data.name,
-      data.description,
-      data.price,
-      data.offer,
-      data.technical,
-      data.image,
-      data.rating,
-      data.saleinfor,
-      data.idcategories
-    );
-  } else {
-    throw new Error("Product not found"); // Xử lý trường hợp không tìm thấy sản phẩm
-  }
-};
-
 //Add random product
 let currentProductNumber = 2;
 export const handleAddRandomProduct = async () => {
@@ -133,7 +136,7 @@ export const handleUpdateCart = async (props: {
 }) => {
   console.log("Đọc được tới đây");
   try {
-    const userRef = doc(db, "users", "cwLswy3CVB3YQ5z9tFiy");
+    const userRef = doc(db, "users", user_id as string);
 
     // Kiểm tra xem giỏ hàng của người dùng đã tồn tại chưa
     const querySnapshot = await getDocs(
@@ -170,7 +173,7 @@ export const handleMarkCart = async (props: { cart: Cart; mark: Boolean }) => {
 export const handleDeleteCart = async (props: { cart: Cart }) => {
   console.log("Đọc được tới đây");
   try {
-    const userRef = doc(db, "users", "cwLswy3CVB3YQ5z9tFiy");
+    const userRef = doc(db, "users", user_id as string);
 
     // Kiểm tra xem giỏ hàng của người dùng đã tồn tại chưa
     const querySnapshot = await getDocs(
@@ -196,7 +199,7 @@ export const handleDeleteCartsToAddOrderItem = async (props: {
   console.log("Đọc được tới đây");
 
   try {
-    const userRef = doc(db, "users", "cwLswy3CVB3YQ5z9tFiy");
+    const userRef = doc(db, "users", user_id as string);
 
     const querySnapshot = await getDocs(
       query(collection(db, "carts"), where("user_id", "==", userRef))
@@ -267,7 +270,7 @@ export const handleDeleteCartsToAddOrderItem = async (props: {
 export const addToCart = async (props: { product: Product }) => {
   console.log("Đọc được tới đây");
   try {
-    const userRef = doc(db, "users", "cwLswy3CVB3YQ5z9tFiy");
+    const userRef = doc(db, "users", user_id as string);
 
     // Kiểm tra xem giỏ hàng của người dùng đã tồn tại chưa
     const querySnapshot = await getDocs(
@@ -313,12 +316,14 @@ export const addToCart = async (props: { product: Product }) => {
 };
 
 export const getCartData = async () => {
-  const userRef = doc(db, "users", "cwLswy3CVB3YQ5z9tFiy");
+  const userRef = doc(db, "users", user_id as string);
 
   // Kiểm tra xem giỏ hàng của người dùng đã tồn tại chưa
   const querySnapshot = await getDocs(
     query(collection(db, "carts"), where("user_id", "==", userRef))
   );
+  
+  
   if (querySnapshot.empty) {
     let cartListRef = collection(db, "carts/ahosdisahdoi/cart").withConverter(
       cartConverter
@@ -335,4 +340,53 @@ export const getCartData = async () => {
   let cartList = await getDocs(cartListRef);
   let cartListData = cartList.docs.map((doc) => doc.data());
   return cartListData;
+};
+// export const getProductData = async () => {
+//   let productListRef = collection(db, "products").withConverter(
+//     productConverter
+//   );
+//   let productList = await getDocs(productListRef);
+//   let productListData = productList.docs.map((doc) => doc.data());
+//   return productListData;
+// };
+
+export const getUser = async ()=> {
+  let userRef = doc(db, "users", user_id as string).withConverter(userConverter);
+  let userData = await getDoc(userRef);
+
+  // Trích xuất dữ liệu từ document và chuyển đổi sang kiểu Product
+  if (userData.exists()) {
+    const data = userData.data();
+    return new User(
+      data.id,
+      data.address,
+      data.email,
+      data.username
+    );
+  } else {
+    throw new Error("Product not found"); // Xử lý trường hợp không tìm thấy sản phẩm
+  }
+};
+export const getDetailProduct = async (id: string): Promise<Product> => {
+  let productRef = doc(db, "products", id).withConverter(productConverter);
+  let productData = await getDoc(productRef);
+
+  // Trích xuất dữ liệu từ document và chuyển đổi sang kiểu Product
+  if (productData.exists()) {
+    const data = productData.data();
+    return new Product(
+      data.id,
+      data.name,
+      data.description,
+      data.price,
+      data.offer,
+      data.technical,
+      data.image,
+      data.rating,
+      data.saleinfor,
+      data.idcategories
+    );
+  } else {
+    throw new Error("Product not found"); // Xử lý trường hợp không tìm thấy sản phẩm
+  }
 };

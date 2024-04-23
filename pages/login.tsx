@@ -6,6 +6,7 @@ import {
   InputAdornment,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
@@ -13,18 +14,32 @@ import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { Visibility, VisibilityOffOutlined } from "@mui/icons-material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { collection, getDocs, getFirestore, query, where } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
 
 interface User {
   username?: string;
   password?: string;
 }
-
+const firebaseConfig = {
+  apiKey: "AIzaSyBZ5SZ2bS0qelHkeJBYXMQi7jUcKRbvoyw",
+  authDomain: "weblinhkien-b9612.firebaseapp.com",
+  projectId: "weblinhkien-b9612",
+  storageBucket: "weblinhkien-b9612.appspot.com",
+  messagingSenderId: "514113053206",
+  appId: "1:514113053206:web:dd7546c647ddcb65facb37",
+  measurementId: "G-L6ZHHGL5HV",
+};
+const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
 const LoginPage = () => {
   const router = useRouter();
   const [form, setForm] = useState<User>({
     username: "abcd",
     password: "12345678",
   });
+  const [error, setError] = useState<string>(""); // State để lưu thông báo lỗi
+
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -45,16 +60,23 @@ const LoginPage = () => {
     });
   };
 
-  const onLogin = () => {
-    axios
-      .post("https://dummyjson.com/auth/login", {
-        username: form.username,
-        password: form.password,
-      })
-      .then((res) => {
-        setCookie("sessionId", true);
-        router.push("/cart");
-      });
+  const onLogin = async () => {
+
+    const querySnapshot = await getDocs(
+      query(
+        collection(db, "users"),
+        where("username", "==", form.username),
+        where("password", "==", form.password)
+      )
+    );
+    if (querySnapshot.empty) {
+      setError("Incorrect username or password!");
+      return;
+    }
+    else {
+      setCookie("user_id", querySnapshot.docs[0].id);
+      router.push("/homegroup");
+    }
   };
 
   function helperTextPassword() {
@@ -71,6 +93,7 @@ const LoginPage = () => {
 
   return (
     <Box m={4}>
+      <Typography sx={{color:"red"}}>{error}</Typography>
       <FormGroup>
         <Stack spacing={4}>
           <TextField

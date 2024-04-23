@@ -18,6 +18,7 @@ import router from "next/router";
 import { productConverter } from "@/model/product";
 import { getDoc } from "firebase/firestore";
 import BackButton from "@/listcomponents/backbutton";
+import firebase from "firebase/compat/app";
 
 const CartUser = () => {
   const [carts, setCarts] = useState<Cart[]>([]);
@@ -26,6 +27,9 @@ const CartUser = () => {
   const [total, setTotal] = useState<number>(0);
   const [totalDiscount, setTotalDiscount] = useState<number>(0);
   const [totalPay, setTotalPay] = useState<number>(0);
+  // firebase.app().delete().then(function() {
+  //   console.log("[DEFAULT] App is Gone Now");
+  // });
   useEffect(() => {
     fetchData();
   }, []);

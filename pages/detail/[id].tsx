@@ -38,6 +38,8 @@ import Loading from "@/listcomponents/loading";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import BackButton from "@/listcomponents/backbutton";
+import { getCookie } from "cookies-next";
+import AddAccountIcon from "@/listcomponents/iconAccount";
 
 const Detail: NextPageWithLayout = () => {
   const router = useRouter();
@@ -48,10 +50,21 @@ const Detail: NextPageWithLayout = () => {
   const [carts, setCarts] = useState<Cart[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [showSnackbar, setShowSnackbar] = useState(false); // State để điều khiển hiển thị Snackbar
+  const user_id = getCookie("user_id");
+  async function fetchDataCart() {
+    try {
+      const cartListData = await getCartData();
+      if (cartListData) {
+        setCarts(cartListData);
+      }
+    } catch (error) {
+      console.error("Error fetching product data: ", error);
+    }
+  }
   async function fetchData() {
     console.error("Đọc fetchDataDetail.44 ");
     try {
-      const cartListData = await getCartData();
+      
       const productData = await getDetailProduct(idProduct);
       const productListData = await getProductData();
       const filteredProductListData = productListData.filter(
@@ -61,8 +74,8 @@ const Detail: NextPageWithLayout = () => {
       setProduct(productData);
       setProducts(productListData);
       setLoading(false);
-      if (cartListData) {
-        setCarts(cartListData);
+      if (user_id!==null) {
+        fetchDataCart();
       }
     } catch (error) {
       console.error("Error fetching product data: ", error);
@@ -71,7 +84,7 @@ const Detail: NextPageWithLayout = () => {
   useEffect(() => {
     fetchData();
   });
-
+  
   // Hàm xử lý khi nhấn nút "Add to cart"
   const handleAddToCart = () => {
     if (product) {
@@ -98,6 +111,7 @@ const Detail: NextPageWithLayout = () => {
     <>
       <Box display="flex" justifyContent="space-between">
         <BackButton />
+        
         <Button onClick={() => router.push("/cart")}>
           <Badge
             sx={{
@@ -134,7 +148,7 @@ const Detail: NextPageWithLayout = () => {
           onClick={pressButtonAddToCart} // Sử dụng hàm xử lý khi nhấn nút "Add to cart"
         >
           <ShoppingCartSharpIcon />
-          Add to cart
+          Add to cart 
         </Button>
         <OfferDetail offer={product?.offer} />
         <HightLight hightLight={product?.description} />
