@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { getDoc } from "firebase/firestore";
 import {
@@ -18,12 +18,25 @@ import { useRouter } from "next/router";
 import ProductCart, { ProductOrder } from "../cart/CartComponent/Product";
 import { OrderDetail } from "@/model/order";
 import Loading from "@/listcomponents/loading";
-
+import Layout from "@/landingPage/layout";
+import { getCookie } from "cookies-next";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const History = () => {
     const [orders, setOrders] = useState<OrderDetail[]>([]);
     const router = useRouter();
     const [loading, setLoading] = useState(true);
-    const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+    
+    const user_id = getCookie("user_id");
+    if(user_id == null ){
+      return (<>
+      <Button onClick={()=>router.push("/login")}>
+        <Typography sx={{ display: 'flex', alignItems: 'center' }}>
+          Login now <AccountCircleIcon sx={{ marginLeft: '4px' }} />
+        </Typography>
+      </Button>
+      
+      </>);
+    }
     async function fetchData() {
         try {
           const orderDetailListData = await getOrderData();
@@ -37,14 +50,26 @@ const History = () => {
     fetchData();
     }, []);
     if (loading) {
-        return <Loading />; // Hiển thị thông báo tải dữ liệu
+        return <Loading />; // Hisển thị thông báo tải dữ liệu
       }
+    
   return (
-    <main>
-      <Box py={8}>
-        <Typography sx={{ textAlign: "center", fontSize: "30px" }}>
-          Your histor buy items
-        </Typography>
+      <Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' ,backgroundColor:"#94d3f4"}}>
+            <Box
+              component="img"
+              sx={{
+                height: '100px',
+                width: '100px',
+                objectFit: 'cover',
+                borderRadius: '50%',
+                marginRight: '10px', // Để tạo khoảng cách giữa hình ảnh và chữ
+              }}
+              src={"/defaultAvatar.avif"}
+              alt={"none"}
+            />
+            <Typography variant="h6" fontWeight="bold">Users name</Typography>
+          </Box>
         <Stack>
           {orders.map((cart: OrderDetail, index: number) => (
             <Box sx={{ border: "1px solid black", padding: "10px" }} key={index}>
@@ -55,12 +80,9 @@ const History = () => {
           ))}
         </Stack>
       </Box>
-    
-     
-
-      
-    </main>
   );
 };
-
+History.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 export default History;

@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 
 import { useRouter } from "next/router";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -9,6 +9,7 @@ import { getUser } from "@/pages/firebase/config";
 import { User } from "@/model/user";
 import LogoutButton from "./logoutbutton";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Link, Route } from "react-router-dom";
 function AccountIcon(){
     const [user, setUser] = useState<User | null>(null);
     async function fetchData() {
@@ -25,22 +26,45 @@ function AccountIcon(){
       },[]);
     return (
         <>
-        <Box>
-        <Typography><AccountCircleIcon/> {user?.username}</Typography>
-        </Box>
+        <Stack>
+          <Box>
+          <Box
+            component="img"
+            sx={{
+              height: "150px",
+              width: "150px",
+              objectFit: "cover",
+              borderRadius: "10px",
+            }}
+            src={"/defaultAvatar.avif"}
+            alt={"none"}
+          />
+          </Box>
+        <Typography sx={{fontSize:"20px", display: 'block',textAlign:"end" }}>
+          {user?.username}<AccountCircleIcon sx={{fontSize:"30px"}}/> 
+        </Typography>
+        </Stack>
         </>
         );
 }
 
 function AddAccountIcon() {
     const user_id = getCookie("user_id");
-    if(user_id ===null ){
+    console.log("Tai nguyen la: "+user_id as string)
+    const router = useRouter();
+    if(user_id == null ){
       return (<>
-      <Typography>Login now</Typography>
+      <Button onClick={()=>router.push("/login")}>
+        <Typography sx={{ display: 'flex', alignItems: 'center' }}>
+          Login now <AccountCircleIcon sx={{ marginLeft: '4px' }} />
+        </Typography>
+      </Button>
+      
       </>);
     }
     return(<>
-      <AccountIcon/><LogoutButton/>
+      <AccountIcon/>
+      {/* <LogoutButton/> */}
     </> 
     );
   }

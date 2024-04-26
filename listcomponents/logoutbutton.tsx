@@ -8,7 +8,8 @@ function LogoutButton() {
   const router = useRouter();
   const logout = async () => {
     // Xóa cookie có tên 'user_id'
-    setCookie("user_id",null);
+    deleteCookie("user_id");
+    router.reload();
     router.push("/login");
     // Chuyển hướng đến trang đăng nhập
     
