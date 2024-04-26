@@ -75,7 +75,7 @@ const Payment = () => {
 
   return (
     <main>
-      <Box py={8}>
+      <Box sx={{paddingBottom:"0px"}}py={8}>
         <Typography sx={{ textAlign: "center", fontSize: "30px" }}>
           Payment validation
         </Typography>
@@ -83,32 +83,8 @@ const Payment = () => {
           {carts.map((cart: Cart, index: number) => (
             <Box sx={{ border: "1px solid black", padding: "10px" }} key={index}>
               <ProductCart cart={cart}></ProductCart>
-              <Typography>------------Product------------</Typography>
               <Typography>Quantities: {cart.quantity}</Typography>
-
-              <Button
-                onClick={() => {
-                  handleUpdateCart({ cart: cart, quantity: cart.quantity + 1 }),
-                    updateCartQuantity(index, cart.quantity + 1);
-                }}
-              >
-                <AddIcon />
-              </Button>
-              <Button
-                onClick={() => {
-                  handleUpdateCart({ cart: cart, quantity: cart.quantity - 1 }),
-                    updateCartQuantity(index, cart.quantity - 1);
-                }}
-              >
-                <RemoveIcon />
-              </Button>
-              <Button
-                onClick={() => {
-                  handleDeleteCart({ cart: cart }), fetchData();
-                }}
-              >
-                <DeleteIcon />
-              </Button>
+              
             </Box>
           ))}
         </Stack>

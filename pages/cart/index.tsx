@@ -60,19 +60,7 @@ const CartUser = () => {
     }
   }
 
-  const handleToggleMarkCart = (cart: Cart) => {
-    const updatedSelectedCarts = [...selectedCarts];
-    const index = updatedSelectedCarts.findIndex(
-      (selectedCart) => selectedCart.id === cart.id
-    );
-    if (index === -1) {
-      updatedSelectedCarts.push(cart);
-    } else {
-      updatedSelectedCarts.splice(index, 1);
-    }
-    setSelectedCarts(updatedSelectedCarts);
-    handleMarkCart({ cart: cart, mark: index === -1 });
-  };
+  
 
   const handleQuantityChange = (index: number, quantityChange: number) => {
     const updatedCarts = [...carts];
@@ -118,22 +106,13 @@ const CartUser = () => {
                 border: "1px solid #ddd",
                 borderRadius: 4,
                 p: 2,
-                display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
               }}
             >
-              <Button onClick={() => handleToggleMarkCart(cart)}>
-                {selectedCarts.some(
-                  (selectedCart) => selectedCart.id === cart.id
-                ) ? (
-                  <DoneIcon />
-                ) : (
-                  "Add to payment"
-                )}
-              </Button>
+              
               <ProductCart cart={cart} />
-              <Box display="flex" alignItems="center">
+              <Box sx={{pt:"0px",pl:"99px"}} display="flex" alignItems="center"  > 
                 <Button
                   onClick={() => handleQuantityChange(index, -1)}
                   disabled={cart.quantity <= 0}
