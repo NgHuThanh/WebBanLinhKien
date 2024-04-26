@@ -100,7 +100,8 @@ const Product2 = () => {
                       fontWeight: "bold", // In đậm chữ
                     }}
                   >
-                    {(product.price * 0.8).toFixed(0)}$
+                    {(product.price * (1 - product.saleinfor / 100)).toFixed(0)}
+                    $
                     <Typography
                       style={{
                         marginLeft: "5px",

@@ -33,6 +33,7 @@ const CartUser = () => {
   async function fetchData() {
     try {
       const cartListData = await getCartData();
+
       let totalPrice = 0;
       let totalDiscount = 0;
 
@@ -48,10 +49,12 @@ const CartUser = () => {
       }
 
       setCarts(cartListData);
-      setTotal(totalPrice);
-      setTotalDiscount(totalDiscount);
-      setTotalPay(totalPrice - totalDiscount);
-      setLoading(false);
+      if (!Number.isNaN(totalPrice)) {
+        setTotal(totalPrice);
+        setTotalDiscount(totalDiscount);
+        setTotalPay(totalPrice - totalDiscount);
+        setLoading(false);
+      }
     } catch (error) {
       console.error("Error fetching product data: ", error);
     }
@@ -86,6 +89,7 @@ const CartUser = () => {
       cart: updatedCarts[index],
       quantity: updatedCarts[index].quantity,
     });
+    fetchData();
   };
 
   const handleDeleteCartItem = (cart: Cart) => {
@@ -150,8 +154,8 @@ const CartUser = () => {
       </Box>
       <Billinfo
         deliveryDate="Not set up yet"
-        totalAmount={total}
-        discount={totalDiscount}
+        totalAmount={total ? total : 0}
+        discount={totalDiscount ? totalDiscount : 0}
         shippingFee={0}
       />
       <Box sx={{ justifyContent: "center" }}>
