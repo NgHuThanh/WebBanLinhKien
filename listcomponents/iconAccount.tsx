@@ -27,22 +27,41 @@ function AccountIcon(){
     return (
         <>
         <Stack>
-          <Box>
-          <Box
-            component="img"
-            sx={{
-              height: "150px",
-              width: "150px",
-              objectFit: "cover",
-              borderRadius: "10px",
-            }}
-            src={"/defaultAvatar.avif"}
-            alt={"none"}
-          />
+        <Box sx={{ display: 'flex', alignItems: 'end' ,backgroundColor:"#94d3f4",padding:"20px"}}>
+            <Box
+              component="img"
+              sx={{
+                
+                height: '100px',
+                width: '100px',
+                objectFit: 'cover',
+                borderRadius: '50%',
+                marginRight: '10px', // Để tạo khoảng cách giữa hình ảnh và chữ
+              }}
+              src={"/defaultAvatar.avif"}
+              alt={"none"}
+            />
+            <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant="h6" fontWeight="bold" sx={{ marginRight: '10px' }}>{user?.username}</Typography>
+              <Box sx={{position:"absolute",right:"0px",top:"10px"}}>
+                <LogoutButton />
+              </Box>
+              
+            </Box>
+            
+            <Typography sx={{fontSize:"20px"}}>Address: {user?.address}</Typography>
+            </Box>
+            <Box sx={{}}>
+            
+            </Box>
+           
+            
+          
+            
           </Box>
-        <Typography sx={{fontSize:"20px", display: 'block',textAlign:"end" }}>
-          {user?.username}<AccountCircleIcon sx={{fontSize:"30px"}}/> 
-        </Typography>
+          
+        
         </Stack>
         </>
         );

@@ -27,7 +27,6 @@ export class OrderDetail {
     this.price = price;
     this.product_id = product_id;
     this.quantity = quantity;
-    
   }
 }
 
@@ -37,7 +36,7 @@ export const orderDetailConverter = {
       price: orderDetail.price,
       product_id: orderDetail.product_id,
       quantity: orderDetail.quantity,
-      
+
     };
   },
 

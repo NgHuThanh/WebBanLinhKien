@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     
     const menu: MenuItemObject[] = [
         { title: "Home", url: "/homegroup", icon: <HomeIcon /> },
-        { title: "Search", url: "/movie-search", icon: <SearchIcon /> },
+        { title: "Search", url: "/search", icon: <SearchIcon /> },
         { title: "Users", url: "/history", icon: <AccountCircleIcon /> },
       ];
     useEffect(() => {

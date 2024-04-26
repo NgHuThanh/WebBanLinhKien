@@ -18,7 +18,7 @@ function LogoutButton() {
     <>
       <Button onClick={logout}>
         <Typography sx={{ color: "black" }}>
-          <OutputIcon />
+          <OutputIcon sx={{fontSize:"40px"}}/>
         </Typography>
       </Button>
     </>

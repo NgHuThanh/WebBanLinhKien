@@ -367,7 +367,7 @@ export const getUser = async ()=> {
 
     );
   } else {
-    throw new Error("Product not found"); // Xử lý trường hợp không tìm thấy sản phẩm
+    throw new Error("Product not found"); // Xử lý trsường hợp không tìm thấy sản phẩm
   }
 };
 export const getOrderData = async () => {
@@ -407,6 +407,9 @@ export const getOrderData = async () => {
   // Trả về tất cả dữ liệu đơn hàng
   return allOrderListData;
 };
+
+
+
 export const getCartData = async () => {
   const userRef = doc(db, "users", user_id as string);
 
