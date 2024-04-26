@@ -42,6 +42,7 @@ const Product2 = () => {
     rating: 0,
     saleinfor: 0,
     idcategories: "",
+    newProductData: "",
   });
   const [isAddingProduct, setIsAddingProduct] = useState(false);
 
@@ -71,6 +72,7 @@ const Product2 = () => {
       rating: 0,
       saleinfor: 0,
       idcategories: "",
+      newProductData: "",
     });
     setOpenDialog(true);
   };

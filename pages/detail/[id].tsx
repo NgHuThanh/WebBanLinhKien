@@ -49,11 +49,15 @@ const Detail: NextPageWithLayout = () => {
   const [carts, setCarts] = useState<Cart[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [showSnackbar, setShowSnackbar] = useState(false); 
-  const user_id = getCookie("user_id");// State để điều khiển hiển thị Snackbar
+  const user_id = getCookie("user_id");
   async function fetchData() {
     console.error("Đọc fetchDataDetail.44 ");
     try {
-      if(user_id!==null){
+      
+        if (!user_id) {
+            
+        }
+      else{
         const cartListData = await getCartData();
         setCarts(cartListData);
       }
@@ -72,12 +76,17 @@ const Detail: NextPageWithLayout = () => {
       console.error("Error fetching product data: ", error);
     }
   }
+  
   useEffect(() => {
-    fetchData();
+    if(!product){
+      fetchData();
+    }
+    
   });
 
   // Hàm xử lý khi nhấn nút "Add to cart"
   const handleAddToCart = () => {
+    
     if (product) {
       addToCart({ product: product }); // Chuyển đối số product vào hàm addToCart
       setShowSnackbar(true); // Hiển thị Snackbar
@@ -86,12 +95,21 @@ const Detail: NextPageWithLayout = () => {
     }
   };
   const pressButtonAddToCart = () => {
+    if (!user_id) {
+      router.push("/login")
+    }
     handleAddToCart();
     fetchData();
   };
   // Đóng Snackbar
   const handleCloseSnackbar = () => {
     setShowSnackbar(false);
+  };
+  const handlePressCart = () => {
+    if (!user_id) {
+      router.push("/login")
+    }
+    router.push("/cart");
   };
 
   if (loading) {
@@ -102,7 +120,7 @@ const Detail: NextPageWithLayout = () => {
     <>
       <Box display="flex" justifyContent="space-between">
         <BackButton />
-        <Button onClick={() => router.push("/cart")}>
+        <Button onClick={handlePressCart}>
           <Badge
             sx={{
               height: "30px",

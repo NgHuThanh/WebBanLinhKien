@@ -5,6 +5,7 @@ import { Box, Card, CardContent, CardMedia, Grid, Link, Stack, Typography } from
 import { Product } from "@/model/product";
 import { getProductData } from "../firebase/config";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import Layout from "@/landingPage/layout";
 
 const Search = () => {
   const router = useRouter();
@@ -41,7 +42,7 @@ const Search = () => {
     return <Box>Loading...</Box>; // Hiển thị thông báo tải dữ liệu
   }
 
-  return (
+  return (<Layout>
     <Stack>
       <Box
         style={{
@@ -185,7 +186,7 @@ const Search = () => {
           ))}
         </Grid>
       </Box>
-    </Stack>
+    </Stack></Layout>
   );
 };
 
