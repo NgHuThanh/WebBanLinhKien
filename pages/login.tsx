@@ -8,14 +8,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import axios from "axios";
-import React, { useState } from "react";
-import { deleteCookie, setCookie } from "cookies-next";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { Visibility, VisibilityOffOutlined } from "@mui/icons-material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { collection, getDocs, getFirestore, query, where } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
+import { setCookie } from "cookies-next";
 
 interface User {
   username?: string;
@@ -38,7 +37,7 @@ const LoginPage = () => {
     username: "abcd",
     password: "12345678",
   });
-  const [error, setError] = useState<string>(""); // State để lưu thông báo lỗi
+  const [error, setError] = useState<string>(""); 
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -93,64 +92,64 @@ const LoginPage = () => {
   };
 
   return (
-    <Box m={4}>
-      <Typography sx={{color:"red"}}>{error}</Typography>
+    <Box m={1} sx={{ mt:"170px",backgroundColor: "#f0f0f0", p: "20px", borderRadius: "10px" }}>
+      <Typography sx={{ color: "red" }}>{error}</Typography>
       <FormGroup>
         <Stack spacing={4}>
-          <TextField
-            label="Username"
-            variant="outlined"
-            defaultValue={form.username}
-            error={!form.username}
-            helperText={!form.username ? "Username is invalid" : ""}
-            onChange={onChangeUsername}
-            InputProps={{
-              style: { color: "black", background: "rgba(0,0,0,0.1)" },
-              placeholder: "Username",
-            }}
-          />
-          <TextField
-            label="Password"
-            variant="outlined"
-            type={showPassword ? "text" : "password"}
-            defaultValue={form.password}
-            error={form.password ? form.password.length < 8 : false}
-            helperText={helperTextPassword()}
-            onChange={onChangePassword}
-            InputProps={{
-              style: { color: "black", background: "rgba(0,0,0,0.1)" },
-              placeholder: "Password",
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={togglePasswordVisibility}
-                  >
-                    {showPassword ? (
-                      <VisibilityOffOutlined style={{ color: "black" }} />
-                    ) : (
-                      <Visibility style={{ color: "black" }} />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
+        <TextField
+          label="Username"
+          variant="outlined"
+          defaultValue={form.username}
+          error={!form.username}
+          helperText={!form.username ? "Username is invalid" : ""}
+          onChange={onChangeUsername}
+          InputLabelProps={{ style: { color: "black" } }} // Thay đổi màu chữ của label
+          InputProps={{
+            style: { color: "black", background: "#e0e0e0" },
+            placeholder: "Username",
+          }}
+        />
+        <TextField
+          label="Password"
+          variant="outlined"
+          type={showPassword ? "text" : "password"}
+          defaultValue={form.password}
+          error={form.password ? form.password.length < 8 : false}
+          helperText={helperTextPassword()}
+          onChange={onChangePassword}
+          InputLabelProps={{ style: { color: "black" } }} // Thay đổi màu chữ của label
+          InputProps={{
+            style: { color: "black", background: "#e0e0e0" },
+            placeholder: "Password",
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? (
+                    <VisibilityOffOutlined style={{ color: "black" }} />
+                  ) : (
+                    <Visibility style={{ color: "black" }} />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+
           <Button
             variant="contained"
             onClick={onLogin}
-            style={{ backgroundColor: "black", color: "white" }}
+            style={{ backgroundColor: "#1976d2", color: "white" }}
             endIcon={<ArrowForwardIcon style={{ color: "white" }} />}
           >
             SIGN IN
           </Button>
           <Button
             variant="text"
-            onClick={
-              onCreateAccount
-          
-            }
-            style={{ backgroundColor: "gray", color: "black" }}
+            onClick={onCreateAccount}
+            style={{ backgroundColor: "#eeeeee", color: "black" }}
           >
             Create an account
           </Button>
@@ -161,3 +160,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
