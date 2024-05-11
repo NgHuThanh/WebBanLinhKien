@@ -1,24 +1,18 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Link,
-  Stack,
-  Typography,
-} from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
-import ShoppingCartSharpIcon from "@mui/icons-material/ShoppingCartSharp";
 import React from "react";
+import { Button, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 const MAX_LENGTH = 150;
+
 function InfomationDetail(props: {
-  name?: String;
-  description?: String;
+  name?: string;
+  description?: string;
   price?: number;
   discount?: number;
 }) {
-  const text = props.name as string;
+  // Kiểm tra xem props.name có tồn tại không trước khi gán cho biến text
+  const text = props.name ? props.name : ""; // Nếu không tồn tại, gán giá trị mặc định là chuỗi rỗng
+
   const [expanded, setExpanded] = React.useState(false);
 
   // Kiểm tra xem nội dung có dài hơn độ dài tối đa hay không
@@ -30,109 +24,66 @@ function InfomationDetail(props: {
   const priceNow = props.price
     ? props.price - (props.price * (props.discount || 0)) / 100
     : 0;
+
   return (
     <>
-      <Stack>
-        <Typography
-          sx={{
-            color: "dark",
-            fontSize: "24px",
-            mt: "20px",
-            whiteSpace: "pre-line",
-            fontWeight:"bold",
-          }}
+      <Typography
+        sx={{
+          color: "dark",
+          fontSize: "24px",
+          mt: "20px",
+          whiteSpace: "pre-line",
+          fontWeight: "bold",
+        }}
+      >
+        {truncatedText}
+      </Typography>
+      {/* Nếu nội dung quá dài và chưa mở rộng, hiển thị nút 'Hiển thị thêm' */}
+      {isTruncated && !expanded && (
+        <Button
+          onClick={() => setExpanded(true)}
+          endIcon={<ExpandMoreIcon />}
+          sx={{ color: "primary.main" }}
         >
-          {truncatedText}
-        </Typography>
-        {/* Nếu nội dung quá dài và chưa mở rộng, hiển thị nút 'Hiển thị thêm' */}
-        {isTruncated && !expanded && (
-          <Button
-            onClick={() => setExpanded(true)}
-            endIcon={<ExpandMoreIcon />}
-            sx={{ color: "primary.main" }}
-          >
-            Hiển thị thêm
-          </Button>
-        )}
-        {/* <Box
-          sx={{
-            textAlign: "center",
-            display: "inline-flex",
-            alignItems: "center",
-            marginTop: "15px",
-          }}
-        > */}
-        {/* <Button
-            variant="contained"
-            color="primary"
-            sx={{
-              bgcolor: "black",
-              color: "white",
-              borderRadius: 0,
-              width: "10%",
-              mt: "10px",
-            }}
-          >
-            <Box
-              sx={{
-                color: "white",
-              }}
-            >
-              5.0
-            </Box>
-            <StarIcon />
-          </Button> */}
+          Hiển thị thêm
+        </Button>
+      )}
+      <Typography
+        sx={{
+          color: "dark",
+          fontWeight: "bold",
+          fontSize: "20px",
 
-        {/* <Typography
-            sx={{
-              color: "#999",
-              ml: "10px",
-            }}
-          >
-            {" "}
-            99 rating
-          </Typography>
-        </Box> */}
-        <Box display="inline-flex">
-          <Typography
-            sx={{
-              color: "dark",
-              fontWeight: "bold",
-              fontSize: "20px",
-              
-              display: "block",
-            }}
-          >
-            {priceNow}$
-          </Typography>
-          <Typography
-            sx={{
-              color: "#888",
-              fontWeight: "bold",
-              fontSize: "20px",
-              textDecoration: "line-through",
-              ml: "10px",
-              
-              display: "inline",
-            }}
-          >
-            {props.price}$
-          </Typography>
-          <Typography
-            sx={{
-              color: "green",
-              fontWeight: "bold",
-              fontSize: "20px",
-              ml: "10px",
-              display: "inline",
-              pb: "0px",
-              
-            }}
-          >
-            {props.discount}%off
-          </Typography>
-        </Box>
-      </Stack>
+          display: "block",
+        }}
+      >
+        {priceNow}$
+      </Typography>
+      <Typography
+        sx={{
+          color: "#888",
+          fontWeight: "bold",
+          fontSize: "20px",
+          textDecoration: "line-through",
+          ml: "10px",
+
+          display: "inline",
+        }}
+      >
+        {props.price}$
+      </Typography>
+      <Typography
+        sx={{
+          color: "green",
+          fontWeight: "bold",
+          fontSize: "20px",
+          ml: "10px",
+          display: "inline",
+          pb: "0px",
+        }}
+      >
+        {props.discount}%off
+      </Typography>
     </>
   );
 }
