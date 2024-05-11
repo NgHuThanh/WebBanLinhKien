@@ -13,23 +13,30 @@ import { useRouter } from "next/router";
 import { Visibility, VisibilityOffOutlined } from "@mui/icons-material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { collection, getDocs, getFirestore, query, where } from "firebase/firestore";
-import { initializeApp } from "firebase/app";
+import { getApp, initializeApp } from "firebase/app";
 import { setCookie } from "cookies-next";
 
 interface User {
   username?: string;
   password?: string;
 }
-const firebaseConfig = {
-  apiKey: "AIzaSyBZ5SZ2bS0qelHkeJBYXMQi7jUcKRbvoyw",
-  authDomain: "weblinhkien-b9612.firebaseapp.com",
-  projectId: "weblinhkien-b9612",
-  storageBucket: "weblinhkien-b9612.appspot.com",
-  messagingSenderId: "514113053206",
-  appId: "1:514113053206:web:dd7546c647ddcb65facb37",
-  measurementId: "G-L6ZHHGL5HV",
-};
-const app = initializeApp(firebaseConfig);
+let app;
+
+// Khởi tạo ứng dụng Firebase nếu chưa tồn tại
+if (!getApp()) {
+  const firebaseConfig = {
+    apiKey: "AIzaSyBZ5SZ2bS0qelHkeJBYXMQi7jUcKRbvoyw",
+    authDomain: "weblinhkien-b9612.firebaseapp.com",
+    projectId: "weblinhkien-b9612",
+    storageBucket: "weblinhkien-b9612.appspot.com",
+    messagingSenderId: "514113053206",
+    appId: "1:514113053206:web:dd7546c647ddcb65facb37",
+    measurementId: "G-L6ZHHGL5HV",
+  };
+  app = initializeApp(firebaseConfig);
+} else {
+  app = getApp();
+}
 export const db = getFirestore(app);
 const LoginPage = () => {
   const router = useRouter();

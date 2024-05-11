@@ -1,5 +1,5 @@
 import React from 'react'
-import { initializeApp } from "firebase/app";
+import { getApp, initializeApp } from "firebase/app";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { collection, addDoc, getDocs, query, QueryDocumentSnapshot, DocumentData, SnapshotOptions, DocumentReference } from "firebase/firestore";
 
@@ -54,18 +54,23 @@ const classConverter = {
 
 const Home = () => {
   // Your web app's Firebase configuration
+  let app;
+
+// Khởi tạo ứng dụng Firebase nếu chưa tồn tại
+if (!getApp()) {
   const firebaseConfig = {
-    apiKey: "AIzaSyDxPdKcUdO25lL4YivzClfgIijIbNipTjs",
-    authDomain: "fir-demo-de07f.firebaseapp.com",
-    projectId: "fir-demo-de07f",
-    storageBucket: "fir-demo-de07f.appspot.com",
-    messagingSenderId: "998152591354",
-    appId: "1:998152591354:web:f8dcd52c0037f09c333643"
+    apiKey: "AIzaSyBZ5SZ2bS0qelHkeJBYXMQi7jUcKRbvoyw",
+    authDomain: "weblinhkien-b9612.firebaseapp.com",
+    projectId: "weblinhkien-b9612",
+    storageBucket: "weblinhkien-b9612.appspot.com",
+    messagingSenderId: "514113053206",
+    appId: "1:514113053206:web:dd7546c647ddcb65facb37",
+    measurementId: "G-L6ZHHGL5HV",
   };
-
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
+  app = initializeApp(firebaseConfig);
+} else {
+  app = getApp();
+}
 
 
   // Initialize Cloud Firestore and get a reference to the service
