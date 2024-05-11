@@ -6,6 +6,7 @@ import {
   InputAdornment,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
@@ -112,6 +113,10 @@ const RegisterPage = () => {
 
   return (
     <Box m={4}>
+      <Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom>
+        Register
+      </Typography>
+      
       <FormGroup>
         <Stack spacing={4}>
           <TextField
@@ -119,6 +124,7 @@ const RegisterPage = () => {
             variant="outlined"
             value={form.username}
             onChange={onChangeUsername}
+            InputLabelProps={{ style: { color: "black" } }}
             InputProps={{
               style: { color: "black", background: "rgba(0,0,0,0.1)" },
               placeholder: "Username",
@@ -129,6 +135,7 @@ const RegisterPage = () => {
             variant="outlined"
             value={form.email}
             onChange={onChangeEmail}
+            InputLabelProps={{ style: { color: "black" } }}
             InputProps={{
               style: { color: "black", background: "rgba(0,0,0,0.1)" },
               placeholder: "Email",
@@ -141,6 +148,7 @@ const RegisterPage = () => {
             value={form.password}
             error={form.password ? form.password.length < 8 : false}
             onChange={onChangePassword}
+            InputLabelProps={{ style: { color: "black" } }}
             InputProps={{
               style: { color: "black", background: "rgba(0,0,0,0.1)" },
               placeholder: "Password",
@@ -168,6 +176,7 @@ const RegisterPage = () => {
                 : ""
             }
             onChange={onChangeConfirmPassword}
+            InputLabelProps={{ style: { color: "black" } }}
             InputProps={{
               style: { color: "black", background: "rgba(0,0,0,0.1)" },
               placeholder: "Confirm Password",
@@ -178,6 +187,7 @@ const RegisterPage = () => {
             variant="outlined"
             value={form.address}
             onChange={onChangeAddress}
+            InputLabelProps={{ style: { color: "black" } }}
             InputProps={{
               style: { color: "black", background: "rgba(0,0,0,0.1)" },
               placeholder: "Address",
