@@ -1,7 +1,7 @@
 import { cartConverter } from "@/model/cart";
 import { categoriesConverter } from "@/model/categories";
 import { ListProduct, Product, productConverter } from "@/model/product";
-import { initializeApp } from "firebase/app";
+import { getApp, initializeApp } from "firebase/app";
 import {
   addDoc,
   collection,
@@ -11,16 +11,24 @@ import {
   getFirestore,
 } from "firebase/firestore";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBZ5SZ2bS0qelHkeJBYXMQi7jUcKRbvoyw",
-  authDomain: "weblinhkien-b9612.firebaseapp.com",
-  projectId: "weblinhkien-b9612",
-  storageBucket: "weblinhkien-b9612.appspot.com",
-  messagingSenderId: "514113053206",
-  appId: "1:514113053206:web:dd7546c647ddcb65facb37",
-  measurementId: "G-L6ZHHGL5HV",
-};
-const app = initializeApp(firebaseConfig);
+let app;
+
+// Khởi tạo ứng dụng Firebase nếu chưa tồn tại
+if (!getApp()) {
+  const firebaseConfig = {
+    apiKey: "AIzaSyBZ5SZ2bS0qelHkeJBYXMQi7jUcKRbvoyw",
+    authDomain: "weblinhkien-b9612.firebaseapp.com",
+    projectId: "weblinhkien-b9612",
+    storageBucket: "weblinhkien-b9612.appspot.com",
+    messagingSenderId: "514113053206",
+    appId: "1:514113053206:web:dd7546c647ddcb65facb37",
+    measurementId: "G-L6ZHHGL5HV",
+  };
+  app = initializeApp(firebaseConfig);
+} else {
+  app = getApp();
+}
+
 export const db = getFirestore(app);
 
 export const writeExample = async () => {
