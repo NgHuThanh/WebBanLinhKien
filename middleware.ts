@@ -9,8 +9,8 @@ export function middleware(request: NextRequest) {
   const sessionId = request.cookies.get('user_id')?.value
   console.log(sessionId)
   console.log(request.nextUrl.pathname)
-  if (request.nextUrl.pathname.startsWith('/history') && sessionId)
-    return NextResponse.redirect(new URL('/login', request.url))
+  // if (request.nextUrl.pathname.startsWith('/history') && sessionId)
+  //   return NextResponse.redirect(new URL('/login', request.url))
 
   if (request.nextUrl.pathname.startsWith('/cart') && !sessionId)
     return NextResponse.redirect(new URL('/login', request.url))
