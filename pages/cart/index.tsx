@@ -16,7 +16,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import Billinfo from "./CartComponent/Billinfo";
 import router from "next/router";
 import { productConverter } from "@/model/product";
-import { getDoc } from "firebase/firestore";
+import { DocumentReference, getDoc } from "firebase/firestore";
 import BackButton from "@/listcomponents/backbutton";
 import firebase from "firebase/compat/app";
 
@@ -118,7 +118,7 @@ const CartUser = () => {
               boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)", // Adding shadow
             }}
           >
-            <ProductCart cart={cart} />
+            <ProductCart product_id={cart.product_id as DocumentReference} />
             <Box sx={{ pt: "0px", pl: "99px" }} display="flex" alignItems="center">
               <Button
                 onClick={() => handleQuantityChange(index, -1)}

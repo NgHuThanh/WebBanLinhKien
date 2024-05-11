@@ -9,6 +9,8 @@ import Layout from "@/landingPage/layout";
 import { getCookie } from "cookies-next";
 import { getOrderData } from "../firebase/config";
 import { OrderDetail } from "@/model/order";
+import ProductCart from "../cart/CartComponent/Product";
+import { DocumentReference } from "firebase/firestore";
 
 const History = () => {
     const [orders, setOrders] = useState<OrderDetail[]>([]);
@@ -59,11 +61,11 @@ const History = () => {
                           marginBottom: '10px', // Adding margin bottom
                         }}
                         >
-                        <ProductOrder cart={order} />
+                        <ProductCart product_id={order.product_id as DocumentReference} />
                         
-                        <Box sx={{ borderTop: '1px solid gray', paddingTop: '10px' }}> {/* Add borderTop and paddingTop */}
+                        <Box sx={{ borderTop: '1px solid gray', paddingTop: '10px', display: 'flex', justifyContent: 'space-between' }}> {/* Add display and justifyContent */}
                             <Typography variant="body1" sx={{ marginRight: '10px' }}>{order.quantity} product</Typography>
-                            <Typography variant="body1" sx={{ marginRight: '10px' }}>Total: {order.price}$</Typography>
+                            <Typography variant="body1" sx={{ marginLeft: 'auto' }}>Total: {order.price}$</Typography> {/* Add marginLeft: 'auto' */}
                         </Box>
                       </Box>
                       

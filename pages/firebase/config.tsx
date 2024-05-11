@@ -269,10 +269,10 @@ export const handleDeleteCartsToAddOrderItem = async (props: {
       //   console.error("Error deleting cart item: ", error);
       // }
       try {
-        const productRef = doc(db, "products", cart.id);
-        const currentNumber = currentProductNumber++;
-        let productRefer = cart.product_id.withConverter(productConverter);
-        let productData = await getDoc(productRefer);
+        
+        const productRef1 = cart.product_id.withConverter(productConverter);
+        const productData = await getDoc(productRef1);
+        const productRef = doc(db, "products", ""+productData.data()?.id);
         await addDoc(collection(orderRef, "order_details"), {
           product_id: productRef,
           quantity: cart.quantity,

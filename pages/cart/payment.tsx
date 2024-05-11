@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
-import { getDoc } from "firebase/firestore";
+import { DocumentReference, getDoc } from "firebase/firestore";
 import {
   getCartData,
   handleDeleteCart,
@@ -93,18 +93,26 @@ const router = useRouter();
             }}
             key={index}
           >
-            <ProductCart cart={cart}></ProductCart>
+            <ProductCart product_id={cart.product_id as DocumentReference} />
             <Typography style={{color:"green",fontWeight:"bold",borderRadius:10}}>Quantity: {cart.quantity}</Typography>
           </Box>
           ))}
         </Stack>
       </Box>
       <Box py={2}>
-      <Box py={2}>
-        <Typography sx={{ fontWeight: "bold" }}>Total: {total} $</Typography>
-        <Typography sx={{ fontWeight: "bold" }}>Total Discount: {totalDiscount} $</Typography>
-        <Typography sx={{ fontWeight: "bold" }}>Total Pay: {total - totalDiscount} $</Typography>
+      <Box py={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "23px", color: 'black' }}>Total:</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: "23px", color: 'green' }}>{total} $</Typography>
       </Box>
+      <Box py={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "23px", color: 'black' }}>Total Discount:</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: "23px", color: 'red' }}>{totalDiscount} $</Typography>
+      </Box>
+      <Box py={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "23px", color: 'black' }}>Total Pay:</Typography>
+        <Typography sx={{ fontWeight: "bold", fontSize: "23px", color: 'green' }}>{total - totalDiscount} $</Typography>
+      </Box>
+
 
       </Box>
       <Button

@@ -25,18 +25,17 @@ const ProductOrder: React.FC<ProductOrder> = (props) => {
   useEffect(() => {
     console.log("Lập ở dòng 19 product cart");
     
-    const getData = async () => {
+    const getData2 = async () => {
       try {
-        const productRef = props.cart.product_id.withConverter(
-          productConverter
-        );
+        const productRef = props.cart.product_id.withConverter(productConverter);
         const productData = await getDoc(productRef);
+        console.log("Product data:", productData.data()?.name);
         setProduct(productData.data() as Product);
-        console.log("name:"+productData.data()?.name)
         setLoading(false);
       } catch (error) {
         console.error("Error fetching product data: ", error);
       }
+    };
       // if(props.cart.product_id==null){
       //   console.log("Khong tiem thay");
       // }
@@ -47,8 +46,8 @@ const ProductOrder: React.FC<ProductOrder> = (props) => {
       // console.log("name:"+productData.data()?.name)
       // setLoading(false);
       // console.log("Lập ở dòng 26 product cart");
-    };
-    getData();
+    
+    getData2();
   }, [props.cart.product_id]);
   if (loading) {
     return <Box>Loading...</Box>; // Hiển thịstshôngss báo tải dữ liệu

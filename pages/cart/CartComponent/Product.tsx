@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { Cart } from "@/model/cart";
 import { Product, productConverter } from "@/model/product";
-import { getDoc } from "firebase/firestore";
+import { DocumentReference, getDoc } from "firebase/firestore";
 import { get1ProductData } from "@/pages/firebase/config";
 import { OrderDetail } from "@/model/order";
 
@@ -10,26 +10,23 @@ interface ProductCartProps {
   cart: Cart;
 }
 
-const ProductCart: React.FC<ProductCartProps> = (props) => {
+const ProductCart = (props: { product_id: DocumentReference }) => {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const productRef = props.cart.product_id.withConverter(
-          productConverter
-        );
+        const productRef = props.product_id.withConverter(productConverter);
         const productData = await getDoc(productRef);
         setProduct(productData.data() as Product);
-        console.log("name:"+productData.data()?.name)
         setLoading(false);
       } catch (error) {
         console.error("Error fetching product data: ", error);
       }
     };
     getData();
-  }, [props.cart.product_id]);
+  }, [props.product_id]);
 
   if (loading) {
     return <Box>Loading...</Box>;
@@ -46,23 +43,33 @@ const ProductCart: React.FC<ProductCartProps> = (props) => {
           />
         )}
       </Box>
-      <Box sx={{ marginLeft: "20px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <Box
+        sx={{
+          marginLeft: "20px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography sx={{fontWeight:"bold",color:"gray" }}>{product?.name}</Typography>
+          <Typography sx={{ fontWeight: "bold", color: "gray" }}>
+            {product?.name}
+          </Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          
-          <Typography sx={{ fontWeight:"bold" }}>{product?.price} $</Typography>
+          <Typography sx={{ fontWeight: "bold" }}>{product?.price} $</Typography>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography>Discount: </Typography>
-          <Typography sx={{ marginLeft: "5px",fontWeight:"bold",color:"green" }}>{product?.saleinfor}%</Typography>
+          <Typography sx={{ marginLeft: "5px", fontWeight: "bold", color: "green" }}>
+            {product?.saleinfor}%
+          </Typography>
         </Box>
       </Box>
     </Box>
-
   );
 };
+
 
 export default ProductCart;
 export function ProductOrder(props: { cart: OrderDetail }) {

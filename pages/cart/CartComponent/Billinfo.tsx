@@ -23,7 +23,7 @@ const Billinfo: React.FC<Props> = ({
       </Grid>
       <Grid item xs={6}>
         <Typography variant="body1">
-          <b>${totalAmount}</b>
+          <b>{totalAmount}$</b>
         </Typography>
       </Grid>
       <Grid item xs={6}>
@@ -31,7 +31,7 @@ const Billinfo: React.FC<Props> = ({
       </Grid>
       <Grid item xs={6}>
         <Typography variant="body1">
-          <b>${discount}</b>
+          <b>{discount}$</b>
         </Typography>
       </Grid>
       <Grid item xs={6}>
@@ -39,7 +39,7 @@ const Billinfo: React.FC<Props> = ({
       </Grid>
       <Grid item xs={6}>
         <Typography variant="body1">
-          <b>${shippingFee}</b>
+          <b>{shippingFee}$</b>
         </Typography>
       </Grid>
       <Grid item xs={6}>
@@ -47,7 +47,7 @@ const Billinfo: React.FC<Props> = ({
       </Grid>
       <Grid item xs={6}>
         <Typography variant="body1">
-          <b>${totalPrice}</b>
+          <b>{totalPrice}$</b>
         </Typography>
       </Grid>
     </Grid>
