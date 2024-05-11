@@ -54,10 +54,6 @@ const classConverter = {
 
 const Home = () => {
   // Your web app's Firebase configuration
-  let app;
-
-// Khởi tạo ứng dụng Firebase nếu chưa tồn tại
-if (!getApp()) {
   const firebaseConfig = {
     apiKey: "AIzaSyBZ5SZ2bS0qelHkeJBYXMQi7jUcKRbvoyw",
     authDomain: "weblinhkien-b9612.firebaseapp.com",
@@ -67,11 +63,8 @@ if (!getApp()) {
     appId: "1:514113053206:web:dd7546c647ddcb65facb37",
     measurementId: "G-L6ZHHGL5HV",
   };
-  app = initializeApp(firebaseConfig);
-} else {
-  app = getApp();
-}
 
+  const app = initializeApp(firebaseConfig);
 
   // Initialize Cloud Firestore and get a reference to the service
   const db = getFirestore(app);
