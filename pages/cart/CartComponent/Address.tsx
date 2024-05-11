@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { User } from "@/model/user";
 import { getUser } from "@/pages/firebase/config";
-
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 type Props = {};
 
 const Address: React.FC<Props> = (props) => {
@@ -32,7 +32,8 @@ const Address: React.FC<Props> = (props) => {
         <Typography variant="body1">Deliver to </Typography>
        
       </Box>
-      <Typography variant="body1">{user?.address}</Typography>
+      <Typography variant="body1" style={{fontWeight:"bold",justifyContent:"center  "}}>{user?.address}</Typography>
+      <LocationOnIcon/>
       {/* <Button
         variant="contained"
         color="primary"

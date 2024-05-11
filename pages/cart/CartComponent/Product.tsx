@@ -22,6 +22,7 @@ const ProductCart: React.FC<ProductCartProps> = (props) => {
         );
         const productData = await getDoc(productRef);
         setProduct(productData.data() as Product);
+        console.log("name:"+productData.data()?.name)
         setLoading(false);
       } catch (error) {
         console.error("Error fetching product data: ", error);
@@ -36,21 +37,29 @@ const ProductCart: React.FC<ProductCartProps> = (props) => {
 
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
-  <Box sx={{width:"30%"}}>
-    {product?.image && (
-      <img
-        src={product.image}
-        alt={product.name}
-        style={{ width: "100%" }}
-      />
-    )}
-  </Box>
-  <Box sx={{ marginLeft: "20px" }}>
-    <Typography>Name: {product?.name}</Typography>
-    <Typography>Price: {product?.price}</Typography>
-    <Typography>Discount: {product?.saleinfor}%</Typography>
-  </Box>
-</Box>
+      <Box sx={{ width: "30%" }}>
+        {product?.image && (
+          <img
+            src={product.image}
+            alt={product.name}
+            style={{ width: "100%", borderRadius: 10 }}
+          />
+        )}
+      </Box>
+      <Box sx={{ marginLeft: "20px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography sx={{fontWeight:"bold",color:"gray" }}>{product?.name}</Typography>
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          
+          <Typography sx={{ fontWeight:"bold" }}>{product?.price} $</Typography>
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography>Discount: </Typography>
+          <Typography sx={{ marginLeft: "5px",fontWeight:"bold",color:"green" }}>{product?.saleinfor}%</Typography>
+        </Box>
+      </Box>
+    </Box>
 
   );
 };

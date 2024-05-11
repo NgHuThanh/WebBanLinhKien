@@ -15,17 +15,21 @@ import { Product } from "@/model/product";
 function ProductSimilar(props: { product?: Product }) {
   return (
     <>
-      <Stack sx={{ width: "50%" }}>
+      <Stack sx={{ width: "50%",margin:1, // Adding border radius
+            boxShadow: "0px 8px 8px rgba(0, 0, 0, 0.5)", // Adding shadow
+            border: "1px solid #e0e0e0" }}>
         <Box
           component="img"
           sx={{
             height: "200px",
             width: "100%",
             minHeight: 200,
+            
           }}
           src={props.product?.image}
         />
-        <Typography sx={{ minHeight: 50 }}>{props.product?.name}</Typography>
+        <Box sx={{padding:1}}>
+        <Typography sx={{ minHeight: 50,fontWeight:"bold"}}>{props.product?.name}</Typography>
         <Box display="inline-flex">
           <Typography
             sx={{
@@ -48,6 +52,8 @@ function ProductSimilar(props: { product?: Product }) {
             {props.product?.saleinfor} % off
           </Typography>
         </Box>
+        </Box>
+        
       </Stack>
     </>
   );

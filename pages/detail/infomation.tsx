@@ -39,6 +39,7 @@ function InfomationDetail(props: {
             fontSize: "24px",
             mt: "20px",
             whiteSpace: "pre-line",
+            fontWeight:"bold",
           }}
         >
           {truncatedText}
@@ -97,8 +98,8 @@ function InfomationDetail(props: {
             sx={{
               color: "dark",
               fontWeight: "bold",
-              fontSize: "30px",
-              ml: "10px",
+              fontSize: "20px",
+              
               display: "block",
             }}
           >
@@ -111,7 +112,7 @@ function InfomationDetail(props: {
               fontSize: "20px",
               textDecoration: "line-through",
               ml: "10px",
-              pt: "10px",
+              
               display: "inline",
             }}
           >
@@ -125,7 +126,7 @@ function InfomationDetail(props: {
               ml: "10px",
               display: "inline",
               pb: "0px",
-              pt: "10px",
+              
             }}
           >
             {props.discount}%off

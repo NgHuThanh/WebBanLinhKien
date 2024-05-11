@@ -14,7 +14,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useRouter } from "next/router";
-
+import BackButton from "@/listcomponents/backbutton";
 const Payment = () => {
   const [carts, setCarts] = useState<Cart[]>([]);
   const [loading, setLoading] = useState(true);
@@ -77,24 +77,35 @@ const router = useRouter();
     
   return (
     <main>
-      <Box sx={{paddingBottom:"0px"}}py={8}>
-        <Typography sx={{ textAlign: "center", fontSize: "30px" }}>
+      <BackButton />
+      <Box sx={{paddingBottom:"0px"}}py={0}>
+        <Typography sx={{ textAlign: "center", fontSize: "30px",fontWeight:"bold" }}>
           Payment validation
         </Typography>
         <Stack>
           {carts.map((cart: Cart, index: number) => (
-            <Box sx={{ border: "1px solid black", padding: "10px" }} key={index}>
-              <ProductCart cart={cart}></ProductCart>
-              <Typography>Quantities: {cart.quantity}</Typography>
-              
-            </Box>
+            <Box
+            sx={{
+              borderRadius: 5,
+              padding: "10px",
+              marginBottom: 2,
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)", // Adding shadow
+            }}
+            key={index}
+          >
+            <ProductCart cart={cart}></ProductCart>
+            <Typography style={{color:"green",fontWeight:"bold",borderRadius:10}}>Quantity: {cart.quantity}</Typography>
+          </Box>
           ))}
         </Stack>
       </Box>
       <Box py={2}>
-        <Typography>Total: {total}</Typography>
-        <Typography>Total Discount: {totalDiscount}</Typography>
-        <Typography>Total Pay: {total - totalDiscount}</Typography>
+      <Box py={2}>
+        <Typography sx={{ fontWeight: "bold" }}>Total: {total} $</Typography>
+        <Typography sx={{ fontWeight: "bold" }}>Total Discount: {totalDiscount} $</Typography>
+        <Typography sx={{ fontWeight: "bold" }}>Total Pay: {total - totalDiscount} $</Typography>
+      </Box>
+
       </Box>
       <Button
         sx={{
@@ -131,13 +142,14 @@ const router = useRouter();
           <Box
             sx={{
               backgroundColor: "white",
+              margin:2,
               padding: "20px",
               borderRadius: "10px",
               boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
             }}
           >
-            <Typography variant="h3">Mua hàng thành công!</Typography>
-            <Button onClick={handleClosePopup}>Đóng</Button>
+            <Typography style={{fontSize:"28px"}}>Mua hàng thành công!</Typography>
+            <Button style={{backgroundColor:"blue",color:"#FFF"}}onClick={handleClosePopup}>Đóng</Button>
           </Box>
         </Box>
       )}

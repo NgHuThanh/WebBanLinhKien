@@ -27,39 +27,29 @@ function AccountIcon(){
     return (
         <>
         <Stack>
-        <Box sx={{ display: 'flex', alignItems: 'end' ,backgroundColor:"#94d3f4",padding:"20px"}}>
-            <Box
-              component="img"
-              sx={{
-                
-                height: '100px',
-                width: '100px',
-                objectFit: 'cover',
-                borderRadius: '50%',
-                marginRight: '10px', // Để tạo khoảng cách giữa hình ảnh và chữ
-              }}
-              src={"/defaultAvatar.avif"}
-              alt={"none"}
-            />
+        <Box sx={{ display: 'flex', alignItems: 'center', backgroundColor:"#94d3f4", padding:"10px", borderRadius:"30px"}}>
+          <Box
+            component="img"
+            sx={{
+              height: '50px',
+              width: '50px',
+              objectFit: 'cover',
+              borderRadius: '50%',
+              marginRight: '10px', // To create space between the image and the text
+            }}
+            src={"/defaultAvatar.avif"}
+            alt={"none"}
+          />
+                      <Typography fontWeight="bold" sx={{ marginRight: '10px' }}>Username: {user?.username}</Typography>
+
+          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 'auto' }}>
             <Box>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography variant="h6" fontWeight="bold" sx={{ marginRight: '10px' }}>{user?.username}</Typography>
-              <Box sx={{position:"absolute",right:"0px",top:"10px"}}>
-                <LogoutButton />
-              </Box>
-              
+              <LogoutButton />
             </Box>
-            
-            <Typography sx={{fontSize:"20px"}}>Address: {user?.address}</Typography>
-            </Box>
-            <Box sx={{}}>
-            
-            </Box>
-           
-            
-          
-            
           </Box>
+        </Box>
+
+
           
         
         </Stack>

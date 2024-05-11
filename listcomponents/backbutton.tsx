@@ -7,7 +7,14 @@ function BackButton() {
   const router = useRouter();
   return (
     <>
-      <Button onClick={() => router.back()}>
+      <Button
+        onClick={() => router.back()}
+        sx={{
+          "&:hover": {
+            backgroundColor: "transparent",
+          },
+        }}
+      >
         <Typography sx={{ color: "black" }}>
           <ArrowBackIosNewIcon />
         </Typography>

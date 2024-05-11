@@ -13,7 +13,7 @@ const Home = () => {
     <>
     {/* <AddAccountIcon/> */}
       <SearchBar></SearchBar>
-      <Product1></Product1>
+      
       <Categories></Categories>
       <Product2></Product2>
     </>

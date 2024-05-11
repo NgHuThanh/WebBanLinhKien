@@ -41,19 +41,32 @@ const History = () => {
     return (
         <Layout>
           <AddAccountIcon/>
-            <Box>
-                <Typography variant="h6" sx={{ color: 'navy', fontSize: '1.2rem', fontWeight: 'bold' }}>
-                    Product bought
+            <Box sx={{alignItems:"center"}}>
+                <Typography sx={{ color: 'black', fontSize: '30px', fontWeight: 'bold',textAlign:"center" }}>
+                    History buying
                 </Typography>
-                <Stack>
+                <Stack sx={{backgroundColor:"#FFF"}}>
                     {orders.map((order: OrderDetail, index: number) => (
-                        <Box key={index} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #ccc', padding: '10px 0' }}>
-                            <ProductOrder cart={order} />
-                            <Box sx={{ alignItems: 'center' ,width:"35%"}}>
-                                <Typography variant="body1" sx={{ marginRight: '10px' }}>Qty: {order.quantity}</Typography>
-                                <Typography variant="body1" sx={{ marginRight: '10px' }}>Price: {order.price}$</Typography>
-                            </Box>
+                        <Box
+                        key={index}
+                        sx={{
+                          backgroundColor:"#FFF",
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          borderBottom: '1px solid #ccc',
+                          padding: '10px',
+                          boxShadow: '0px 4px 8px rgba(0.1, 0.1, 0.1, 0.6)', // Adding shadow
+                          marginBottom: '10px', // Adding margin bottom
+                        }}
+                        >
+                        <ProductOrder cart={order} />
+                        
+                        <Box sx={{ borderTop: '1px solid gray', paddingTop: '10px' }}> {/* Add borderTop and paddingTop */}
+                            <Typography variant="body1" sx={{ marginRight: '10px' }}>{order.quantity} product</Typography>
+                            <Typography variant="body1" sx={{ marginRight: '10px' }}>Total: {order.price}$</Typography>
                         </Box>
+                      </Box>
+                      
                     ))}
                 </Stack>
             </Box>

@@ -29,7 +29,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     }, [router.pathname]);
     return (
       <main>
-        <Stack sx={{padding:"-20px"}}>
+        <Stack sx={{padding:"0px"}}>
           {children}
         </Stack>
 
