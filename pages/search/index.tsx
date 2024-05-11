@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import InputBase from "@mui/material/InputBase";
 import { useRouter } from "next/router";
 import { Box, Card, CardContent, CardMedia, Grid, Link, Stack, Typography } from "@mui/material";
@@ -13,7 +13,7 @@ const Search = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const productListData = await getProductData();
       const filteredProducts = productListData.filter(product =>
@@ -24,7 +24,7 @@ const Search = () => {
     } catch (error) {
       console.error("Error fetching product data: ", error);
     }
-  };
+  }, [searchTerm]);
 
   useEffect(() => {
     const delaySearch = setTimeout(() => {

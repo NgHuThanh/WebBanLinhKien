@@ -2,14 +2,14 @@ import React from "react";
 import { Grid, Typography } from "@mui/material";
 
 type Props = {
-  
+  deliveryDate: string;
   totalAmount: number;
   discount: number;
   shippingFee: number;
 };
 
 const Billinfo: React.FC<Props> = ({
-  
+  deliveryDate,
   totalAmount,
   discount,
   shippingFee,
@@ -18,6 +18,14 @@ const Billinfo: React.FC<Props> = ({
 
   return (
     <Grid container spacing={2}>
+      <Grid item xs={6}>
+        <Typography variant="body1">Delivery date:</Typography>
+      </Grid>
+      <Grid item xs={6}>
+        <Typography variant="body1">
+          <b>{deliveryDate}</b>
+        </Typography>
+      </Grid>
       <Grid item xs={6}>
         <Typography variant="body1">Total amount:</Typography>
       </Grid>

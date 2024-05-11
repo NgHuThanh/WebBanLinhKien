@@ -37,11 +37,11 @@ const ProductCart = (props: { product_id: DocumentReference }) => {
       <Box sx={{ width: "30%" }}>
         {product?.image && (
           <Box
-          component="img"
-          src={product.image}
-          alt={product.name}
-          sx={{ width: "100%", display: "block" }}
-        />
+            component="img"
+            src={product.image}
+            alt={product.name}
+            sx={{ width: "100%", display: "block" }}
+          />
         )}
       </Box>
       <Box
@@ -99,14 +99,14 @@ export function ProductOrder(props: { cart: OrderDetail }) {
         <Typography>Price:{product?.price}</Typography>
         <Typography>Discount:{product?.saleinfor}%</Typography>
         {product?.image && (
-          <img
+          <Box
+            component="img"
             src={product.image}
             alt={product.name}
-            style={{ width: "30%" }}
+            sx={{ width: "30%" }}
           />
         )}
       </Box>
     </Box>
   );
 }
-
