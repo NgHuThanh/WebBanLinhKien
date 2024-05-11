@@ -75,3 +75,6 @@ export const useCart = () => {
   }
   return context;
 };
+
+// Export the CartContext
+export default CartContext;
