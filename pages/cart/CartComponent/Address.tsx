@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { User } from "@/model/user";
-import { getUser } from "@/pages/firebase/config";
+import { getUser } from "@/firebase/config";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 type Props = {};
 

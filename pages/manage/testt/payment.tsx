@@ -21,7 +21,7 @@ import {
   handleDeleteCartsToAddOrderItem,
   handleUpdateCart,
   handleDeleteCart,
-} from "@/pages/firebase/config";
+} from "@/firebase/config";
 import { useCart } from "@/pages/cart/CartContext";
 
 const Payment = () => {

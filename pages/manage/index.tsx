@@ -18,7 +18,7 @@ import {
   getProductData,
   handleAddRandomProduct,
   writeExample,
-} from "../firebase/config";
+} from "../../firebase/config";
 import { Product } from "@/model/product";
 
 const Manage: NextPageWithLayout = () => {

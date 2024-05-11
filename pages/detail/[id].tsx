@@ -30,7 +30,7 @@ import {
   getDetailProduct,
   getProductData,
   writeExample,
-} from "../firebase/config";
+} from "../../firebase/config";
 import { Product, productConverter } from "@/model/product";
 
 import { Cart } from "@/model/cart";

@@ -12,7 +12,7 @@ import OfferDetail from "@/pages/detail/offer";
 import RatingReview from "@/pages/detail/review";
 import SimilarProduct from "@/pages/detail/similar";
 import SliceDetail from "@/pages/detail/slice";
-import { addToCart, getDetailProduct } from "@/pages/firebase/config";
+import { addToCart, getDetailProduct } from "@/firebase/config";
 import { NextPageWithLayout } from "@/pages/_app";
 import { useCart } from "@/pages/cart/CartContext";
 

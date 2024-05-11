@@ -3,7 +3,7 @@ import InputBase from "@mui/material/InputBase";
 import { useRouter } from "next/router";
 import { Box, Card, CardContent, CardMedia, Grid, Link, Stack, Typography } from "@mui/material";
 import { Product } from "@/model/product";
-import { getProductData } from "../firebase/config";
+import { getProductData } from "../../firebase/config";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import Layout from "@/landingPage/layout";
 

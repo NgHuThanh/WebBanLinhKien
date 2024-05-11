@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Card, CardMedia, Grid, Link } from "@mui/material";
 import { Categories } from "@/model/categories";
-import { getCategoriesData } from "@/pages/firebase/config2";
+import { getCategoriesData } from "@/firebase/config2";
 
 const Categori = () => {
   const [categories, setCategories] = useState<Categories[]>([]);

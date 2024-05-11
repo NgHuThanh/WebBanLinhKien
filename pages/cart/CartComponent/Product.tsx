@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { Cart } from "@/model/cart";
 import { Product, productConverter } from "@/model/product";
 import { DocumentReference, getDoc } from "firebase/firestore";
-import { get1ProductData } from "@/pages/firebase/config";
+import { get1ProductData } from "@/firebase/config";
 import { OrderDetail } from "@/model/order";
 
 interface ProductCartProps {

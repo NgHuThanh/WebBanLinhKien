@@ -21,7 +21,7 @@ import {
   getFirestore,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
-import { db, getProductData } from "@/pages/firebase/config";
+import { db, getProductData } from "@/firebase/config";
 import { Product } from "@/model/product";
 
 const Product2 = () => {

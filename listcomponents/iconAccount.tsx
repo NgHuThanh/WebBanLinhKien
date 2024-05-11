@@ -5,7 +5,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { getCookie } from "cookies-next";
 
 import { useEffect, useState } from "react";
-import { getUser } from "@/pages/firebase/config";
+import { getUser } from "@/firebase/config";
 import { User } from "@/model/user";
 import LogoutButton from "./logoutbutton";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';

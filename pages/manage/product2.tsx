@@ -17,7 +17,7 @@ import {
   getFirestore,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
-import { getProductData } from "../firebase/config";
+import { getProductData } from "../../firebase/config";
 class Product {
   id: string;
   name: string;

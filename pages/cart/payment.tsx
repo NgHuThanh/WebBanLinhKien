@@ -4,7 +4,7 @@ import { DocumentReference, getDoc } from "firebase/firestore";
 import {
   getCartData,
   handleDeleteCartsToAddOrderItem,
-} from "../firebase/config";
+} from "../../firebase/config";
 import { Cart } from "@/model/cart";
 import { productConverter } from "@/model/product";
 import ProductCart from "./CartComponent/Product";

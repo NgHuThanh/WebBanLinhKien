@@ -6,7 +6,7 @@ import {
   handleDeleteCart,
   handleMarkCart,
   handleUpdateCart,
-} from "../firebase/config";
+} from "../../firebase/config";
 import { Cart } from "@/model/cart";
 import ProductCart from "./CartComponent/Product";
 import AddIcon from "@mui/icons-material/Add";

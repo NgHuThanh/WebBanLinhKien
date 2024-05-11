@@ -20,7 +20,7 @@ import {
   addProduct,
   deleteProduct,
   updateProduct,
-} from "@/pages/firebase/config3";
+} from "@/firebase/config3";
 import { Product } from "@/model/product";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";

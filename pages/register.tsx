@@ -19,7 +19,7 @@ import { initializeApp } from "firebase/app";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
 import {
     db,
-  } from "../pages/firebase/config";
+  } from "../firebase/config";
 interface User {
   username?: string;
   password?: string;

@@ -6,7 +6,7 @@ import AddAccountIcon from "@/listcomponents/iconAccount";
 import Loading from "@/listcomponents/loading";
 import Layout from "@/landingPage/layout";
 import { getCookie } from "cookies-next";
-import { getOrderData } from "../firebase/config";
+import { getOrderData } from "../../firebase/config";
 import { OrderDetail } from "@/model/order";
 import ProductCart from "../cart/CartComponent/Product";
 import { DocumentReference } from "firebase/firestore";
