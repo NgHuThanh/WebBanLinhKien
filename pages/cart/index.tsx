@@ -142,8 +142,8 @@ const CartUser = () => {
         
         totalAmount={total ? total : 0}
         discount={totalDiscount ? totalDiscount : 0}
-        shippingFee={0}
-      />
+        shippingFee={0} 
+        deliveryDate={""}      />
       <Box sx={{ justifyContent: "center" }}>
         <Link href="/cart/payment" underline="none">
           <Button
