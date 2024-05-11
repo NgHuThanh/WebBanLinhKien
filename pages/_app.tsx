@@ -4,7 +4,7 @@ import { appWithTranslation } from "next-i18next";
 import nextI18NextConfig from "../next-i18next.config.js";
 import React, { ReactElement, ReactNode } from "react";
 import { Provider } from "react-redux";
-import { store } from "@/lib/store";
+
 import { ThemeProvider, createTheme } from "@mui/material";
 import { NextPage } from "next";
 import { CartProvider } from "./cart/CartContext";
