@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 
-import {
-  productActions,
-  productSelectors,
-} from "@/lib/features/product/productSlice";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+
 
 import { Cart } from "@/model/cart";
 
