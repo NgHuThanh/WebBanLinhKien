@@ -36,11 +36,12 @@ const ProductCart = (props: { product_id: DocumentReference }) => {
     <Box sx={{ display: "flex", alignItems: "center" }}>
       <Box sx={{ width: "30%" }}>
         {product?.image && (
-          <img
-            src={product.image}
-            alt={product.name}
-            style={{ width: "100%", borderRadius: 10 }}
-          />
+          <Box
+          component="img"
+          src={product.image}
+          alt={product.name}
+          sx={{ width: "100%", display: "block" }}
+        />
         )}
       </Box>
       <Box

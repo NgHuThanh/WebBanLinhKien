@@ -3,19 +3,17 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { DocumentReference, getDoc } from "firebase/firestore";
 import {
   getCartData,
-  handleDeleteCart,
   handleDeleteCartsToAddOrderItem,
-  handleUpdateCart,
 } from "../firebase/config";
 import { Cart } from "@/model/cart";
 import { productConverter } from "@/model/product";
 import ProductCart from "./CartComponent/Product";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useRouter } from "next/router";
 import BackButton from "@/listcomponents/backbutton";
+
 const Payment = () => {
+  const router = useRouter(); // Di chuyển đến đầu hàm
+
   const [carts, setCarts] = useState<Cart[]>([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState<number>(0);
@@ -64,17 +62,15 @@ const Payment = () => {
   const handleConfirmBuy = () => {
     handleDeleteCartsToAddOrderItem({ carts });
     setShowSuccessPopup(true);
-    document.body.style.overflow = "hidden"; // Khóa cuộn trang khi hiển thị pop-up
+    document.body.style.overflow = "hidden";
   };
 
   const handleClosePopup = () => {
     setShowSuccessPopup(false);
-    document.body.style.overflow = ""; // Mở khóa cuộn trang khi đóng pop-up
+    document.body.style.overflow = "";
     router.push("/homegroup");
   };
-const router = useRouter();
 
-    
   return (
     <main>
       <BackButton />

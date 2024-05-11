@@ -3,7 +3,6 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AddAccountIcon from "@/listcomponents/iconAccount";
-import ProductOrder from "../cart/CartComponent/OrderProduct";
 import Loading from "@/listcomponents/loading";
 import Layout from "@/landingPage/layout";
 import { getCookie } from "cookies-next";
