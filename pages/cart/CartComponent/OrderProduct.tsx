@@ -13,23 +13,40 @@ import { getDoc } from "firebase/firestore";
 import { get1ProductData } from "@/pages/firebase/config";
 import { OrderDetail } from "@/model/order";
 
+interface ProductOrder {
+  cart: OrderDetail;
+}
 
-function ProductOrder(props: { cart: OrderDetail }) {
+const ProductOrder: React.FC<ProductOrder> = (props) => {
   const [product, setProduct] = useState<Product | null>(null);
 
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     console.log("Lập ở dòng 19 product cart");
+    
     const getData = async () => {
-      if(props.cart.product_id==null){
-        console.log("Khong tiem thay");
+      try {
+        const productRef = props.cart.product_id.withConverter(
+          productConverter
+        );
+        const productData = await getDoc(productRef);
+        setProduct(productData.data() as Product);
+        console.log("name:"+productData.data()?.name)
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching product data: ", error);
       }
-      let productRef = props.cart.product_id.withConverter(productConverter);
-      let productData = await getDoc(productRef);
-      setProduct(productData.data() as Product);
-      setLoading(false);
-      console.log("Lập ở dòng 26 product cart");
+      // if(props.cart.product_id==null){
+      //   console.log("Khong tiem thay");
+      // }
+      // const productRef = props.cart.product_id.withConverter(productConverter);
+      // const productData = await getDoc(productRef);
+      // setProduct(productData.data() as Product);
+      
+      // console.log("name:"+productData.data()?.name)
+      // setLoading(false);
+      // console.log("Lập ở dòng 26 product cart");
     };
     getData();
   }, [props.cart.product_id]);

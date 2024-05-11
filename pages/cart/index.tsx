@@ -95,48 +95,51 @@ const CartUser = () => {
   }
 
   return (
-    <main>
+    <Box>
       <BackButton />
-      <Typography variant="h5" gutterBottom>
+      <Box sx={{alignItems:"center"}}>
+      <Typography variant="h5" style={{fontWeight:"bold",padding:10}}>
         Cart have {carts.length} items
       </Typography>
+      </Box>
+      
       <Address />
       <Box py={4}>
         <Stack spacing={2}>
           {carts.map((cart: Cart, index: number) => (
             <Box
-              key={cart.id}
-              sx={{
-                border: "1px solid #ddd",
-                borderRadius: 4,
-                p: 2,
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              
-              <ProductCart cart={cart} />
-              <Box sx={{pt:"0px",pl:"99px"}} display="flex" alignItems="center"  > 
-                <Button
-                  onClick={() => handleQuantityChange(index, -1)}
-                  disabled={cart.quantity <= 0}
-                >
-                  <RemoveIcon />
-                </Button>
-                <Typography variant="body2">{cart.quantity}</Typography>
-                <Button onClick={() => handleQuantityChange(index, 1)}>
-                  <AddIcon />
-                </Button>
-                <Button onClick={() => handleDeleteCartItem(cart)}>
-                  <DeleteIcon />
-                </Button>
-              </Box>
+            key={cart.id}
+            sx={{
+              border: "1px solid #ddd",
+              borderRadius: 4,
+              p: 2,
+              alignItems: "center",
+              justifyContent: "space-between",
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)", // Adding shadow
+            }}
+          >
+            <ProductCart cart={cart} />
+            <Box sx={{ pt: "0px", pl: "99px" }} display="flex" alignItems="center">
+              <Button
+                onClick={() => handleQuantityChange(index, -1)}
+                disabled={cart.quantity <= 0}
+              >
+                <RemoveIcon />
+              </Button>
+              <Typography sx={{fontWeight:"bold"}} variant="body2">{cart.quantity}</Typography>
+              <Button onClick={() => handleQuantityChange(index, 1)}>
+                <AddIcon sx={{color:"red"}}/>
+              </Button>
+              <Button onClick={() => handleDeleteCartItem(cart)}>
+                <DeleteIcon sx={{color:"black"}}/>
+              </Button >
             </Box>
+          </Box>
           ))}
         </Stack>
       </Box>
       <Billinfo
-        deliveryDate="Not set up yet"
+        
         totalAmount={total ? total : 0}
         discount={totalDiscount ? totalDiscount : 0}
         shippingFee={0}
@@ -158,7 +161,7 @@ const CartUser = () => {
           </Button>
         </Link>
       </Box>
-    </main>
+    </Box>
   );
 };
 
